@@ -1,0 +1,50 @@
+{% extends "dashboard/base.html" %}
+{% load i18n %}
+{% load bootstrap3 %}
+
+{% block home %}
+  <div class="row">
+    <div class="col-md-2">
+      <div class="panel panel-default">
+	<div class="panel-body">
+	  <h1>{{ workspace.name }}</h1>
+	  <p>{{ users_number }} {% trans "users" %}</p>
+	  <p>{{ activities_number }} {% trans "activities" %}</p>
+	  <p>{% trans "cockpit created on" %} {{ workspace.created_at|date }}</p>
+	</div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      {% if activities_number == 0 %}
+	{% include 'dashboard/no_activity_message.html' %}
+      {% elif nodata == True %}
+	{% include 'dashboard/no_data_message.html' %}
+      {% else %}
+	<div class="panel panel-default">
+	  <div class="panel-body">
+	      <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+	      {% include "chart/piechart.html"  with chart_data=chart1_data chart_options=chart1_options divname='chart1div' %}
+	      {% include "chart/linechart.html" with chart_data=chart2_data chart_options=chart2_options divname='chart2div' %}
+	  </div>
+	</div>
+      {% endif %}
+    </div>
+    {% if activities_number != 0 and workspace.on_trial = True %}
+      <div class="col-md-2">
+	<div class="panel panel-default">
+	  <div class="panel-body">
+	    <form action={{ form_action }} method="post" role="form">
+	    {% csrf_token %}
+	    {% bootstrap_form form %}
+	    {% buttons %}
+	      <button type="submit" class="btn btn-primary">
+		{% trans "Generate" %}
+	      </button>
+	    {% endbuttons %}
+	    </form>
+	  </div>
+	</div>
+      </div>
+    {% endif %}
+  </div><!-- /.row -->
+{% endblock home %}

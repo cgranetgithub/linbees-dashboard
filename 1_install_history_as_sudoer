@@ -1,0 +1,3 @@
+sudo apt-get install python-pip postgresql git phppgadmin postgresql-server-dev-9.1 python-dev
+sudo pip install django-tenancy django-tastypie pytz webtest django-webtest docutils python-mimeparse coverage python-dateutil django-storages boto django-bootstrap3
+#installed by heroku-toolbelt django psycopg2

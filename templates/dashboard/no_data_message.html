@@ -1,0 +1,7 @@
+{% load i18n %}
+
+<div class="alert alert-info">
+  <p>{% trans 'We do not detect any data to display.' %}</p>
+  <p>{% trans 'This means that your teams are not using linbees yet.' %}</p>
+  <p><a href="{% url 'website:apps' %}">{% trans 'Click here to go to the linbees download page.' %}</a></p>
+</div>

@@ -1,0 +1,18 @@
+{% extends "website/base.html" %}
+{% load i18n %}
+{% load staticfiles %}
+
+{% block home %}
+  <div class="container">
+    <div class="row">
+      <h1 class="text-primary">{% trans "Discover how linbees works" %}</h1>
+	<iframe width="560" height="315" src="//www.youtube.com/embed/WkBcaoYBYIE" frameborder="0" allowfullscreen></iframe>
+<!--      <video controls="controls" preload="auto" poster="{% static 'website/what.png' %}">
+	    <source src="http://youtu.be/WkBcaoYBYIE" type="video/mp4" />
+	  </video>
+	  <video controls="controls" preload="auto" poster="{% static 'website/how.png' %}">
+		<source src="{% static 'website/how.mp4' %}" type="video/mp4" />
+	  </video>-->
+    </div>
+  </div><!-- /.container -->
+{% endblock %}

@@ -1,0 +1,130 @@
+.centered {
+  margin: auto;
+  text-align: center;
+}
+#main-content {
+  min-height: 500px;
+  padding-top: 20px;
+}
+.home-main-blocks {
+  padding-top: 60px;
+}
+section.home-main-blocks a {text-decoration: none;}
+.home-inline-blocks {
+  display: inline-block;
+  width: 500px;
+  text-align: left;
+  vertical-align: middle;
+}
+.right-pad {
+  padding-right: 100px;
+  vertical-align: middle;
+}
+.left-pad {
+  padding-left: 100px;
+  vertical-align: middle;
+}
+.right-al {
+  margin: auto;
+  text-align: right;
+}
+#logo {
+  display: inline-block;
+  margin-right: 100px;
+  vertical-align: middle;
+}
+body {
+  color: #444;
+  font-family: "BentonSans", "Helvetica Neue", Helvetica, Arial, Geneva, sans-serif;
+  margin: 0;
+  line-height: 1.4em;
+}
+nav {
+  display: inline-block;
+  vertical-align: middle;
+}
+nav ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+nav ul li {
+  display: inline-block;
+  text-align: center;
+  vertical-align: middle;
+  border-radius: 10px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+}
+nav ul li a {
+  color: #230344;
+  display: block;
+  font-weight: bold;
+  margin: 0 15px 0 15px;
+  padding: 3px 5px 3px 5px;
+  text-decoration: none;
+}
+nav ul li a:hover, nav ul li a:active, nav ul li a:focus, nav ul li a:visited {
+  background-color:#DDD;
+  border-radius: 6px;
+  -webkit-border-radius: 6px;
+  -moz-border-radius: 6px;
+}
+header {
+  background-color: #BAB8C4;
+  box-shadow: 1px 1px 3px #555;
+  -moz-box-shadow: 1px 1px 3px #555;
+  -webkit-box-shadow: 1px 1px 3px #555;
+  padding: 10px 0 10px 0;
+  text-align: center;
+}
+footer {
+  background-color: #444;
+  margin-top: 50px;
+  padding: 10px;
+  text-align: center;
+}
+footer nav ul li a {
+  color: #DDD;
+}
+footer nav ul li a:hover {
+  background-color:#555;
+  border-radius: 10px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+}
+h1 {color: #230344;}
+p {
+  color: #444;
+  line-height: 1.4em;
+}
+video {
+  width: 496px;
+  height: 400px;
+}
+#highlight-header {
+  background-color: #341455;
+  border-radius: 6px;
+  -webkit-border-radius: 6px;
+  -moz-border-radius: 6px;
+  color: white;
+  padding: 3px 5px 3px 5px;
+}
+#highlight-header:hover {background-color: #452566;}
+#signup-button {
+  background-color: #230344;
+  border-radius: 6px;
+  -webkit-border-radius: 6px;
+  -moz-border-radius: 6px;
+  box-shadow: 1px 1px 5px #555;
+  -moz-box-shadow: 1px 1px 5px #555;
+  -webkit-box-shadow: 1px 1px 5px #555;
+  color: white;
+  font-size: large;
+  font-weight: bold;
+  margin-left: 100px;
+  padding: 30px 50px 30px 50px;
+  text-decoration: none;
+  vertical-align: middle;
+}
+#signup-button:hover {background-color: #341455;}

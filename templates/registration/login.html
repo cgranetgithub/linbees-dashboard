@@ -1,0 +1,27 @@
+{% extends "registration/base.html" %}
+{% load url from future %}
+{% load staticfiles %}
+{% load i18n %}
+{% load bootstrap3 %}
+
+{% block head %}
+    <!-- Custom styles for this template -->
+    <link href="{% static 'website/signin.css' %}" rel="stylesheet">
+{% endblock head %}
+
+{% block home %}
+    <hr class="featurette-divider">
+    <div class="container">
+	<form method="post" action="{% url 'django.contrib.auth.views.login' %}" class="form-signin" role="form">
+	{% csrf_token %}
+	{% bootstrap_form form %}
+	{% buttons %}
+	  <button type="submit" class="btn btn-lg btn-primary btn-block">
+	    {% trans "Sign in" %}
+	  </button>
+	{% endbuttons %}
+	</form>
+	<p class="text-center">{% trans "No account yet?" %}  <a href="{% url 'signup:signup' %}">{% trans "Sign up now" %}</a></p>
+    </div><!-- /.container -->
+    <hr class="featurette-divider">
+{% endblock home %}

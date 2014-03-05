@@ -1,0 +1,19 @@
+{% extends "clientapp/base.html" %}
+{% load i18n %} 
+{% load bootstrap3 %}
+
+{% block content %}
+    <form method="post" action="." class="form-signin" role="form">{% csrf_token %}
+      <h2 class="form-signin-heading">{% trans "Please sign in" %}</h2>
+      {% bootstrap_form form %}
+      {% buttons %}
+	<button type="submit" class="btn btn-lg btn-primary btn-block">
+	  {% trans "Sign in" %}
+	</button>
+      {% endbuttons %}
+      <input type="hidden" name="next" value={{ next }} />
+    </form>
+    <div class="form-signin">
+      <a href="{% url 'clientapp:register' %}">{% trans "Or create a new account" %}</a>
+    </div>
+{% endblock content %}

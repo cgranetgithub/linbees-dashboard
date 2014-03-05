@@ -1,0 +1,27 @@
+{% extends "registration/base.html" %}
+{% load url from future %}
+{% load staticfiles %}
+{% load i18n %}
+{% load bootstrap3 %}
+
+{% block head %}
+  <!-- Custom styles for this template -->
+  <link href="{% static 'website/signin.css' %}" rel="stylesheet">
+{% endblock head %}
+
+{% block home %}
+  <div class="container">
+    <div class="row">
+      <form action={{ form_action }} method="post" class="form-signin" role="form">
+	<h1 class="text-primary">{% trans "Please sign up" %}</h1>
+	{% csrf_token %}
+	{% bootstrap_form user_form %}
+	{% buttons %}
+	  <button type="submit" class="btn btn-lg btn-primary btn-block">
+	    {% trans "Sign up" %}
+	  </button>
+	{% endbuttons %}
+	</form>
+    </div>
+  </div><!-- /.container -->
+{% endblock home %}

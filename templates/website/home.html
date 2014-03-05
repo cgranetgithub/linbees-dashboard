@@ -1,0 +1,149 @@
+{% extends "website/base.html" %}
+{% load i18n %} 
+{% load staticfiles %}
+
+{% block head %}
+  <link href="{% static 'website/carousel.css' %}" rel="stylesheet">
+{% endblock head %}
+
+{% block home %}
+    <!-- Carousel
+    ================================================== -->
+    <div id="myCarousel" class="carousel slide" data-ride="carousel">
+      <!-- Indicators -->
+      <ol class="carousel-indicators">
+        <li class="active" data-target="#myCarousel" data-slide-to="0"></li>
+        <li class="" data-target="#myCarousel" data-slide-to="1"></li>
+        <li class="" data-target="#myCarousel" data-slide-to="2"></li>
+      </ol>
+      <div class="carousel-inner">
+        <div class="item active">
+<!--           <img  src="{% static 'website/white-logo-wide.png' %}" alt="Time-tracking"> -->
+          <div class="container">
+            <div class="carousel-caption">
+	      <img src="{% static 'website/white-logo-wide.png' %}">
+<!--               <h2>{% trans "Time-tracking" %}</h1> -->
+              <h3>{% trans "With Linbees I monitor the activity of my company" %}</h3>
+            </div>
+          </div>
+        </div>
+        <div class="item">
+<!--           <img src="{% static 'website/index.png' %}" alt="Real-time"> -->
+          <div class="container">
+            <div class="carousel-caption">
+	      <img src="{% static 'website/white-logo-wide.png' %}">
+<!--               <h2>{% trans "Time per project" %}</h1> -->
+              <h3>{% trans "I see how much time my teams spent on their projects" %}</h3>
+            </div>
+          </div>
+        </div>
+        <div class="item">
+<!--           <img src="{% static 'website/index.png' %}" alt="Intuitive"> -->
+          <div class="container">
+            <div class="carousel-caption">
+	      <img src="{% static 'website/white-logo-wide.png' %}">
+<!--               <h2>{% trans "Cost per project" %}</h1> -->
+              <h3>{% trans "I know how much each project costs" %}</h3>
+            </div>
+          </div>
+        </div>
+      </div>
+      <a class="left carousel-control" href="#myCarousel" data-slide="prev"><span class="glyphicon glyphicon-chevron-left"></span></a>
+      <a class="right carousel-control" href="#myCarousel" data-slide="next"><span class="glyphicon glyphicon-chevron-right"></span></a>
+    </div><!-- /.carousel -->
+
+    <div class="container">
+      <div class="row">
+	<div class="col-lg-2 col-lg-offset-3 col-sm-3 col-sm-offset-2">
+	  <span class=text-center>
+	    <a class="btn btn-lg btn-success" href="{% url 'website:how' %}" role="button">{% trans "See how it works" %}</a>
+	  </span>
+	</div>
+	<div class="col-lg-2 col-lg-offset-2 col-sm-3 col-sm-offset-2">
+	  <span class=text-center>
+	    <a class="btn btn-lg btn-primary" href="{% url 'signup:signup' %}" role="button">{% trans "Sign up now" %}</a>
+	  </span>
+	</div>
+      </div><!-- /.row -->
+    </div>
+    
+    <!-- Marketing messaging and featurettes
+    ================================================== -->
+    <!-- Wrap the rest of the page in another container to center all the content. -->
+    <div class="container marketing">
+      <hr class="featurette-divider">
+      <!-- Three columns of text below the carousel -->
+      <div class="row">
+        <div class="col-lg-4 col-sm-4">
+          <img src="{% static 'website/cloud-usb.jpg' %}" style="width: 140px; height: 140px;" class="img-circle" alt="Sensor App">
+          <h3>Create your dashbord</h2>
+          <p>{% trans "Click on sign up to create an account for your company. It's instant, it's free, no credit card is required." %}</p>
+          <p><a class="btn btn-default" href="{% url 'signup:signup' %}" role="button">{% trans "Sign up" %}</a></p>
+        </div><!-- /.col-lg-4 -->
+        <div class="col-lg-4 col-sm-4">
+          <img src="{% static 'website/distribute.jpg' %}" style="width: 140px; height: 140px;" class="img-circle" alt="Cloud service">
+          <h3>Distribute the app</h2>
+          <p>{% trans "Download the app and give them to your users. Or ask them to download and install themselves. We have apps for most operating systems." %}</p>
+          <p><a class="btn btn-default" href="{% url 'website:apps' %}" role="button">{% trans "Download" %}</a></p>
+        </div><!-- /.col-lg-4 -->
+        <div class="col-lg-4 col-sm-4">
+          <img src="{% static 'website/chart.jpg' %}" style="width: 140px; height: 140px;" class="img-circle" alt="Dashboard">
+          <h3>Start monitoring the activity</h2>
+          <p>{% trans "Go to your dashboard and start seeing the activity of your teams, projects, the related costs... and much more!" %}</p>
+          <p><a class="btn btn-default" href="{% url 'dashboard:overview' %}" role="button">{% trans "Go to your dashboard" %}</a></p>
+        </div><!-- /.col-lg-4 -->
+      </div><!-- /.row -->
+
+      <!-- START THE FEATURETTES -->
+<!--      <hr class="featurette-divider">
+
+      <div class="row featurette">
+        <div class="col-md-7">
+          <h2 class="featurette-heading">Take the control of your activity. <span class="text-muted">Don't endure it.</span></h2>
+          <p class="lead">It is sometime difficult to know how much time your teams spend on their projects.
+          Or you might not always control the amount of time you allow to pre-sales or research.
+          With ... you will know exactly the time spent, the repartition. And you will be able to pilot it!</p>
+        </div>
+        <div class="col-md-5">
+          <img src="{% static 'website/pilot.jpg' %}" class="featurette-image img-responsive" alt="500x500">
+        </div>
+      </div>
+
+      <hr class="featurette-divider">
+
+      <div class="row featurette">
+        <div class="col-md-5">
+          <img src="data:image/png;base64,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AAIIOgAEEHQACCDoABBA0AEggKADQABBB4AAgg4AAQQdAAIIOgAEEHQACCDoABBA0AEggKADQABBB4AAgg4AAQQdAAIIOgAEEHQACCDoABBA0AEggKADQABBB4AAgg4AAQQdAAIIOgAEEHQACCDoABBA0AEggKADQABBB4AAgg4AAQQdAAIIOgAEEHQACCDoABBA0AEggKADQABBB4AAgg4AAQQdAAIIOgAEEHQACCDoABBA0AEggKADQABBB4AAgg4AAQQdAAIIOgAEEHQACCDoABBA0AEggKADQABBB4AAgg4AAQQdAAIIOgAEEHQACCDoABBA0AEggKADQABBB4AAgg4AAQQdAAIIOgAEEHQACCDoABBA0AEggKADQABBB4AAgg4AAQQdAAIIOgAEEHQACCDoABBA0AEggKADQABBB4AAgg4AAQQdAAIIOgAEEHQACC
+DoABBA0AEggKADQABBB4AAgg4AAQQdAAIIOgAEEHQACCDoABBA0AEggKADQABBB4AAgg4AAQQdAAIIOgAEEHQACCDoABBA0AEggKADQABBB4AAgg4AAQQdAAIIOgAEEHQACCDoABBA0AEggKADQABBB4AAgg4AAQQdAAIIOgAEEHQACCDoABBA0AEggKADQABBB4AAgg4AAQQdAAIIOgAEEHQACCDoABBA0AEggKADQABBB4AAgg4AAQQdAAIIOgAEEHQACCDoABBA0AEggKADQABBB4AAgg4AAQQdAAIIOgAEEHQACCDoABBA0AEggKADQABBB4AAgg4AAQQdAAIIOgAEEHQACCDoABBA0AEggKADQABBB4AAgg4AAQQdAAIIOgAEEHQACCDoABBA0AEggKADQABBB4AAgg4AAQQdAAIIOgAEEHQACCDoABBA0AEggKADQABBB4AAgg4AAQQdAAIIOgAEEHQACCDoABBA0AEggKADQABBB4AAgg4AAQQdAAIIOgAEEHQACCDoABBA0AEggKADQABBB4AAgg4AAQQdAAIIOgAEEHQACCDoABBA0AEggKADQID/Ak+BGWc/SpBaAAAAAElFTkSuQmCC" class="featurette-image img-responsive" data-src="holder.js/500x500/auto" alt="500x500">
+        </div>
+        <div class="col-md-7">
+          <h2 class="featurette-heading">Understand your costs. <span class="text-muted">Make your projects profitable.</span></h2>
+          <p class="lead">Donec ullamcorper nulla non metus auctor 
+fringilla. Vestibulum id ligula porta felis euismod semper. Praesent 
+commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, 
+tellus ac cursus commodo.</p>
+        </div>
+      </div>
+
+      <hr class="featurette-divider">
+
+      <div class="row featurette">
+        <div class="col-md-7">
+          <h2 class="featurette-heading">And lastly, this one. <span class="text-muted">Checkmate.</span></h2>
+          <p class="lead">Donec ullamcorper nulla non metus auctor 
+fringilla. Vestibulum id ligula porta felis euismod semper. Praesent 
+commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, 
+tellus ac cursus commodo.</p>
+        </div>
+        <div class="col-md-5">
+          <img src="data:image/png;base64,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AAIIOgAEEHQACCDoABBA0AEggKADQABBB4AAgg4AAQQdAAIIOgAEEHQACCDoABBA0AEggKADQABBB4AAgg4AAQQdAAIIOgAEEHQACCDoABBA0AEggKADQABBB4AAgg4AAQQdAAIIOgAEEHQACCDoABBA0AEggKADQABBB4AAgg4AAQQdAAIIOgAEEHQACCDoABBA0AEggKADQABBB4AAgg4AAQQdAAIIOgAEEHQACCDoABBA0AEggKADQABBB4AAgg4AAQQdAAIIOgAEEHQACCDoABBA0AEggKADQABBB4AAgg4AAQQdAAIIOgAEEHQACCDoABBA0AEggKADQABBB4AAgg4AAQQdAAIIOgAEEHQACCDoABBA0AEggKADQABBB4AAgg4AAQQdAAIIOgAEEHQACCDoABBA0AEggKADQABBB4AAgg4AAQQdAAIIOgAEEHQACC
+DoABBA0AEggKADQABBB4AAgg4AAQQdAAIIOgAEEHQACCDoABBA0AEggKADQABBB4AAgg4AAQQdAAIIOgAEEHQACCDoABBA0AEggKADQABBB4AAgg4AAQQdAAIIOgAEEHQACCDoABBA0AEggKADQABBB4AAgg4AAQQdAAIIOgAEEHQACCDoABBA0AEggKADQABBB4AAgg4AAQQdAAIIOgAEEHQACCDoABBA0AEggKADQABBB4AAgg4AAQQdAAIIOgAEEHQACCDoABBA0AEggKADQABBB4AAgg4AAQQdAAIIOgAEEHQACCDoABBA0AEggKADQABBB4AAgg4AAQQdAAIIOgAEEHQACCDoABBA0AEggKADQABBB4AAgg4AAQQdAAIIOgAEEHQACCDoABBA0AEggKADQABBB4AAgg4AAQQdAAIIOgAEEHQACCDoABBA0AEggKADQABBB4AAgg4AAQQdAAIIOgAEEHQACCDoABBA0AEggKADQABBB4AAgg4AAQQdAAIIOgAEEHQACCDoABBA0AEggKADQABBB4AAgg4AAQQdAAIIOgAEEHQACCDoABBA0AEggKADQID/Ak+BGWc/SpBaAAAAAElFTkSuQmCC" class="featurette-image img-responsive" data-src="holder.js/500x500/auto" alt="500x500">
+        </div>
+      </div>
+-->
+      <hr class="featurette-divider">
+
+      <!-- /END THE FEATURETTES -->
+    </div><!-- /.container -->
+      
+{% endblock home %}

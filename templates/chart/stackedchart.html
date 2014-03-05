@@ -1,0 +1,13 @@
+<head>
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script type="text/javascript">
+      google.load("visualization", "1", {packages:["corechart"]});
+      google.setOnLoadCallback(drawChart);
+      function drawChart() {
+        var data = google.visualization.arrayToDataTable( {{ chart_data|safe }} );
+        var chart = new google.visualization.ColumnChart(document.getElementById("{{ divname }}"));
+        chart.draw(data, {{ chart_options|safe }});
+      }
+    </script>
+</head>
+<div id="{{ divname }}" class="chart"></div>

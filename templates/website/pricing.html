@@ -1,0 +1,13 @@
+{% extends "website/base.html" %}
+{% load i18n %}
+{% load staticfiles %}
+
+{% block home %}
+  <div class="container">
+    <div class="jumbotron">
+      <p><span class="label label-primary big-font">5€</span><span class="text-primary big-font">{% trans "	per user and per month." %}</span></p>
+      <p><strong>{% trans "No subscription, you pay as you go." %}</strong></p>
+      <p><em>{% trans "Try it out, the first three months are offered!" %}</em></p>
+    </div>
+  </div><!-- /.container -->
+{% endblock %}

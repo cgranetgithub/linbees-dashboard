@@ -1,0 +1,87 @@
+{% load bootstrap3 %}
+{# Load CSS and JavaScript #}
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+{# Display django.contrib.messages as Bootstrap alerts  #}
+{% bootstrap_messages %}
+
+{% load staticfiles %}
+{% load i18n %} 
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <link rel="shortcut icon" href="{% static 'website/icon.png' %}">
+
+  <title>{% block title %}linbees{% endblock %}</title>
+  {% block head %}
+  {% endblock %}
+
+  <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
+
+  <link href="{% static 'website/sticky-footer-navbar.css' %}" rel="stylesheet">
+  <style type="text/css" id="holderjs-style"></style>
+</head>
+
+<!-- NAVBAR
+================================================== -->
+<body>
+  <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container">
+      <div class="navbar-header">
+	<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+	  <span class="sr-only">Toggle navigation</span>
+	  <span class="icon-bar"></span>
+	  <span class="icon-bar"></span>
+	  <span class="icon-bar"></span>
+	  <span class="icon-bar"></span>
+	</button>
+	<a class="navbar-brand" href="{% url 'home' %}">linbees</a>
+      </div>
+      <div class="navbar-collapse collapse">
+	<ul class="nav navbar-nav">
+	  <li><a href="{% url 'website:pricing' %}">{% trans "Pricing" %}</a></li>
+	  <li><a href="{% url 'website:apps' %}">{% trans "Download" %}</a></li>
+	  <li><a href="{% url 'website:contact' %}">{% trans "Contact" %}</a></li>
+	</ul>
+	<ul class="nav navbar-nav navbar-right">
+	  {% if user.is_authenticated %}
+	  <li><a href="{% url 'dashboard:overview' %}">{{ user.tenantlink.workspace.name }} cockpit</a></li>
+	  {% else %}
+	  <li><a href="{% url 'django.contrib.auth.views.login' %}">{% trans "Sign in" %}</a></li>
+	  {% endif %}
+	</ul>
+      </div>
+    </div>
+  </div>
+
+{% block home %}
+{% endblock %}
+
+    <!-- FOOTER -->
+  <div id="footer">
+    <div class="container">
+      <p>{% include "website/lang_snippet.html" %}</p>
+      <p class="pull-right"><a href="#">{% trans "Back to top" %}</a></p>
+      <p>© 2014 linbees SAS · <a href="#">Privacy</a> · <a href="{% url 'website:legal' %}">Terms</a></p>
+    </div><!-- /.container -->
+  </div><!-- /.footer -->
+
+  <!-- Bootstrap core JavaScript
+  ================================================== -->
+  <!-- Placed at the end of the document so the pages load faster -->
+  <script src="{% static 'website/jquery-1.js' %}" ></script>
+  <script src="{% static 'website/bootstrap.js' %}" ></script>
+  <script src="{% static 'website/docs.js' %}" ></script>
+
+</body></html>

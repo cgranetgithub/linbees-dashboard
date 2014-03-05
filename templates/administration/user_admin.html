@@ -1,0 +1,69 @@
+{% extends "dashboard/base.html" %}
+{% load i18n %}
+
+{% block home %}
+    <nav class="col">
+	<ul>
+	    <li>
+		<a href="{% url 'administration:activityNew' %}">{% trans 'Activities' %}</a>
+	    </li>
+	    <li>
+		<a href="{% url 'administration:userAdmin' %}">{% trans 'Users' %}</a>
+	    </li>
+	    <li>
+		<a href="{% url 'administration:workspaceAdmin' %}">{% trans 'Workspace' %}</a>
+	    </li>
+	    <li>
+		<a href="{% url 'administration:accountAdmin' %}">{% trans 'My password' %}</a>
+	    </li>
+	</ul>
+    </nav>
+    <div class="col">
+	<form action={{ form_action }} method="post">{% csrf_token %}
+	    <div>
+	    {% for field in form %}
+		<div class="fieldWrapper">
+		    <div>{{ field.label_tag }} {{ field }}</div>
+		    <div id="info-div">
+		    {% if field.errors %}
+			{{ field.errors }}
+		    {% else %}
+			{{ field.help_text }}
+		    {% endif%}
+		    </div>
+		</div>
+	    {% endfor %}
+	    </div>
+	    <div id="div-button">
+		<input id="button" type="submit" name="admin-form" value={% trans "Save" %} />
+	    </div>
+	</form>
+
+	<form action="" method="post">{% csrf_token %}
+	{{ formset.management_form }}
+	  <table>
+	    <tr>
+	    {% for l in labels %}
+	    <th>{{ l }}</th>
+	    {% endfor %}
+	    </tr>
+	  {% for form in formset %}
+	    <tr>
+	    {% for field in form %}
+	      <td>
+		{% if field.errors %}
+		    {{ field.errors }}
+		{% else %}
+		    {{ field.help_text }}
+		{% endif%}
+		{{ field }}
+	      </td>
+	    {% endfor %}
+	    </tr>
+	  {% endfor %}
+	  </table>
+	  {{ formset.non_form_errors }}
+	  <input id="button" type="submit" name="admin-formset" value={% trans "Save" %} />
+	</form>
+    <div>
+{% endblock home %}

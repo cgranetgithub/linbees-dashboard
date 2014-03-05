@@ -1,0 +1,48 @@
+{% extends "dashboard/base.html" %}
+{% load i18n %}
+{% load bootstrap3 %}
+
+{% block head %}
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+{% endblock head %}
+
+{% block home %}
+  <div class="row">
+    {% if activities_number == 0 %}
+      {% include 'dashboard/no_activity_message.html' %}
+    {% elif nodata == True %}
+      {% include 'dashboard/no_data_message.html' %}
+    {% else %}
+      <div class="col-md-2">
+	<div class="panel panel-default">
+	  <div class="panel-body">
+	    <form action={{ form_action }} method="post" role="form">{% csrf_token %}
+	      {% bootstrap_form form %}
+	      {% buttons %}
+		<button type="submit" class="btn btn-sm btn-primary">
+		  {% trans "Submit" %}
+		</button>
+	      {% endbuttons %}
+	    </form>
+	  </div>
+	</div>
+      </div>
+      <div class="col-md-4">
+	<div class="panel panel-default">
+	  <div class="panel-body">
+	    {% include "chart/piechart.html"  with chart_data=chart1_data chart_options=chart1_options divname='chart1div' %}
+	    {% include "chart/tablechart.html" with chart_data=chart1_data chart_options=chart1_options divname='chart3div' %}
+	  </div>
+	</div>
+      </div>
+      <div class="col-md-4">
+	<div class="panel panel-default">
+	  <div class="panel-body">
+	    {% include "chart/linechart.html" with chart_data=chart2_data chart_options=chart2_options divname='chart2div' %}
+	    {% include "chart/tablechart.html" with chart_data=chart2_data chart_options=chart2_options divname='chart4div' %}
+	  </div>
+	</div>
+      </div>
+    {% endif %}
+  </div><!-- /.row -->
+{% endblock home %}
