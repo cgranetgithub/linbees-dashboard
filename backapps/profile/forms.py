@@ -79,3 +79,12 @@ class RegistrationForm(UserCreationForm):
         if commit:
             user.save()
         return user
+
+class ProfileListForm(forms.Form):
+    plist = forms.MultipleChoiceField(label=_('Users')
+				    , widget=forms.CheckboxSelectMultiple)
+    def __init__(self, ws, *args, **kwargs):
+        super(ProfileListForm, self).__init__(*args, **kwargs)
+        pl = Profile.for_tenant(ws).objects.filter()
+        self.fields['plist'].choices = ( (p.user.id, p.user.email) for p in pl )
+        self.fields['plist'].initial = [ p.user.id for p in pl ]

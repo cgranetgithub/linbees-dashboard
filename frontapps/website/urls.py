@@ -3,7 +3,7 @@ from frontapps.website import views
 
 urlpatterns = patterns('',
     url(r'^$'        , views.home , name='home'),
-    url(r'^cockpit'  , views.cockpit , name='cockpit'),
+    url(r'^dashboard'  , views.dashboard , name='dashboard'),
     url(r'^sensor'   , views.sensor , name='sensor'),
     url(r'^how'      , views.how , name='how'),
     #url(r'^stories'  , views.stories , name='stories'),

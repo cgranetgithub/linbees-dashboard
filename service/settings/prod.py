@@ -104,11 +104,11 @@ LOCALE_PATHS = (
 )
 
 # Email
-EMAIL_USE_TLS = True
-EMAIL_HOST = 'auth.smtp.1and1.fr'
-EMAIL_HOST_USER = 'mailer@lagat-software.com'
-EMAIL_HOST_PASSWORD = 'sc39cf63'
-EMAIL_PORT = 587
+EMAIL_HOST = "smtp.sendgrid.net"
+EMAIL_HOST_USER = os.environ.get("SENDGRID_USERNAME", "")
+EMAIL_HOST_PASSWORD = os.environ.get("SENDGRID_PASSWORD", "")
+EMAIL_PORT = 25
+EMAIL_USE_TLS = False
 
 # linbees specific
 DEFAULT_PRICE = 5 #euros

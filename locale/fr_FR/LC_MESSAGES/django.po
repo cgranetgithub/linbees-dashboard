@@ -411,7 +411,7 @@ msgstr ""
 
 #: templates/dashboard/no_activity_message.html:4
 msgid ""
-"This is probably the first time you come to your cockpit, as we do not "
+"This is probably the first time you come to your dashboard, as we do not "
 "detect any activity yet."
 msgstr ""
 
@@ -462,7 +462,7 @@ msgstr "activit&#233;s"
 
 #: templates/dashboard/overview.html:13
 #, fuzzy
-msgid "cockpit created on"
+msgid "dashboard created on"
 msgstr "cr&#233;&#233; le"
 
 #: templates/dashboard/overview.html:41

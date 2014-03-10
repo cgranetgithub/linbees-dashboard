@@ -9,8 +9,8 @@ from frontapps.website.forms import ContactForm
 def home(request):
     return render(request, 'website/home.html')
 
-def cockpit(request):
-    return render(request, 'website/cockpit.html')
+def dashboard(request):
+    return render(request, 'website/dashboard.html')
 
 def sensor(request):
     return render(request, 'website/sensor.html')

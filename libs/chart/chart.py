@@ -4,18 +4,26 @@ from django.db.models import Sum
 from backapps.record.models import DailyRecord
 from backapps.activity.models import Activity
 
-def activities_total_time(workspace, activity_list=None):
+def activities_total_time(workspace, activity_list=None, user_list=None):
+    queryset = DailyRecord.for_tenant(workspace
+			).objects.filter(activity__monitored=True)
     if activity_list:
-	queryset = DailyRecord.for_tenant(workspace
-			    ).objects.filter(activity__in=activity_list
-					   , activity__monitored=True
-			    ).values('activity__name'
-			    ).order_by('activity__name').annotate(Sum('duration'))
-    else:  
-	queryset = DailyRecord.for_tenant(workspace
-			    ).objects.filter(activity__monitored=True
-			    ).values('activity__name'
-			    ).order_by('activity__name').annotate(Sum('duration'))
+	queryset = queryset.filter(activity__in=activity_list)
+    if user_list:
+	queryset = queryset.filter(user__in=user_list)
+    queryset = queryset.values('activity__name'
+			).order_by('activity__name').annotate(Sum('duration'))
+    #if activity_list:
+	#queryset = DailyRecord.for_tenant(workspace
+			    #).objects.filter(activity__in=activity_list
+					   #, activity__monitored=True
+			    #).values('activity__name'
+			    #).order_by('activity__name').annotate(Sum('duration'))
+    #else:  
+	#queryset = DailyRecord.for_tenant(workspace
+			    #).objects.filter(activity__monitored=True
+			    #).values('activity__name'
+			    #).order_by('activity__name').annotate(Sum('duration'))
     data_list = [ [(i['activity__name']).encode('latin1'), float(i['duration__sum'])] for i in queryset ]
     pie_data = [['Activity', 'total time (hours)']] + data_list
     pie_options = {'title':'Activities distribution'
@@ -23,14 +31,13 @@ def activities_total_time(workspace, activity_list=None):
 		   , 'backgroundColor':'transparent'};
     return (pie_data, pie_options)
 
-def activities_over_time(workspace, activity_list=None):
+def activities_over_time(workspace, activity_list=None, user_list=None):
+    queryset = DailyRecord.for_tenant(workspace
+			).objects.filter(activity__monitored=True)
     if activity_list:
-	queryset = DailyRecord.for_tenant(workspace
-				).objects.filter(activity__in=activity_list
-					       , activity__monitored=True)
-    else:  
-	queryset = DailyRecord.for_tenant(workspace
-				).objects.filter(activity__monitored=True)
+	queryset = queryset.filter(activity__in=activity_list)
+    if user_list:
+	queryset = queryset.filter(user__in=user_list)
     # get dates (warning works only with postegresql because of distinct)
     dates = queryset.values_list('date', flat=True).order_by('date').distinct('date')
     # get activities

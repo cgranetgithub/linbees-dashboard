@@ -1,15 +1,10 @@
 from django.shortcuts import render, redirect
-from django.forms.models import modelformset_factory
-from django.contrib.auth.decorators import login_required, user_passes_test
 from django.core.urlresolvers import reverse
-from django.utils.translation import ugettext_lazy as _
-from tenancy.forms import tenant_modelform_factory, tenant_modelformset_factory
-from backapps.activity.models import Activity
-from backapps.activity.forms import ActivityForm
-from django.contrib.auth.forms import PasswordChangeForm, UserChangeForm
+#from django.utils.translation import ugettext_lazy as _
+from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.auth.decorators import login_required
 from backapps.workspace.forms import WorkspaceChangeForm
 #from backapps.salary.forms import FixedSalaryFormSet
-from libs.forms import SelectForm
 
 @login_required
 def accountAdmin(request):
@@ -76,25 +71,3 @@ def workspaceAdmin(request):
 		  #,'button_name':_("Apply")
 		 #})
 
-@login_required
-def activityAdmin(request, activity_id=None):
-    workspace = request.user.tenantlink.workspace
-    no_activity = (Activity.for_tenant(workspace).objects.count() == 0)
-    activityTenantForm = tenant_modelform_factory(workspace, ActivityForm)
-    choices = Activity.for_tenant(workspace).objects.all()
-    inst = None
-    if activity_id:
-	inst = Activity.for_tenant(workspace).objects.get(id=activity_id)
-    if request.method == 'POST':
-	editform = activityTenantForm(request.POST, instance=inst)
-	if editform.is_valid():
-	    editform.save()
-	    return redirect(reverse('administration:activityNew'))
-    #GET
-    else:
-	editform = activityTenantForm(instance=inst)
-    return render(request, 'administration/activity_admin.html',
-		 {'editform':editform,
-		  'choices':choices,		  
-		  'no_activity':no_activity
-		 })

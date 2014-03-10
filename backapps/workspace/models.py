@@ -80,9 +80,12 @@ class Workspace(AbstractTenant):
 				    , verbose_name=('yearly user fee')
 				    , help_text="fee per year, independent "
 "of the number of users")
-    # DO NOT remove natural_key, this is required by django-tenancy
     def natural_key(self):
+	""" DO NOT remove natural_key, this is required by django-tenancy """
 	return ((self.name, ))
+    def __unicode__(self):
+	""" used in the admin """
+	return u'%s'%self.name
 
 def getDashboardNameFromEmail(email):
     return email.split('@')[1].replace('.', '-')

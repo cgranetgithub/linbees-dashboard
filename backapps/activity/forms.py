@@ -5,13 +5,14 @@ from backapps.activity.models import Activity
 class ActivityForm(forms.ModelForm):
     class Meta:
         model = Activity
+        fields  = ('name', 'description')
         exclude = ('is_active', 'monitored', 'primary', 'p_group', 'p_type', 'parent')
         widgets = {
             'description': forms.Textarea(),
         }
 
 class ActivityListForm(forms.Form):
-    plist = forms.MultipleChoiceField(label=_('activities list')
+    plist = forms.MultipleChoiceField(label=_('Activities')
 				    , widget=forms.CheckboxSelectMultiple)
     def __init__(self, ws, *args, **kwargs):
         super(ActivityListForm, self).__init__(*args, **kwargs)

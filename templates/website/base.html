@@ -56,7 +56,7 @@
 	</ul>
 	<ul class="nav navbar-nav navbar-right">
 	  {% if user.is_authenticated %}
-	  <li><a href="{% url 'dashboard:overview' %}">{{ user.tenantlink.workspace.name }} cockpit</a></li>
+	  <li><a href="{% url 'dashboard:overview' %}">{{ user.tenantlink.workspace.name }} dashboard</a></li>
 	  {% else %}
 	  <li><a href="{% url 'django.contrib.auth.views.login' %}">{% trans "Sign in" %}</a></li>
 	  {% endif %}
