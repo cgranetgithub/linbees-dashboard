@@ -29,6 +29,8 @@ ALLOWED_HOSTS = ['*']
 # Admin and manager (will receive emails)
 ADMINS = (
     ('linbees admin', 'admin@mail.lagat-software.com'),
+    ('charles', 'c.granet@gmail.com'),
+    ('alex', 'abourreille@gmail.com'),
 )
 MANAGERS = ADMINS
 

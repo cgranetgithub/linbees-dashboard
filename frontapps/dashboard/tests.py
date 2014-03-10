@@ -13,19 +13,14 @@ class SimpleJourneyTest(WebTest):
         form['password2'] = 'password1'
         #form['full_name'] = 'ws1'
         form.submit()
-        form = self.app.get('/administration/activity/new/').form
+        form = self.app.get('/dashboard/activity/new/').form
         form['name'] = 'p0'
-	ws = Workspace.objects.get(name="password1-com")
-        o = User.objects.get(email='password1@password1.com').id
-        form['owner'] = o
         form.submit()
-        form = self.app.get('/administration/activity/new/').form
+        form = self.app.get('/dashboard/activity/new/').form
         form['name'] = 'p1'
-        form['owner'] = o
         form.submit()
-        form = self.app.get('/administration/activity/new/').form
+        form = self.app.get('/dashboard/activity/new/').form
         form['name'] = 'p2'
-        form['owner'] = o
         form.submit()
     def test_overview(self):
 	c = Client()
@@ -44,11 +39,11 @@ class SimpleJourneyTest(WebTest):
         self.assertContains(response, "p0")
         self.assertContains(response, "p1")
         self.assertContains(response, "p2")
-	response = c.get('/dashboard/activities/')
+	response = c.get('/dashboard/time/')
         self.assertContains(response, "p0")
         self.assertContains(response, "p1")
         self.assertContains(response, "p2")
-	response = c.get('/dashboard/users/')
-        self.assertContains(response, "password1@password1.com")
-        self.assertContains(response, "user1@password1.com")
-        self.assertContains(response, "user2@password1.com")
+	#response = c.get('/dashboard/users/')
+        #self.assertContains(response, "password1@password1.com")
+        #self.assertContains(response, "user1@password1.com")
+        #self.assertContains(response, "user2@password1.com")
