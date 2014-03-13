@@ -4,17 +4,15 @@
 
 {% block home %}
   <div class="row">
-    <div class="col-md-2">
-      <div class="panel panel-default">
-	<div class="panel-body">
-	  <h1>{{ workspace.name }}</h1>
-	  <p>{{ users_number }} {% trans "users" %}</p>
-	  <p>{{ activities_number }} {% trans "activities" %}</p>
-	  <p>{% trans "dashboard created on" %} {{ workspace.created_at|date }}</p>
-	</div>
-      </div>
+    <div class="col-md-2 sidebar">
+	  <p>{{ user.first_name }} {{ user.last_name }}</p>
+	  <h1>{{ workspace.name }} dashboard</h1>
+	  <p><small>{% trans "created on" %} {{ workspace.created_at|date }}</small></p>
+	  <h3>{{ users_number }} {% trans "users" %}</h3>
+	  <h3>{{ activities_number }} {% trans "activities" %}</h3>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-4 col-md-offset-2 main">
+      {% bootstrap_messages %}
       {% if activities_number == 0 %}
 	{% include 'dashboard/no_activity_message.html' %}
       {% elif nodata == True %}

@@ -11,15 +11,15 @@ from backapps.profile.models import Profile
 from frontapps.dashboard.forms import TrialForm, ActivityUserForm
 import libs.chart.generate_data as gen
 #from libs.forms import SelectForm
-from libs.chart.chart import ( activities_total_time, cumulative_activity_over_time
-			     , activities_over_time, users_over_time )
+from libs.chart.chart import (activities_total_time, activities_over_time, 
+			      cumulative_activity_over_time)
 from tenancy.forms import tenant_modelform_factory
 
 def check_data_existence(request):
     workspace = request.user.tenantlink.workspace
     context = {'activities_number': Activity.for_tenant(workspace
 				      ).objects.filter(monitored=True).count()
-	      ,'nodata': not(DailyRecord.for_tenant(workspace).objects.exists())
+	      ,'nodata':not(DailyRecord.for_tenant(workspace).objects.exists())
 	      }
     some_data = context['activities_number'] != 0 and not context['nodata']
     return (context, some_data)
@@ -68,7 +68,8 @@ def latePayment(request):
 @login_required
 def activityAdmin(request, activity_id=None):
     workspace = request.user.tenantlink.workspace
-    no_activity = (Activity.for_tenant(workspace).objects.count() == 0)
+    #no_activity =    (Activity.for_tenant(workspace).objects.count() == 0)
+    no_activity = not(Activity.for_tenant(workspace).objects.exists())
     activityTenantForm = tenant_modelform_factory(workspace, ActivityForm)
     choices = Activity.for_tenant(workspace).objects.all()
     inst = None
@@ -101,23 +102,31 @@ def time(request):
 	a_choices = ( (p.id, p.name) for p in al )
 	ul = Profile.for_tenant(workspace).objects.all()
 	u_choices = ( (p.user_id, p.user.email) for p in ul )
-	a_select = None
-	u_select = None
+	a_select  = None
+	u_select  = None
+	startdate = None
+	enddate   = None
 	if request.method == 'POST':
 	    form = ActivityUserForm(request, activities=a_choices, users=u_choices)
 	    if form.is_valid():
-		a_select = form.cleaned_data['activities']
-		u_select = form.cleaned_data['users']
+		a_select  = form.cleaned_data['activities']
+		u_select  = form.cleaned_data['users']
+		startdate = form.cleaned_data['startdate']
+		enddate   = form.cleaned_data['enddate']
 	else:
 	    form = ActivityUserForm(request, activities=a_choices, users=u_choices)
 	context = {'form' : form,
 		   'form_action'   : reverse('dashboard:time')}
 	#activities time sum
-	(pie_data, pie_options) = activities_total_time(workspace, a_select, u_select)
+	(pie_data, pie_options) = activities_total_time(workspace, 
+							a_select, u_select,
+							startdate, enddate)
 	context['chart1_data'] = pie_data
 	context['chart1_options'] = pie_options
 	#activities evolution over time
-	(line_data, line_options) = activities_over_time(workspace, a_select, u_select)
+	(line_data, line_options) = activities_over_time(workspace, 
+							 a_select, u_select,
+							 startdate, enddate)
 	context['chart2_data'] = line_data
 	context['chart2_options'] = line_options
     return render(request, 'dashboard/time.html', context)

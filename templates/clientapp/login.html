@@ -5,7 +5,7 @@
 {% block content %}
     <form method="post" action="." class="form-signin" role="form">{% csrf_token %}
       <h2 class="form-signin-heading">{% trans "Please sign in" %}</h2>
-      {% bootstrap_form form %}
+      {% bootstrap_form form label_class='sr-only' show_help=False %}
       {% buttons %}
 	<button type="submit" class="btn btn-lg btn-primary btn-block">
 	  {% trans "Sign in" %}

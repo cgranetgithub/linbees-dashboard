@@ -4,45 +4,48 @@ from django.db.models import Sum
 from backapps.record.models import DailyRecord
 from backapps.activity.models import Activity
 
-def activities_total_time(workspace, activity_list=None, user_list=None):
+def activities_total_time(workspace, 
+			  activity_list=None, user_list=None, 
+			  startdate=None, enddate=None):
     queryset = DailyRecord.for_tenant(workspace
 			).objects.filter(activity__monitored=True)
+    if startdate:
+	queryset = queryset.filter(date__gte=startdate)
+    if enddate:
+	queryset = queryset.filter(date__lte=enddate)
     if activity_list:
 	queryset = queryset.filter(activity__in=activity_list)
     if user_list:
 	queryset = queryset.filter(user__in=user_list)
     queryset = queryset.values('activity__name'
 			).order_by('activity__name').annotate(Sum('duration'))
-    #if activity_list:
-	#queryset = DailyRecord.for_tenant(workspace
-			    #).objects.filter(activity__in=activity_list
-					   #, activity__monitored=True
-			    #).values('activity__name'
-			    #).order_by('activity__name').annotate(Sum('duration'))
-    #else:  
-	#queryset = DailyRecord.for_tenant(workspace
-			    #).objects.filter(activity__monitored=True
-			    #).values('activity__name'
-			    #).order_by('activity__name').annotate(Sum('duration'))
-    data_list = [ [(i['activity__name']).encode('latin1'), float(i['duration__sum'])] for i in queryset ]
+    data_list = [ [ (i['activity__name']).encode('latin1')
+		   ,int(i['duration__sum'])               ] for i in queryset ]
     pie_data = [['Activity', 'total time (hours)']] + data_list
-    pie_options = {'title':'Activities distribution'
-		   , 'is3D':'true'
-		   , 'backgroundColor':'transparent'};
+    pie_options = {'is3D':'true', 'backgroundColor':'transparent'};
     return (pie_data, pie_options)
 
-def activities_over_time(workspace, activity_list=None, user_list=None):
+def activities_over_time(workspace, 
+			  activity_list=None, user_list=None, 
+			  startdate=None, enddate=None):
     queryset = DailyRecord.for_tenant(workspace
 			).objects.filter(activity__monitored=True)
+    if startdate:
+	queryset = queryset.filter(date__gte=startdate)
+    if enddate:
+	queryset = queryset.filter(date__lte=enddate)
     if activity_list:
 	queryset = queryset.filter(activity__in=activity_list)
     if user_list:
 	queryset = queryset.filter(user__in=user_list)
     # get dates (warning works only with postegresql because of distinct)
-    dates = queryset.values_list('date', flat=True).order_by('date').distinct('date')
+    dates = queryset.values_list('date', flat=True).order_by('date'
+							     ).distinct('date')
     # get activities
-    id_list = queryset.order_by('activity__name').values_list('activity_id').distinct('activity__id')
-    activities = Activity.for_tenant(workspace).objects.filter(id__in=id_list)
+    id_list = queryset.order_by('activity__name'
+			).values_list('activity_id').distinct('activity__id')
+    activities = Activity.for_tenant(workspace
+			      ).objects.filter(id__in=id_list).order_by('name')
     # build array
     array = [['Dates'] + [ p.name.encode('latin1') for p in activities] ]
     for d in dates:
@@ -54,41 +57,40 @@ def activities_over_time(workspace, activity_list=None, user_list=None):
 	    except DailyRecord.DoesNotExist:
 		tmp.append(0)
 	    else:
-		tmp.append(float(duration or 0))
+		tmp.append(int(duration or 0))
 	array.append(tmp)
-    options = { 'title':'Activities evolution', 'is3D':'true'
-		  , 'backgroundColor':'transparent'
+    options = {'is3D':'true', 'backgroundColor':'transparent'
 		  };
     return (array, options)
 
-def users_over_time(workspace, user):
-    if user is None:
-	return ([], {})
-    queryset = DailyRecord.for_tenant(workspace).objects.filter(user=user
-							      , activity__monitored=True)
-    # get dates (warning works only with postegresql because of distinct)
-    dates = queryset.values_list('date', flat=True).order_by('date').distinct('date')
-    # get activities (no distinct on foreignkey for now in django)
-    id_list = queryset.order_by('activity__name').values_list('activity_id'
-							     ).distinct('activity__id')
-    activities = Activity.for_tenant(workspace).objects.filter(id__in=id_list
-							  , monitored=True)
-    # build array
-    array = [['Dates'] + [ p.name.encode('latin1') for p in activities] ]
-    for d in dates:
-	tmp = [d.isoformat()]
-	for p in activities:
-	    try:
-		duration = queryset.get(date=d, activity=p.id).duration
-	    except DailyRecord.DoesNotExist:
-		tmp.append(0)
-	    else:
-		tmp.append(float(duration))
-	array.append(tmp)
-    options = { 'title':'User activity', 'is3D':'true'
-		  , 'backgroundColor':'transparent', 'isStacked':'true'
-		  };
-    return (array, options)
+#def users_over_time(workspace, user):
+    #if user is None:
+	#return ([], {})
+    #queryset = DailyRecord.for_tenant(workspace).objects.filter(user=user
+							      #, activity__monitored=True)
+    ## get dates (warning works only with postegresql because of distinct)
+    #dates = queryset.values_list('date', flat=True).order_by('date').distinct('date')
+    ## get activities (no distinct on foreignkey for now in django)
+    #id_list = queryset.order_by('activity__name').values_list('activity_id'
+							     #).distinct('activity__id')
+    #activities = Activity.for_tenant(workspace).objects.filter(id__in=id_list
+							  #, monitored=True)
+    ## build array
+    #array = [['Dates'] + [ p.name.encode('latin1') for p in activities] ]
+    #for d in dates:
+	#tmp = [d.isoformat()]
+	#for p in activities:
+	    #try:
+		#duration = queryset.get(date=d, activity=p.id).duration
+	    #except DailyRecord.DoesNotExist:
+		#tmp.append(0)
+	    #else:
+		#tmp.append(float(duration))
+	#array.append(tmp)
+    #options = { 'title':'User activity', 'is3D':'true'
+		  #, 'backgroundColor':'transparent', 'isStacked':'true'
+		  #};
+    #return (array, options)
 
 def cumulative_activity_over_time(array):
     # start from 1: to skip title row / col

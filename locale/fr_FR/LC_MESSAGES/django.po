@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-03-04 09:44+0100\n"
+"POT-Creation-Date: 2014-03-12 11:51+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,9 +17,10 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: backapps/activity/forms.py:14
-msgid "activities list"
-msgstr ""
+#: backapps/activity/forms.py:15 templates/administration/user_admin.html:8
+#: templates/dashboard/base.html:59
+msgid "Activities"
+msgstr "Activités"
 
 #: backapps/activity/models.py:11 backapps/activity/models.py:26
 #: backapps/activity/models.py:41 backapps/department/models.py:10
@@ -39,7 +40,7 @@ msgstr "actif"
 #: backapps/satisfaction/models.py:10 backapps/satisfaction/models.py:25
 #: backapps/workspace/models.py:46
 msgid "created at"
-msgstr "cr&#233;&#233; le"
+msgstr "créé le"
 
 #: backapps/activity/models.py:15 backapps/activity/models.py:30
 #: backapps/activity/models.py:45 backapps/department/models.py:14
@@ -68,7 +69,7 @@ msgstr "suivi"
 
 #: backapps/activity/models.py:49
 msgid "primary"
-msgstr ""
+msgstr "primaire"
 
 #: backapps/activity/models.py:55
 msgid "group"
@@ -80,49 +81,51 @@ msgstr ""
 
 #: backapps/activity/models.py:59
 msgid "sub-activity of"
-msgstr "Sous-projet de"
+msgstr "sous-projet de"
 
 #: backapps/activity/models.py:60
 msgid "owned by"
-msgstr ""
+msgstr "appartenant à"
 
 #: backapps/invoice/models.py:16
 msgid "sent at"
-msgstr ""
+msgstr "envoyé le"
 
 #: backapps/invoice/models.py:17
 msgid "month"
-msgstr ""
+msgstr "mois"
 
 #: backapps/invoice/models.py:18
 msgid "year"
-msgstr ""
+msgstr "année"
 
 #: backapps/invoice/models.py:19
-#, fuzzy
 msgid "amount"
-msgstr "pays"
+msgstr "montant"
 
 #: backapps/invoice/models.py:21
 msgid "comment"
-msgstr ""
+msgstr "commentaire"
 
 #: backapps/preference/models.py:8
 msgid "Keep on top"
-msgstr ""
+msgstr "Maintenir au dessus"
+
+#: backapps/profile/forms.py:84 templates/administration/user_admin.html:11
+msgid "Users"
+msgstr "Utilisateurs"
 
 #: backapps/profile/models.py:22
 msgid "depends on"
-msgstr ""
+msgstr "dépend de"
 
 #: backapps/profile/models.py:24
 msgid "accepted terms"
 msgstr ""
 
 #: backapps/profile/models.py:28
-#, fuzzy
 msgid "workspace admin"
-msgstr "Organisation"
+msgstr ""
 
 #: backapps/profile/models.py:30
 msgid "HR admin"
@@ -141,10 +144,12 @@ msgid "user"
 msgstr "utilisateur"
 
 #: backapps/salary/models.py:15 frontapps/dashboard/forms.py:5
+#: frontapps/dashboard/forms.py:10
 msgid "start date"
-msgstr "date de d&#233;but"
+msgstr "date de début"
 
 #: backapps/salary/models.py:16 frontapps/dashboard/forms.py:6
+#: frontapps/dashboard/forms.py:11
 msgid "end date"
 msgstr "date de fin"
 
@@ -186,7 +191,7 @@ msgstr "Adresse (ligne 1)"
 
 #: backapps/workspace/models.py:35
 msgid "zipcode"
-msgstr "code posta"
+msgstr "code postal"
 
 #: backapps/workspace/models.py:37
 msgid "city"
@@ -198,12 +203,11 @@ msgstr "pays"
 
 #: backapps/workspace/models.py:41
 msgid "phone number"
-msgstr ""
+msgstr "numéro de téléphone"
 
 #: backapps/workspace/models.py:50
-#, fuzzy
 msgid "dashboard name"
-msgstr "Tableau de bord"
+msgstr "nom du tableau de bord"
 
 #: backapps/workspace/models.py:51
 msgid "by default, the dashboard name is your company email domain"
@@ -223,14 +227,13 @@ msgid ""
 "%(name)s, your account was successfully created. Welcome to %(ws)s dashboard!"
 msgstr ""
 
-#: frontapps/website/forms.py:6
+#: frontapps/website/forms.py:7
 msgid "Your email address"
 msgstr "Votre adresse email"
 
-#: frontapps/website/forms.py:7
-#, fuzzy
+#: frontapps/website/forms.py:8
 msgid "Your message"
-msgstr "Message"
+msgstr "Votre message"
 
 #: libs/messages.py:3
 #, python-format
@@ -255,7 +258,7 @@ msgstr ""
 
 #: libs/messages.py:15
 msgid "A user with that email already exists."
-msgstr ""
+msgstr "Un utilisateur avec cet email est déjà enregistré."
 
 #: templates/admin/base.html:28
 msgid "Welcome,"
@@ -269,7 +272,7 @@ msgstr ""
 msgid "Change password"
 msgstr "Changer le mot de passe"
 
-#: templates/admin/base.html:38 templates/dashboard/base.html:59
+#: templates/admin/base.html:38 templates/dashboard/base.html:63
 msgid "Log out"
 msgstr "D&#233;connexion"
 
@@ -286,48 +289,26 @@ msgid "linbees administration"
 msgstr ""
 
 #: templates/administration/account_admin.html:10
-#: templates/administration/activity_admin.html:31
 #: templates/administration/workspace_admin.html:10
+#: templates/dashboard/activity_admin.html:32
 msgid "Apply"
 msgstr "appliquer"
 
-#: templates/administration/activity_admin.html:8
-msgid "You have not created any activity yet."
-msgstr ""
-
-#: templates/administration/activity_admin.html:9
-msgid "Please define below the activities you would like to monitor."
-msgstr ""
-
-#: templates/administration/activity_admin.html:10
-msgid ""
-"For each activity, give its name, its owner (probably you) and validate."
-msgstr ""
-
-#: templates/administration/activity_admin.html:16
-#, fuzzy
-msgid "Create a new activity"
-msgstr "Cr&#233;er un compte"
-
 #: templates/administration/admin.html:9
-#: templates/administration/user_admin.html:8 templates/dashboard/base.html:56
-msgid "Activities"
-msgstr "Activit&#233;s"
+msgid "Company info"
+msgstr "Info société"
 
 #: templates/administration/admin.html:10
+msgid "Change my password"
+msgstr "Changer mon mot de passe"
+
 #: templates/administration/user_admin.html:14
 msgid "Workspace"
 msgstr "Organisation"
 
-#: templates/administration/admin.html:11
 #: templates/administration/user_admin.html:17
 msgid "My password"
 msgstr "Mot de passe"
-
-#: templates/administration/user_admin.html:11
-#: templates/dashboard/base.html:57
-msgid "Users"
-msgstr "Utilisateurs"
 
 #: templates/administration/user_admin.html:38
 #: templates/administration/user_admin.html:66
@@ -335,37 +316,33 @@ msgid "Save"
 msgstr "Sauver"
 
 #: templates/clientapp/home.html:9
-msgid "Ongoing activity"
-msgstr ""
+msgid "Select your activity"
+msgstr "Sélectionnez votre activité"
 
 #: templates/clientapp/home.html:16
-#, fuzzy
 msgid "There is no activity defined yet."
-msgstr "Il n'y a pas aucun projet."
+msgstr "Il n'y a aucune activité définie."
 
 #: templates/clientapp/home.html:32
-msgid "History"
-msgstr ""
+msgid "Your last 5 activities"
+msgstr "Vos 5 dernières activités"
 
 #: templates/clientapp/login.html:7
 msgid "Please sign in"
-msgstr ""
+msgstr "S'identifier"
 
 #: templates/clientapp/login.html:11 templates/registration/login.html:20
-#: templates/website/base.html:61
-#, fuzzy
+#: templates/website/base.html:65
 msgid "Sign in"
-msgstr "Inscription"
+msgstr "S'identifier"
 
 #: templates/clientapp/login.html:17
-#, fuzzy
 msgid "Or create a new account"
 msgstr "Cr&#233;er un compte"
 
 #: templates/clientapp/register.html:11
-#, fuzzy
 msgid "Create your account"
-msgstr "Cr&#233;er un compte"
+msgstr "Cr&#233;ez un compte"
 
 #: templates/clientapp/register.html:15
 msgid "Create"
@@ -373,15 +350,28 @@ msgstr "Cr&#233;er"
 
 #: templates/clientapp/register.html:17
 msgid "Cancel"
-msgstr ""
+msgstr "Annuler"
 
 #: templates/clientapp/tutorial.html:5
 msgid "back"
 msgstr "retour"
 
-#: templates/dashboard/activity.html:23
-msgid "Submit"
+#: templates/dashboard/activity_admin.html:9
+msgid "You have not created any activity yet."
 msgstr ""
+
+#: templates/dashboard/activity_admin.html:10
+msgid "Please define below the activities you would like to monitor."
+msgstr ""
+
+#: templates/dashboard/activity_admin.html:11
+msgid ""
+"For each activity, give its name, its owner (probably you) and validate."
+msgstr ""
+
+#: templates/dashboard/activity_admin.html:17
+msgid "Create a new activity"
+msgstr "Cr&#233;er une activité"
 
 #: templates/dashboard/analysis.html:5
 msgid "Analysis"
@@ -393,17 +383,21 @@ msgid ""
 "module."
 msgstr ""
 
-#: templates/dashboard/base.html:55
+#: templates/dashboard/base.html:57
 msgid "Overview"
 msgstr "Vue d'ensemble"
 
 #: templates/dashboard/base.html:58
-msgid "Administration"
-msgstr ""
+msgid "Time"
+msgstr "Temps"
+
+#: templates/dashboard/base.html:62
+msgid "Settings"
+msgstr "Réglages"
 
 #: templates/dashboard/late_payment.html:5
 msgid "Payment"
-msgstr ""
+msgstr "Paiement"
 
 #: templates/dashboard/late_payment.html:6
 msgid "There is an issue with your last invoice. Please contact us."
@@ -440,7 +434,6 @@ msgid " and create some activities."
 msgstr ""
 
 #: templates/dashboard/no_data_message.html:4
-#, fuzzy
 msgid "We do not detect any data to display."
 msgstr "Il n'y a aucune donn&#233;e &#224; afficher"
 
@@ -461,7 +454,6 @@ msgid "activities"
 msgstr "activit&#233;s"
 
 #: templates/dashboard/overview.html:13
-#, fuzzy
 msgid "dashboard created on"
 msgstr "cr&#233;&#233; le"
 
@@ -469,24 +461,27 @@ msgstr "cr&#233;&#233; le"
 msgid "Generate"
 msgstr ""
 
-#: templates/registration/base.html:54 templates/website/base.html:75
+#: templates/dashboard/time.html:23
+msgid "Submit"
+msgstr "Envoyer"
+
+#: templates/registration/base.html:57 templates/website/base.html:79
 msgid "Back to top"
-msgstr ""
+msgstr "Retour au début"
 
 #: templates/registration/login.html:24
 msgid "No account yet?"
-msgstr ""
+msgstr "Pas encore de compte ?"
 
-#: templates/registration/login.html:24 templates/website/home.html:75
-#, fuzzy
+#: templates/registration/login.html:24 templates/website/home.html:46
 msgid "Sign up now"
-msgstr "Inscription"
+msgstr "S'inscrire"
 
 #: templates/signup/signup.html:16
 msgid "Please sign up"
-msgstr ""
+msgstr "S'inscrire"
 
-#: templates/signup/signup.html:21 templates/website/home.html:92
+#: templates/signup/signup.html:21 templates/website/home.html:27
 msgid "Sign up"
 msgstr "Inscription"
 
@@ -495,7 +490,6 @@ msgid "What is linbees?"
 msgstr "Qu'est que linbees"
 
 #: templates/website/about.html:8
-#, fuzzy
 msgid ""
 "linbees is a cloud application platform – a new way of monitoring and "
 "managing internal activities."
@@ -504,7 +498,6 @@ msgstr ""
 "l'activit&#233; interne des entreprises en suivant le temps de travail."
 
 #: templates/website/about.html:9
-#, fuzzy
 msgid ""
 "With the minimum effort and constraint for the users, linbees brings the "
 "most powerful insight about internal activity to the management."
@@ -529,7 +522,7 @@ msgstr "Faire simple et sans contrainte !"
 #: templates/website/apps.html:17 templates/website/apps.html.py:23
 #: templates/website/apps.html:29
 msgid "for"
-msgstr ""
+msgstr "pour"
 
 #: templates/website/apps.html:18
 msgid ""
@@ -547,107 +540,79 @@ msgid ""
 "bit)"
 msgstr ""
 
-#: templates/website/base.html:53
+#: templates/website/base.html:57
 msgid "Pricing"
-msgstr "Prix"
+msgstr "Tarif"
 
-#: templates/website/base.html:54 templates/website/home.html:98
-#, fuzzy
+#: templates/website/base.html:58 templates/website/home.html:33
 msgid "Download"
-msgstr "T&#233;l&#233;charger linbees"
+msgstr "T&#233;l&#233;charger"
 
-#: templates/website/base.html:55
+#: templates/website/base.html:59
 msgid "Contact"
 msgstr ""
 
 #: templates/website/contact.html:13
 msgid "Any question?"
-msgstr ""
+msgstr "Une question ?"
 
 #: templates/website/contact.html:18
 msgid "Send"
+msgstr "Envoyer"
+
+#: templates/website/home.html:14
+msgid "We help you capture genuine data"
 msgstr ""
+
+#: templates/website/home.html:15
+msgid "A real-time-tracking solution for the industry"
+msgstr ""
+
+#: templates/website/home.html:16
+msgid "See how it works"
+msgstr "Voir comment linbees fonctionne"
 
 #: templates/website/home.html:26
-msgid "Time-tracking"
-msgstr ""
-
-#: templates/website/home.html:27
-msgid "With Linbees I monitor the activity of my company."
-msgstr ""
-
-#: templates/website/home.html:36
-msgid "Time per project"
-msgstr ""
-
-#: templates/website/home.html:37
-msgid "I see how much time my teams spent on their projects."
-msgstr ""
-
-#: templates/website/home.html:46
-msgid "Cost per project"
-msgstr ""
-
-#: templates/website/home.html:47
-msgid "I know how much each project costs"
-msgstr ""
-
-#: templates/website/home.html:56
-msgid "Insightful"
-msgstr ""
-
-#: templates/website/home.html:57
-msgid "Right data = right insights. You will trust your dashboard."
-msgstr ""
-
-#: templates/website/home.html:70
-#, fuzzy
-msgid "See how it works"
-msgstr "pour comprendre comment linbees fonctionne."
-
-#: templates/website/home.html:91
 msgid ""
 "Click on sign up to create an account for your company. It's instant, it's "
 "free, no credit card is required."
 msgstr ""
 
-#: templates/website/home.html:97
+#: templates/website/home.html:32
 msgid ""
 "Download the app and give them to your users. Or ask them to download and "
 "install themselves. We have apps for most operating systems."
 msgstr ""
 
-#: templates/website/home.html:103
+#: templates/website/home.html:38
 msgid ""
 "Go to your dashboard and start seeing the activity of your teams, projects, "
 "the related costs... and much more!"
 msgstr ""
 
-#: templates/website/home.html:104
+#: templates/website/home.html:39
 msgid "Go to your dashboard"
-msgstr ""
+msgstr "Accédez à votre tableau de bord"
 
-#: templates/website/how.html:7
-msgid "Discover how the linbees solution works"
-msgstr ""
+#: templates/website/how.html:8
+msgid "Discover how linbees works"
+msgstr "Découvrez comment linbees fonctionne."
 
 #: templates/website/legal.html:7
 msgid "Legal"
 msgstr "Informations l&#233;gales"
 
 #: templates/website/pricing.html:8
-#, fuzzy
 msgid "\tper user and per month."
-msgstr "Seulement 5€ par utilisateur et par mois."
+msgstr "\tpar utilisateur et par mois."
 
 #: templates/website/pricing.html:9
 msgid "No subscription, you pay as you go."
-msgstr ""
+msgstr "Pas de souscription, vous payez selon votre consommation."
 
 #: templates/website/pricing.html:10
-#, fuzzy
 msgid "Try it out, the first three months are offered!"
-msgstr "Les trois premiers mois sont offerts."
+msgstr "Essayez, les trois premiers mois sont offerts."
 
 #: templates/website/stories.html:7
 msgid "Client stories"
@@ -659,9 +624,6 @@ msgstr "Exp&#233;riences clients"
 
 #~ msgid "overlapping dates detected"
 #~ msgstr "certaines fen&#234;tres de temps se chevauchent"
-
-#~ msgid "company name"
-#~ msgstr "soci&#233;t&#233;"
 
 #~ msgid ""
 #~ "this will be the name of your dashboard. You might want to use the name "
@@ -770,9 +732,6 @@ msgstr "Exp&#233;riences clients"
 
 #~ msgid "Login"
 #~ msgstr "Connexion"
-
-#~ msgid "A new way to manage your activity"
-#~ msgstr "Une nouvelle fa&#231;on de g&#233;rer votre activit&#233;"
 
 #~ msgid ""
 #~ "At linbees we imagine new approaches for projects and production "

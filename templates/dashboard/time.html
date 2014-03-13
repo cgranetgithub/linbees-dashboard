@@ -3,15 +3,31 @@
 {% load bootstrap3 %}
 
 {% block head %}
-    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+  <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
+  <script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+  <script>
+    $(function() {
+    $( "#id_startdate" ).datepicker({ dateFormat: "yy-mm-dd" });
+    });
+  </script>
+  <script>
+    $(function() {
+    $( "#id_enddate" ).datepicker({ dateFormat: "yy-mm-dd" });
+    });
+  </script>
 {% endblock head %}
 
 {% block home %}
   <div class="row">
     {% if activities_number == 0 %}
-      {% include 'dashboard/no_activity_message.html' %}
+      <div class="col-md-4 col-md-offset-2">
+	{% include 'dashboard/no_activity_message.html' %}
+      </div>
     {% elif nodata == True %}
-      {% include 'dashboard/no_data_message.html' %}
+      <div class="col-md-4 col-md-offset-2">
+	{% include 'dashboard/no_data_message.html' %}
+      </div>
     {% else %}
       <div class="col-md-2">
 	<div class="panel panel-default">

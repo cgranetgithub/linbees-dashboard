@@ -2,12 +2,24 @@
 {% load i18n %}
 {% load staticfiles %}
 
+{% block head %}
+  <link href="{% static 'website/carousel.css' %}" rel="stylesheet">
+  <link href="{% static 'website/justified-nav.css' %}" rel="stylesheet">
+{% endblock head %}
+
 {% block home %}
-  <div class="container">
+  <div class="container-fluid frontbanner">
     <div class="jumbotron">
-      <p><span class="label label-primary big-font">5€</span><span class="text-primary big-font">{% trans "	per user and per month." %}</span></p>
-      <p><strong>{% trans "No subscription, you pay as you go." %}</strong></p>
-      <p><em>{% trans "Try it out, the first three months are offered!" %}</em></p>
+      <h2><strong>{% trans "5€ / user / month" %}</strong></h2>
+      <p><a class="btn btn-primary btn-sm" href="{% url 'signup:signup' %}" role="button">{% trans "Sign up now" %}</a></p>
+      <p><em><small>{% trans "Try it out, the first three months are offered!" %}</small></em></p>
+    </div>
+  </div><!-- /.container -->
+
+  <div class="container-fluid">
+    <div class="jumbotron">
+      <h1>{% trans "Pay as you go!" %}</h1>
+      <p><small>{% trans "You have more than 100 users? Contact our sales team." %}</small></p>
     </div>
   </div><!-- /.container -->
 {% endblock %}

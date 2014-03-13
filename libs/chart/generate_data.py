@@ -1,17 +1,20 @@
-import math
-import random, string, datetime
+import random, datetime, math
 from django.utils.timezone import utc
 from django.contrib.auth.models import User
 from backapps.record.models import Record, DailyRecord
 from backapps.activity.models import Activity
-from backapps.profile.models import Profile, createUserProfile
+from backapps.profile.models import Profile, TenantLink, createUserProfile
 
 def fn(x, length):
     return 3.0*math.cos((x+length)/(length/3.0))+4.0
 
 def clean_users(workspace, user):
     existing = Profile.for_tenant(workspace).objects.exclude(user=user)
+    user_list = [i.user for i in existing]
     existing.delete()
+    TenantLink.objects.filter(user__in=user_list).delete()
+    for i in user_list:
+	i.delete()
   
 def generate_users(workspace, nb=10):
     for i in range(nb):
@@ -19,16 +22,14 @@ def generate_users(workspace, nb=10):
 	user = User.objects.create_user(username=email, password=email, email=email)
 	createUserProfile(user, workspace)
 
-def clean_activities(workspace):
-    existing = Activity.for_tenant(workspace).objects.all()
-    existing.delete()
+#def clean_activities(workspace):
+    #existing = Activity.for_tenant(workspace).objects.all()
+    #existing.delete()
 
-def generate_activities(workspace, nb=10):
-    for n in range(nb):
-    #activities = ["Moon", "Sand", "Ocean", "Fire", "Cloud", "Deep", "Car", "Earth"]
-    #for p in activities:
-	name = "Activity_%d"%n
-	Activity.for_tenant(workspace).objects.create(name=name)
+#def generate_activities(workspace, nb=10):
+    #for n in range(nb):
+	#name = "Activity_%d"%n
+	#Activity.for_tenant(workspace).objects.create(name=name)
 
 def clean_records(workspace):
     existing = DailyRecord.for_tenant(workspace).objects.all()

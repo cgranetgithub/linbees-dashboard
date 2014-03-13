@@ -14,7 +14,7 @@
     <div class="container">
 	<form method="post" action="{% url 'django.contrib.auth.views.login' %}" class="form-signin" role="form">
 	{% csrf_token %}
-	{% bootstrap_form form %}
+	{% bootstrap_form form label_class='sr-only' show_help=False %}
 	{% buttons %}
 	  <button type="submit" class="btn btn-lg btn-primary btn-block">
 	    {% trans "Sign in" %}

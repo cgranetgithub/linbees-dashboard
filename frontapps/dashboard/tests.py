@@ -22,28 +22,32 @@ class SimpleJourneyTest(WebTest):
         form = self.app.get('/dashboard/activity/new/').form
         form['name'] = 'p2'
         form.submit()
+        ws = Workspace.objects.get(name='password1-com')
+        ws.on_trial = True
+        ws.save()
     def test_overview(self):
-	c = Client()
-	c.post('/i18n/setlang/', {'language':'en'})
-	c.login(username='password1@password1.com', password='password1')
-	response = c.get('/dashboard/')
+        form = self.app.get('/dashboard/login/').forms[0] #form 1 is the language one
+        form['username'] = 'password1@password1.com'
+        form['password'] = 'password1'
+        form.submit()
+	response = self.app.get('/dashboard/')
+        self.assertContains(response, "password1-com")
         self.assertContains(response, "3 activities")
     def test_generate(self):
-	c = Client()
-	c.post('/i18n/setlang/', {'language':'en'})
-	c.login(username='password1@password1.com', password='password1')
-	ws = Workspace.objects.get(name="password1-com")
-	gen.generate_users(ws)
-	gen.generate_records(ws)
-	response = c.get('/dashboard/')
+        form = self.app.get('/dashboard/login/').forms[0] #form 1 is the language one
+        form['username'] = 'password1@password1.com'
+        form['password'] = 'password1'
+        form.submit()
+	response = self.app.get('/dashboard/')
+	self.assertContains(response, "detect")
+	response.form.submit() #generate
+	response = self.app.get('/dashboard/')
         self.assertContains(response, "p0")
         self.assertContains(response, "p1")
         self.assertContains(response, "p2")
-	response = c.get('/dashboard/time/')
+	response = self.app.get('/dashboard/time/')
         self.assertContains(response, "p0")
         self.assertContains(response, "p1")
         self.assertContains(response, "p2")
-	#response = c.get('/dashboard/users/')
-        #self.assertContains(response, "password1@password1.com")
-        #self.assertContains(response, "user1@password1.com")
-        #self.assertContains(response, "user2@password1.com")
+	response = self.app.get('/dashboard/').form
+	response.submit() #generate

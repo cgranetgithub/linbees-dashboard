@@ -15,7 +15,7 @@
       <form action={{ form_action }} method="post" class="form-signin" role="form">
 	<h1 class="text-primary">{% trans "Please sign up" %}</h1>
 	{% csrf_token %}
-	{% bootstrap_form user_form %}
+	{% bootstrap_form user_form label_class='sr-only' show_help=False %}
 	{% buttons %}
 	  <button type="submit" class="btn btn-lg btn-primary btn-block">
 	    {% trans "Sign up" %}

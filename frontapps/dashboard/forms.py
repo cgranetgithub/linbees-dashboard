@@ -7,6 +7,9 @@ class TrialForm(forms.Form):
     users = forms.DecimalField(label=_('number of users'))
 
 class ActivityUserForm(forms.Form):
+      startdate = forms.DateField(label=_('start date'))
+      enddate   = forms.DateField(label=_('end date'))
+
       def __init__(self, request, activities, users, *args, **kwargs):
         if request.method == 'POST':
             super(ActivityUserForm, self).__init__(request.POST, *args, **kwargs)
