@@ -33,3 +33,11 @@ urlpatterns = patterns('',
 
     url(r'^i18n/', include('django.conf.urls.i18n')),    
 )
+
+import os
+if os.environ.get("STAGING") == 'True':
+    from django.http import HttpResponse
+    urlpatterns += patterns('',
+    (r'^robots\.txt$', lambda r: HttpResponse("User-agent: *\nDisallow: /", 
+					      content_type="text/plain"))
+    )
