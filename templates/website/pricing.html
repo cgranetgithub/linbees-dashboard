@@ -10,16 +10,17 @@
 {% block home %}
   <div class="container-fluid frontbanner">
     <div class="jumbotron">
-      <h2><strong>{% trans "5€ / user / month" %}</strong></h2>
-      <p><a class="btn btn-primary btn-sm" href="{% url 'signup:signup' %}" role="button">{% trans "Sign up now" %}</a></p>
-      <p><em><small>{% trans "Try it out, the first three months are offered!" %}</small></em></p>
+      <h2 id="title_part_1"><span id="title_part_2">5€</span> {% trans "/ active user / month" %}</h2>
+      <p><em><small>{% trans "(the first three months are free)" %}</small></em></p>
+      <br>
+      <p><a class="btn btn-primary btn-lg" href="{% url 'signup:signup' %}" role="button">{% trans "Sign up now" %}</a></p>
     </div>
   </div><!-- /.container -->
 
   <div class="container-fluid">
     <div class="jumbotron">
       <h1>{% trans "Pay as you go!" %}</h1>
-      <p><small>{% trans "You have more than 100 users? Contact our sales team." %}</small></p>
+      <p><small>{% trans "Any special request?" %}</small> <a href="{% url 'website:contact' %}" >{% trans "Contact our sales team" %}</a>.</p>
     </div>
   </div><!-- /.container -->
 {% endblock %}

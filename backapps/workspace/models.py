@@ -86,6 +86,8 @@ class Workspace(AbstractTenant):
     def __unicode__(self):
 	""" used in the admin """
 	return u'%s'%self.name
+    def company_name(self):
+	return self.name.split('-')[0]
 
 def getDashboardNameFromEmail(email):
     return email.split('@')[1].replace('.', '-')

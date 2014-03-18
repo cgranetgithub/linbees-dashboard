@@ -87,13 +87,13 @@
 .frontbanner {
   color: white;
   background-color: rgb(47, 53, 62);
-  height: 400px;
+  height: 350px;
   line-height: 2;
   padding-top: 40px;
 }
 .signupbanner {
   background-color: #EEE;
-  padding-top: 20px;
+/*   padding-top: 20px; */
 }
 .navbar {
   margin-bottom: 0px;
@@ -104,6 +104,11 @@
   background-color: rgb(38, 45, 53);
   margin-bottom: 0px;
 }
-h1, h2 {
-  line-height: 2;
+#title_part_1 {
+  font-size: 35px;
+}
+#title_part_2 {
+/*   color: #0000CC; */
+  color: #4069E6;
+  font-size: 38px;
 }

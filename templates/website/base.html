@@ -12,7 +12,7 @@
   <meta name="author" content="linbees">
   <link rel="shortcut icon" href="{% static 'website/icon.png' %}">
 
-  <title>{% block title %}linbees{% endblock %}</title>
+  <title>{% block title %}Linbees{% endblock %}</title>
 
   <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!--[if lt IE 9]>
@@ -50,7 +50,7 @@
 	  <span class="icon-bar"></span>
 	  <span class="icon-bar"></span>
 	</button>
-	<a class="navbar-brand" href="{% url 'home' %}">linbees</a>
+	<a class="navbar-brand" href="{% url 'home' %}">Linbees</a>
       </div>
       <div class="navbar-collapse collapse">
 	<ul class="nav navbar-nav">
@@ -60,7 +60,7 @@
 	</ul>
 	<ul class="nav navbar-nav navbar-right">
 	  {% if user.is_authenticated %}
-	  <li><a href="{% url 'dashboard:overview' %}">{{ user.tenantlink.workspace.name }} dashboard</a></li>
+	  <li><a href="{% url 'dashboard:overview' %}">{% trans "My dashboard" %}</a></li>
 	  {% else %}
 	  <li><a href="{% url 'django.contrib.auth.views.login' %}">{% trans "Sign in" %}</a></li>
 	  {% endif %}

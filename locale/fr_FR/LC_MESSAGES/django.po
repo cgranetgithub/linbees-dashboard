@@ -570,7 +570,7 @@ msgstr ""
 
 #: templates/website/home.html:16
 msgid "See how it works"
-msgstr "Voir comment linbees fonctionne"
+msgstr "Voir la démo"
 
 #: templates/website/home.html:26
 msgid ""
