@@ -20,9 +20,9 @@
 
 {% block home %}
   <div class="row">
-    {% if activities_number == 0 %}
+    {% if tasks_number == 0 %}
       <div class="col-md-4 col-md-offset-2">
-	{% include 'dashboard/no_activity_message.html' %}
+	{% include 'dashboard/no_task_message.html' %}
       </div>
     {% elif nodata == True %}
       <div class="col-md-4 col-md-offset-2">

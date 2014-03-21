@@ -8,8 +8,8 @@
 
 {% block home %}
   <div class="row">
-    {% if activities_number == 0 %}
-      {% include 'dashboard/no_activity_message.html' %}
+    {% if tasks_number == 0 %}
+      {% include 'dashboard/no_task_message.html' %}
     {% elif nodata == True %}
       {% include 'dashboard/no_data_message.html' %}
     {% else %}

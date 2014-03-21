@@ -4,7 +4,7 @@ from django.test.client import Client
 from django.contrib.auth.models import User
 #import workspace first!
 from backapps.workspace.models import Workspace, getDashboardNameFromEmail
-from backapps.activity.models import Activity
+from backapps.task.models import Task
 from backapps.profile.models import Profile, createUserProfile
 from backapps.record.models import get_ongoing_task
 from libs.messages import register_but_ws_does_not_exist, existing_email
@@ -59,7 +59,7 @@ class RegisterTest(WebTest):
         form['password1'] = 'secret'
         form['password2'] = 'secret'
         response = form.submit().follow()
-        self.assertContains(response, "Select your activity")
+        self.assertContains(response, "Select your task")
         ws = Workspace.objects.get(name='lagat-com')
         user = User.objects.get(email='charlot@lagat.com')
         assert user.is_staff is False
@@ -109,8 +109,8 @@ class ChangeProjectTest(WebTest):
 	u = User.objects.create_user(username='charly@lagat.com'
 				     , password='secret')
 	self.p = createUserProfile(u, workspace)
-	Activity.for_tenant(workspace).objects.create(name='task1', owner=self.p)
-	Activity.for_tenant(workspace).objects.create(name='task2', owner=self.p)
+	Task.for_tenant(workspace).objects.create(name='task1', owner=self.p)
+	Task.for_tenant(workspace).objects.create(name='task2', owner=self.p)
 	c = Client()
 	c.post('/i18n/setlang/', {'language':'en'})
         form = self.app.get('/clientapp/login/').forms[0]
@@ -123,31 +123,31 @@ class ChangeProjectTest(WebTest):
         self.assertContains(response, "task2")
         self.assertNotContains(response, "task3")
         form = response.forms[0]
-        form.select("activities", '1')
+        form.select("tasks", '1')
         form.submit()
-        self.assertEqual(get_ongoing_task(self.p).activity.name, 'task1')
+        self.assertEqual(get_ongoing_task(self.p).task.name, 'task1')
 	response = self.app.get('/clientapp/')
         form = response.forms[0]
-        form.select("activities", '2')
+        form.select("tasks", '2')
         form.submit()
-        self.assertEqual(get_ongoing_task(self.p).activity.name, 'task2')
+        self.assertEqual(get_ongoing_task(self.p).task.name, 'task2')
 	response = self.app.get('/clientapp/')
         form = response.forms[0]
-        form.select("activities", '1')
+        form.select("tasks", '1')
         form.submit()
-        self.assertEqual(get_ongoing_task(self.p).activity.name, 'task1')
+        self.assertEqual(get_ongoing_task(self.p).task.name, 'task1')
     def test_set_off(self):
 	response = self.app.get('/clientapp/')
         self.assertContains(response, "task1")
         self.assertContains(response, "task2")
         self.assertNotContains(response, "task3")
         form = response.forms[0]
-        form.select("activities", '1')
+        form.select("tasks", '1')
         form.submit()
-        self.assertEqual(get_ongoing_task(self.p).activity.name, 'task1')
+        self.assertEqual(get_ongoing_task(self.p).task.name, 'task1')
 	response = self.app.get('/clientapp/')
         form = response.forms[0]
-        form.select("activities", '2')
+        form.select("tasks", '2')
         form.submit()
 	response = self.app.get('/clientapp/')
         form = response.forms[0]
@@ -159,8 +159,8 @@ class ChangeProjectTest(WebTest):
         self.assertContains(response, "task2")
         self.assertNotContains(response, "task3")
         form = response.forms[0]
-        form.select("activities", '1')
+        form.select("tasks", '1')
         form.submit()
-        self.assertEqual(get_ongoing_task(self.p).activity.name, 'task1')
+        self.assertEqual(get_ongoing_task(self.p).task.name, 'task1')
 	self.app.get('/clientapp/logout').follow()
         self.assertEqual(get_ongoing_task(self.p), None)

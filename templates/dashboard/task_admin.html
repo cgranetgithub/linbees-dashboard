@@ -6,11 +6,11 @@
   <div class="row">
     <div class="col-md-2 sidebar">
       <ul class="nav nav-sidebar">
-	<li><a href="{% url 'dashboard:activityNew' %}" class="list-group-item active">
-	  {% trans "Create a new activity" %}
+	<li><a href="{% url 'dashboard:taskNew' %}" class="list-group-item active">
+	  {% trans "Create a new task" %}
 	</a><li>
 	{% for c in choices %}
-	  <li><a href="{% url 'dashboard:activityEdit' c.id %}"">{{ c.name }}</a><li>
+	  <li><a href="{% url 'dashboard:taskEdit' c.id %}"">{{ c.name }}</a><li>
 	{% endfor %}
       </ul>
     </div>

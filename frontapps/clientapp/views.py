@@ -4,11 +4,11 @@ from django.contrib import auth
 from django.conf import settings
 #from django.utils.translation import ugettext, ugettext_lazy as _
 from django.core.urlresolvers import reverse, reverse_lazy
-from frontapps.clientapp.forms import ActivityForm, ClientUserForm
+from frontapps.clientapp.forms import TaskForm, ClientUserForm
 from backapps.profile.models import Profile
 from backapps.workspace.models import Workspace
 from backapps.record.models import Record, get_ongoing_task, new_task
-from backapps.activity.models import Activity
+from backapps.task.models import Task
 
 def client_login(request):
     return auth.views.login(request, template_name='clientapp/login.html'
@@ -33,24 +33,24 @@ def client_register(request):
 def client_home(request):
     workspace = request.user.tenantlink.workspace
     profile = Profile.for_tenant(workspace).objects.get(user=request.user)
-    last_activity = False
+    last_task = False
     if request.method == 'POST':
-        form = ActivityForm(request)
+        form = TaskForm(request)
         if form.is_valid():
             if 'clock_out' in request.POST:
-                activity = None
+                task = None
             else:
-                pid = form.cleaned_data['activities']
-                activity = Activity.for_tenant(workspace).objects.get(pk=pid)
-            new_task(profile, activity)
+                pid = form.cleaned_data['tasks']
+                task = Task.for_tenant(workspace).objects.get(pk=pid)
+            new_task(profile, task)
             return redirect(reverse('clientapp:home'))
     else:
-        last_activity = get_ongoing_task(profile) or False
-        if last_activity:
-            init = {'activities' : last_activity.activity.id}
+        last_task = get_ongoing_task(profile) or False
+        if last_task:
+            init = {'tasks' : last_task.task.id}
         else:
-            init = {'activities' : ''}
-        form = ActivityForm(request, initial=init)
+            init = {'tasks' : ''}
+        form = TaskForm(request, initial=init)
     records = Record.for_tenant(workspace
 				    ).objects.filter(user=profile
 				    ).order_by('start_original').reverse()[:5]
@@ -58,7 +58,7 @@ def client_home(request):
                                                  ,'form_action':"/clientapp/"
                                                  ,'records':records
                                                  ,'user':request.user
-                                                 ,'last_activity':last_activity
+                                                 ,'last_task':last_task
                                                  ,'debug':settings.DEBUG})
 
 @login_required(login_url=reverse_lazy('clientapp:login'))

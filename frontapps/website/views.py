@@ -12,15 +12,6 @@ def home(request):
 def dashboard(request):
     return render(request, 'website/dashboard.html')
 
-def sensor(request):
-    return render(request, 'website/sensor.html')
-
-def how(request):
-    return render(request, 'website/how.html')
-
-#def stories(request):
-    #return render(request, 'website/stories.html')
-
 def pricing(request):
     return render(request, 'website/pricing.html', {'price':settings.DEFAULT_PRICE})
 
@@ -29,23 +20,6 @@ def apps(request):
 
 def about(request):
     return render(request, 'website/about.html')
-
-#def contact(request):
-    #if request.method == 'POST': # If the form has been submitted...
-        #form = ContactForm(request.POST) # A form bound to the POST data
-        #if form.is_valid(): # All validation rules pass
-            #subject = form.cleaned_data['subject']
-            #message = form.cleaned_data['message']
-            #sender = form.cleaned_data['your_email']
-            #recipients = ['c.granet@gmail.com']
-            #send_mail(subject, message, sender, recipients)
-            #return redirect(reverse('website:home')) # Redirect after POST
-    #else:
-        #form = ContactForm() # An unbound form
-    #return render(request, 'website/contact.html', {
-        #'form' : form,
-        #'form_action' : reverse('website:contact'),
-    #})
 
 def legal(request):
     return render(request, 'website/legal.html')
@@ -63,3 +37,20 @@ class ContactView(FormView):
 class BlankView(View):
     def get(self, request, *args, **kwargs):
         return HttpResponse('connected!')
+
+#def contact(request):
+    #if request.method == 'POST': # If the form has been submitted...
+        #form = ContactForm(request.POST) # A form bound to the POST data
+        #if form.is_valid(): # All validation rules pass
+            #subject = form.cleaned_data['subject']
+            #message = form.cleaned_data['message']
+            #sender = form.cleaned_data['your_email']
+            #recipients = ['c.granet@gmail.com']
+            #send_mail(subject, message, sender, recipients)
+            #return redirect(reverse('website:home')) # Redirect after POST
+    #else:
+        #form = ContactForm() # An unbound form
+    #return render(request, 'website/contact.html', {
+        #'form' : form,
+        #'form_action' : reverse('website:contact'),
+    #})

@@ -30,7 +30,7 @@ class Profile(TenantModel):
 					   , verbose_name=_('HR admin'))
     is_admin_primary   = models.BooleanField(default=False
 					   , verbose_name=_('primary '
-'activities admin'))
+'tasks admin'))
     power_transfer = models.ManyToManyField('self', blank=True
 					   , verbose_name=_('has power '
 'transfer from'))

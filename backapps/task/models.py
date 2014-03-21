@@ -3,7 +3,7 @@ from django.utils.translation import ugettext_lazy as _
 from tenancy.models import TenantModel
 from backapps.profile.models import Profile
 
-class ActivityGroup(TenantModel):
+class TaskGroup(TenantModel):
     """
     Inherits TenantModel => tenant specific class
     """
@@ -18,7 +18,7 @@ class ActivityGroup(TenantModel):
     description = models.CharField(max_length=255, blank=True
 					      , verbose_name=_('description'))
 
-class ActivityType(TenantModel):
+class TaskType(TenantModel):
     """
     Inherits TenantModel => tenant specific class
     """
@@ -33,7 +33,7 @@ class ActivityType(TenantModel):
     description = models.CharField(max_length=255, blank=True
 					    , verbose_name=_('description'))
 
-class Activity(TenantModel):
+class Task(TenantModel):
     """
     Inherits TenantModel => tenant specific class
     """
@@ -51,12 +51,12 @@ class Activity(TenantModel):
 					      , verbose_name=_('name'))
     description = models.CharField(max_length=255, blank=True
 					      , verbose_name=_('description'))
-    p_group     = models.ForeignKey(ActivityGroup, blank=True, null=True
+    p_group     = models.ForeignKey(TaskGroup, blank=True, null=True
 					      , verbose_name=_('group'))
-    p_type      = models.ForeignKey(ActivityType, blank=True, null=True
+    p_type      = models.ForeignKey(TaskType, blank=True, null=True
 					      , verbose_name=_('type'))
     parent      = models.ForeignKey('self', blank=True, null=True
-					      , verbose_name=_('sub-activity of'))
+					      , verbose_name=_('sub-task of'))
     owner       = models.ForeignKey(Profile, verbose_name=_('owned by'))
     def __unicode__(self):
 	ret = ""
@@ -64,6 +64,6 @@ class Activity(TenantModel):
 	    ret = self.parent + "/"
 	return u'%s%s'%(ret, self.name)
     class Meta:
-	verbose_name = "Activity"
-	verbose_name_plural = "Activities"
+	verbose_name = "Task"
+	verbose_name_plural = "Tasks"
 	unique_together = (('name', 'parent'),)

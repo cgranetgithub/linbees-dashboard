@@ -17,13 +17,13 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: backapps/activity/forms.py:15 templates/administration/user_admin.html:8
+#: backapps/task/forms.py:15 templates/administration/user_admin.html:8
 #: templates/dashboard/base.html:57
-msgid "Activities"
+msgid "Tasks"
 msgstr "Tâches"
 
-#: backapps/activity/models.py:11 backapps/activity/models.py:26
-#: backapps/activity/models.py:41 backapps/department/models.py:10
+#: backapps/task/models.py:11 backapps/task/models.py:26
+#: backapps/task/models.py:41 backapps/department/models.py:10
 #: backapps/invoice/models.py:10 backapps/payment/models.py:12
 #: backapps/preference/models.py:19 backapps/profile/models.py:12
 #: backapps/profile/models.py:26 backapps/salary/models.py:8
@@ -32,8 +32,8 @@ msgstr "Tâches"
 msgid "active"
 msgstr "actif"
 
-#: backapps/activity/models.py:13 backapps/activity/models.py:28
-#: backapps/activity/models.py:43 backapps/department/models.py:12
+#: backapps/task/models.py:13 backapps/task/models.py:28
+#: backapps/task/models.py:43 backapps/department/models.py:12
 #: backapps/invoice/models.py:12 backapps/payment/models.py:14
 #: backapps/preference/models.py:21 backapps/profile/models.py:14
 #: backapps/profile/models.py:38 backapps/salary/models.py:10
@@ -42,8 +42,8 @@ msgstr "actif"
 msgid "created at"
 msgstr "créé le"
 
-#: backapps/activity/models.py:15 backapps/activity/models.py:30
-#: backapps/activity/models.py:45 backapps/department/models.py:14
+#: backapps/task/models.py:15 backapps/task/models.py:30
+#: backapps/task/models.py:45 backapps/department/models.py:14
 #: backapps/invoice/models.py:14 backapps/payment/models.py:16
 #: backapps/preference/models.py:23 backapps/profile/models.py:16
 #: backapps/profile/models.py:40 backapps/salary/models.py:12
@@ -51,39 +51,39 @@ msgstr "créé le"
 msgid "updated at"
 msgstr "mis à jour le"
 
-#: backapps/activity/models.py:17 backapps/activity/models.py:32
-#: backapps/activity/models.py:51 backapps/department/models.py:16
+#: backapps/task/models.py:17 backapps/task/models.py:32
+#: backapps/task/models.py:51 backapps/department/models.py:16
 #: backapps/satisfaction/models.py:14
 msgid "name"
 msgstr "nom"
 
-#: backapps/activity/models.py:19 backapps/activity/models.py:34
-#: backapps/activity/models.py:53 backapps/department/models.py:18
+#: backapps/task/models.py:19 backapps/task/models.py:34
+#: backapps/task/models.py:53 backapps/department/models.py:18
 #: backapps/satisfaction/models.py:16
 msgid "description"
 msgstr "description"
 
-#: backapps/activity/models.py:47
+#: backapps/task/models.py:47
 msgid "monitored"
 msgstr "suivi"
 
-#: backapps/activity/models.py:49
+#: backapps/task/models.py:49
 msgid "primary"
 msgstr "primaire"
 
-#: backapps/activity/models.py:55
+#: backapps/task/models.py:55
 msgid "group"
 msgstr "groupe"
 
-#: backapps/activity/models.py:57
+#: backapps/task/models.py:57
 msgid "type"
 msgstr "type"
 
-#: backapps/activity/models.py:59
-msgid "sub-activity of"
+#: backapps/task/models.py:59
+msgid "sub-task of"
 msgstr "sous-tâche de"
 
-#: backapps/activity/models.py:60
+#: backapps/task/models.py:60
 msgid "owned by"
 msgstr "appartenant à"
 
@@ -132,7 +132,7 @@ msgid "HR admin"
 msgstr "Admin RH"
 
 #: backapps/profile/models.py:32
-msgid "primary activities admin"
+msgid "primary tasks admin"
 msgstr "Admin d'tâche mère"
 
 #: backapps/profile/models.py:35
@@ -301,7 +301,7 @@ msgstr "Administration de linbees"
 
 #: templates/administration/account_admin.html:10
 #: templates/administration/workspace_admin.html:10
-#: templates/dashboard/activity_admin.html:22
+#: templates/dashboard/task_admin.html:22
 msgid "Apply"
 msgstr "appliquer"
 
@@ -327,15 +327,15 @@ msgid "Save"
 msgstr "Sauver"
 
 #: templates/clientapp/home.html:9
-msgid "Select your activity"
+msgid "Select your task"
 msgstr "Sélectionnez votre tâche"
 
 #: templates/clientapp/home.html:16
-msgid "There is no activity defined yet."
+msgid "There is no task defined yet."
 msgstr "Il n'y a aucune tâche définie."
 
 #: templates/clientapp/home.html:32
-msgid "Your last 5 activities"
+msgid "Your last 5 tasks"
 msgstr "Vos 5 dernières activités"
 
 #: templates/clientapp/login.html:7
@@ -367,8 +367,8 @@ msgstr "Annuler"
 msgid "back"
 msgstr "retour"
 
-#: templates/dashboard/activity_admin.html:10
-msgid "Create a new activity"
+#: templates/dashboard/task_admin.html:10
+msgid "Create a new task"
 msgstr "Créez une tâche"
 
 #: templates/dashboard/base.html:55
@@ -392,7 +392,7 @@ msgid "There is an issue with your last invoice. Please contact us."
 msgstr ""
 "Il y a un problème avec votre dernière facture. Veuillez nous contacter."
 
-#: templates/dashboard/no_activity_message.html:5
+#: templates/dashboard/no_task_message.html:5
 #: templates/dashboard/no_data_message.html:5
 msgid ""
 "We do not detect any data.</strong><br>Make sure you have done the following "
@@ -401,23 +401,23 @@ msgstr ""
 "Nous ne détectons aucune donnée.</strong><br>Veuillez vérifier que vous avez "
 "suivi les étapes suivantes:"
 
-#: templates/dashboard/no_activity_message.html:6
+#: templates/dashboard/no_task_message.html:6
 #: templates/dashboard/no_data_message.html:6 templates/signup/signup.html:21
 #: templates/website/home.html:44
 msgid "Sign up"
 msgstr "Inscrivez-vous"
 
-#: templates/dashboard/no_activity_message.html:7
+#: templates/dashboard/no_task_message.html:7
 #: templates/dashboard/no_data_message.html:7
-msgid "Create activities"
+msgid "Create tasks"
 msgstr "Définissez des tâches"
 
-#: templates/dashboard/no_activity_message.html:8
+#: templates/dashboard/no_task_message.html:8
 #: templates/dashboard/no_data_message.html:8 templates/website/home.html:48
 msgid "Share the app"
 msgstr "Partagez l'app"
 
-#: templates/dashboard/no_activity_message.html:9
+#: templates/dashboard/no_task_message.html:9
 #: templates/dashboard/no_data_message.html:9
 msgid "Collect data"
 msgstr "Collectez les données"
@@ -431,7 +431,7 @@ msgid "users"
 msgstr "utilisateurs"
 
 #: templates/dashboard/overview.html:11
-msgid "activities"
+msgid "tasks"
 msgstr "tâches"
 
 #: templates/dashboard/overview.html:38
@@ -466,7 +466,7 @@ msgstr "Qu'est que linbees"
 #: templates/website/about.html:8
 msgid ""
 "linbees is a cloud application platform – a new way of monitoring and "
-"managing internal activities."
+"managing internal tasks."
 msgstr ""
 "linbees est un service cloud – une nouvelle façon  de gérer l'tâche des "
 "entreprises."
@@ -474,7 +474,7 @@ msgstr ""
 #: templates/website/about.html:9
 msgid ""
 "With the minimum effort and constraint for the users, linbees brings the "
-"most powerful insight about internal activity to the management."
+"most powerful insight about internal task to the management."
 msgstr ""
 "linbees time permet d'obtenir une vue complète de l'tâche de votre "
 "oganisation, sans effort ni contrainte de la part des collaborateurs."
@@ -583,7 +583,7 @@ msgstr ""
 "télécharger et l'installer eux-mêmes."
 
 #: templates/website/home.html:54
-msgid "Get your activity reports"
+msgid "Get your task reports"
 msgstr "Obtenez vos rapports d'activité"
 
 #: templates/website/home.html:55

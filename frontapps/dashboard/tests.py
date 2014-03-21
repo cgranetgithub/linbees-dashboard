@@ -13,13 +13,13 @@ class SimpleJourneyTest(WebTest):
         form['password2'] = 'password1'
         #form['full_name'] = 'ws1'
         form.submit()
-        form = self.app.get('/dashboard/activity/new/').form
+        form = self.app.get('/dashboard/task/new/').form
         form['name'] = 'p0'
         form.submit()
-        form = self.app.get('/dashboard/activity/new/').form
+        form = self.app.get('/dashboard/task/new/').form
         form['name'] = 'p1'
         form.submit()
-        form = self.app.get('/dashboard/activity/new/').form
+        form = self.app.get('/dashboard/task/new/').form
         form['name'] = 'p2'
         form.submit()
         ws = Workspace.objects.get(name='password1-com')
@@ -31,8 +31,8 @@ class SimpleJourneyTest(WebTest):
         form['password'] = 'password1'
         form.submit()
 	response = self.app.get('/dashboard/')
-        self.assertContains(response, "password1-com")
-        self.assertContains(response, "3 activities")
+        self.assertContains(response, "password1")
+        self.assertContains(response, "3 tasks")
     def test_generate(self):
         form = self.app.get('/dashboard/login/').forms[0] #form 1 is the language one
         form['username'] = 'password1@password1.com'

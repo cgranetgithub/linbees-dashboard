@@ -40,7 +40,7 @@ def record2daily(queryset):
     #one_day = datetime.timedelta(1)
     #date_dict = defaultdict(defaultdict)
     #for record in queryset:
-	##activity_set.add(record.activity)
+	##task_set.add(record.task)
 	#if record.end() is not None:
 	    #start_date = record.start().date()
 	    #end_date = record.end().date()
@@ -51,7 +51,7 @@ def record2daily(queryset):
 	    ##same day
 	    #if start_date == end_date:
 		#duration = record.end() - record.start()
-		#date_dict[start_date][record.activity] += duration
+		#date_dict[start_date][record.task] += duration
 	    ##several days
 	    #else:
 		#iter_date = start_date
@@ -59,38 +59,38 @@ def record2daily(queryset):
 		#duration = datetime.datetime(iter_date.year, iter_date.month
 					    #, iter_date.day
 					    #, tzinfo=record.start().tzinfo) + one_day - record.start()
-		#date_dict[iter_date][record.activity] += duration
+		#date_dict[iter_date][record.task] += duration
 		##days in the middle
 		#while iter_date != end_date:
 		    #duration = datetime.timedelta(1)
 		    #if iter_date not in date_dict:
 			#date_dict[iter_date] = defaultdict(datetime.timedelta)
-		    #date_dict[iter_date][record.activity] += duration
+		    #date_dict[iter_date][record.task] += duration
 		    #iter_date += one_day
 		##last day
 		#duration = record.end() - datetime.datetime(iter_date.year, iter_date.month
 						      #, iter_date.day
 						      #, tzinfo=record.end().tzinfo)
-		#date_dict[iter_date][record.activity] += duration
+		#date_dict[iter_date][record.task] += duration
     #data_dict = OrderedDict(sorted(date_dict.items(), key=lambda t: t[0]))
     #return data_dict
 
-#def activitiesAlongTime2(workspace, activity_id=None):
+#def tasksAlongTime2(workspace, task_id=None):
     #t = datetime.datetime.now()
-    #if activity_id is not None:
-        #qs = Record.for_tenant(workspace).objects.filter(activity__id=activity_id)
-        #activities = [Activity.for_tenant(workspace).objects.get(pk=activity_id)]
+    #if task_id is not None:
+        #qs = Record.for_tenant(workspace).objects.filter(task__id=task_id)
+        #tasks = [Task.for_tenant(workspace).objects.get(pk=task_id)]
     #else:
         #qs = Record.for_tenant(workspace).objects.all()
-        #p_dicts = Record.for_tenant(workspace).objects.values("activity")
-        #p_list = [p["activity"] for p in p_dicts]
-        #activities = [Activity.for_tenant(workspace).objects.get(pk=p) for p in set(p_list)]
+        #p_dicts = Record.for_tenant(workspace).objects.values("task")
+        #p_list = [p["task"] for p in p_dicts]
+        #tasks = [Task.for_tenant(workspace).objects.get(pk=p) for p in set(p_list)]
     #if qs.count() == 0:
         #return ({}, [])
     #data_dict = records2days(qs)
-    #return (data_dict, activities)
+    #return (data_dict, tasks)
 
-#def cumulate(data_dict, activity_list):
+#def cumulate(data_dict, task_list):
     #if data_dict == {}:
           #return {}
     #cum_dict = defaultdict(defaultdict)
@@ -99,17 +99,17 @@ def record2daily(queryset):
     #cum_dict[prev_date] = data_dict[prev_date]
     #for date in dates[1:]:
         #cum_dict[date] = defaultdict(datetime.timedelta)
-        #for p in activity_list:
+        #for p in task_list:
             #cum_dict[date][p] = cum_dict[prev_date][p] + data_dict[date][p]
         #prev_date = date
     #ret_dict = OrderedDict(sorted(cum_dict.items(), key=lambda t: t[0]))
     #return ret_dict
 
-#def activitiesSum(workspace):
-    #activities = Activity.for_tenant(workspace).objects.all()
+#def tasksSum(workspace):
+    #tasks = Task.for_tenant(workspace).objects.all()
     #time_dict = defaultdict(datetime.timedelta)
-    #for p in activities:
-        #records = Record.for_tenant(workspace).objects.filter(activity__name__exact=p.name)
+    #for p in tasks:
+        #records = Record.for_tenant(workspace).objects.filter(task__name__exact=p.name)
         #sum_time = datetime.timedelta(0)
         #for r in records:
                 #if r.end() is not None:

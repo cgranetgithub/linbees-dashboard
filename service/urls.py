@@ -6,12 +6,12 @@ from django.contrib import admin
 admin.autodiscover()
 
 from tastypie.api import Api
-from libs.api.resources import (ActivityResource, RecordResource,
+from libs.api.resources import (TaskResource, RecordResource,
 				PreferenceResource, CloseLastRecordResource)
 
 v1_api = Api(api_name='v1')
 #v1_api.register(UserResource())
-v1_api.register(ActivityResource())
+v1_api.register(TaskResource())
 v1_api.register(RecordResource())
 v1_api.register(CloseLastRecordResource())
 v1_api.register(PreferenceResource())

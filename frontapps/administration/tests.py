@@ -14,7 +14,7 @@ class PagesAccessTest(WebTest):
     def test_pages_access(self):
 	c = Client()
 	c.login(username='charly@lagat.com', password='secret')
-	response = c.get('/dashboard/activity/new/')
+	response = c.get('/dashboard/task/new/')
         self.assertEqual(response.status_code, 200)
 	response = c.get('/administration/workspace/')
         self.assertEqual(response.status_code, 200)
@@ -54,7 +54,7 @@ class IsolationTest(WebTest):
 	form['username'] = 'user1@lagat.com'
 	form['password'] = 'user1@lagat.com'
         form.submit()
-        form = self.app.get('/dashboard/activity/new/').form
+        form = self.app.get('/dashboard/task/new/').form
         form['name'] = 'lagat-project'
         form.submit()
         ws = Workspace.objects.get(name='lagat-com')
@@ -72,7 +72,7 @@ class IsolationTest(WebTest):
 	form['username'] = 'user1@tagal.com'
 	form['password'] = 'user1@tagal.com'
         form.submit()
-        form = self.app.get('/dashboard/activity/new/').form
+        form = self.app.get('/dashboard/task/new/').form
         form['name'] = 'tagal-project'
         form.submit()
         ws = Workspace.objects.get(name='tagal-com')

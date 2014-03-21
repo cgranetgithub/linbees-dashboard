@@ -48,7 +48,7 @@ INSTALLED_APPS = (
     'backapps.workspace',
     'backapps.profile',
     'backapps.salary',
-    'backapps.activity',
+    'backapps.task',
     'backapps.record',
     'backapps.preference',
     'backapps.department',

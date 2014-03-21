@@ -2,7 +2,7 @@ import random, datetime, math
 from django.utils.timezone import utc
 from django.contrib.auth.models import User
 from backapps.record.models import Record, DailyRecord
-from backapps.activity.models import Activity
+from backapps.task.models import Task
 from backapps.profile.models import Profile, TenantLink, createUserProfile
 
 def fn(x, length):
@@ -22,14 +22,14 @@ def generate_users(workspace, nb=10):
 	user = User.objects.create_user(username=email, password=email, email=email)
 	createUserProfile(user, workspace)
 
-#def clean_activities(workspace):
-    #existing = Activity.for_tenant(workspace).objects.all()
+#def clean_tasks(workspace):
+    #existing = Task.for_tenant(workspace).objects.all()
     #existing.delete()
 
-#def generate_activities(workspace, nb=10):
+#def generate_tasks(workspace, nb=10):
     #for n in range(nb):
-	#name = "Activity_%d"%n
-	#Activity.for_tenant(workspace).objects.create(name=name)
+	#name = "Task_%d"%n
+	#Task.for_tenant(workspace).objects.create(name=name)
 
 def clean_records(workspace):
     existing = DailyRecord.for_tenant(workspace).objects.all()
@@ -38,8 +38,8 @@ def clean_records(workspace):
     existing.delete()
 
 def generate_records(workspace, begin_date=None, end_date=None):
-    activities = Activity.for_tenant(workspace).objects.all()
-    if activities.count() < 1:
+    tasks = Task.for_tenant(workspace).objects.all()
+    if tasks.count() < 1:
 	return
     if end_date is None:
 	end_date = datetime.datetime.today()
@@ -50,12 +50,12 @@ def generate_records(workspace, begin_date=None, end_date=None):
     cur = begin_date
     dailyrecord_list = []
     for u in users:
-	if activities.count() > 5:
+	if tasks.count() > 5:
 	    nb = 5
 	else:
-	    nb = activities.count()
+	    nb = tasks.count()
 	working_on = random.randint(1, nb)
-	plist = random.sample(activities, working_on)
+	plist = random.sample(tasks, working_on)
 	cur = begin_date
 	ite = random.randint(1, nb_days)
 	while cur != end_date:
@@ -67,7 +67,7 @@ def generate_records(workspace, begin_date=None, end_date=None):
 		delta = datetime.timedelta(hours=int(d), minutes=int(d%1*60))
 		end = start + delta
 		Record.for_tenant(workspace).objects.create(user=u
-							  , activity=p
+							  , task=p
 							  , start_override=start
 							  , end_original=end)
 		d = (random.uniform(7, 8) - cum)/(working_on)

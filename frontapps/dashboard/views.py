@@ -5,23 +5,23 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.utils.timezone import now
 from backapps.record.models import DailyRecord
-from backapps.activity.models import Activity
-from backapps.activity.forms import ActivityForm
+from backapps.task.models import Task
+from backapps.task.forms import TaskForm
 from backapps.profile.models import Profile
-from frontapps.dashboard.forms import TrialForm, ActivityUserForm
+from frontapps.dashboard.forms import TrialForm, TaskUserForm
 import libs.chart.generate_data as gen
 #from libs.forms import SelectForm
-from libs.chart.chart import (activities_total_time, activities_over_time, 
-			      cumulative_activity_over_time)
+from libs.chart.chart import (tasks_total_time, tasks_over_time, 
+			      cumulative_task_over_time)
 from tenancy.forms import tenant_modelform_factory
 
 def check_data_existence(request):
     workspace = request.user.tenantlink.workspace
-    context = {'activities_number': Activity.for_tenant(workspace
+    context = {'tasks_number': Task.for_tenant(workspace
 				      ).objects.filter(monitored=True).count()
 	      ,'nodata':not(DailyRecord.for_tenant(workspace).objects.exists())
 	      }
-    some_data = context['activities_number'] != 0 and not context['nodata']
+    some_data = context['tasks_number'] != 0 and not context['nodata']
     return (context, some_data)
 
 def has_paid(user):
@@ -59,37 +59,37 @@ def latePayment(request):
 	    #form = SelectForm(request, choices=choices, initial={'ulist':user.id})
 	#context = { 'form' : form
 		  #, 'form_action' : reverse('dashboard:users')}
-	##activities evolution over time
+	##tasks evolution over time
 	#(line_data, line_options) = users_over_time(workspace, user)
 	#context['chart1_data'] = line_data
 	#context['chart1_options'] = line_options
     #return render(request, 'dashboard/user.html', context)
 
 @login_required
-def activityAdmin(request, activity_id=None):
+def taskAdmin(request, task_id=None):
     workspace = request.user.tenantlink.workspace
-    #no_activity =    (Activity.for_tenant(workspace).objects.count() == 0)
-    no_activity = not(Activity.for_tenant(workspace).objects.exists())
-    activityTenantForm = tenant_modelform_factory(workspace, ActivityForm)
-    choices = Activity.for_tenant(workspace).objects.all()
+    #no_task =    (Task.for_tenant(workspace).objects.count() == 0)
+    no_task = not(Task.for_tenant(workspace).objects.exists())
+    taskTenantForm = tenant_modelform_factory(workspace, TaskForm)
+    choices = Task.for_tenant(workspace).objects.all()
     inst = None
-    if activity_id:
-	inst = Activity.for_tenant(workspace).objects.get(id=activity_id)
+    if task_id:
+	inst = Task.for_tenant(workspace).objects.get(id=task_id)
     if request.method == 'POST':
-	editform = activityTenantForm(request.POST, instance=inst)
+	editform = taskTenantForm(request.POST, instance=inst)
 	if editform.is_valid():
-	    new_activity = editform.save(commit=False)
+	    new_task = editform.save(commit=False)
 	    p = Profile.for_tenant(workspace).objects.get(user=request.user)
-	    new_activity.owner = p
-	    new_activity.save()
-	    return redirect(reverse('dashboard:activityNew'))
+	    new_task.owner = p
+	    new_task.save()
+	    return redirect(reverse('dashboard:taskNew'))
     #GET
     else:
-	editform = activityTenantForm(instance=inst)
-    return render(request, 'dashboard/activity_admin.html',
+	editform = taskTenantForm(instance=inst)
+    return render(request, 'dashboard/task_admin.html',
 		 {'editform':editform,
 		  'choices':choices,		  
-		  'no_activity':no_activity
+		  'no_task':no_task
 		 })
 
 @login_required
@@ -98,7 +98,7 @@ def time(request):
     (context, some_data) = check_data_existence(request)
     if some_data:
 	workspace = request.user.tenantlink.workspace
-	al = Activity.for_tenant(workspace).objects.filter(monitored=True)
+	al = Task.for_tenant(workspace).objects.filter(monitored=True)
 	a_choices = ( (p.id, p.name) for p in al )
 	ul = Profile.for_tenant(workspace).objects.all()
 	u_choices = ( (p.user_id, p.user.email) for p in ul )
@@ -107,24 +107,24 @@ def time(request):
 	startdate = None
 	enddate   = None
 	if request.method == 'POST':
-	    form = ActivityUserForm(request, activities=a_choices, users=u_choices)
+	    form = TaskUserForm(request, tasks=a_choices, users=u_choices)
 	    if form.is_valid():
-		a_select  = form.cleaned_data['activities']
+		a_select  = form.cleaned_data['tasks']
 		u_select  = form.cleaned_data['users']
 		startdate = form.cleaned_data['startdate']
 		enddate   = form.cleaned_data['enddate']
 	else:
-	    form = ActivityUserForm(request, activities=a_choices, users=u_choices)
+	    form = TaskUserForm(request, tasks=a_choices, users=u_choices)
 	context = {'form' : form,
 		   'form_action'   : reverse('dashboard:time')}
-	#activities time sum
-	(pie_data, pie_options) = activities_total_time(workspace, 
+	#tasks time sum
+	(pie_data, pie_options) = tasks_total_time(workspace, 
 							a_select, u_select,
 							startdate, enddate)
 	context['chart1_data'] = pie_data
 	context['chart1_options'] = pie_options
-	#activities evolution over time
-	(line_data, line_options) = activities_over_time(workspace, 
+	#tasks evolution over time
+	(line_data, line_options) = tasks_over_time(workspace, 
 							 a_select, u_select,
 							 startdate, enddate)
 	context['chart2_data'] = line_data
@@ -140,12 +140,12 @@ def overview(request):
     context['users_number'] = Profile.for_tenant(workspace).objects.filter(
 							is_active=True).count()
     if some_data:
-	#activities time sum
-	(pie_data, pie_options) = activities_total_time(workspace)
+	#tasks time sum
+	(pie_data, pie_options) = tasks_total_time(workspace)
 	context['chart1_data'] = pie_data
 	context['chart1_options'] = pie_options
-	#activities evolution over time
-	(bar_data, bar_options) = activities_over_time(workspace)
+	#tasks evolution over time
+	(bar_data, bar_options) = tasks_over_time(workspace)
 	context['chart2_data'] = bar_data
 	context['chart2_options'] = bar_options
     if workspace.on_trial:

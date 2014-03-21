@@ -4,7 +4,7 @@ from django.utils.timezone import utc
 from django.contrib.auth.models import User
 from backapps.workspace.models import Workspace
 from backapps.profile.models import createUserProfile
-from backapps.activity.models import Activity
+from backapps.task.models import Task
 from backapps.record.models import Record, DailyRecord
 
 class DurationTest(TestCase):
@@ -13,18 +13,18 @@ class DurationTest(TestCase):
 	auth = User.objects.create_user(username='charly@lagat.com'
 				     , password='secret')
 	self.user = createUserProfile(auth, self.workspace)
-	self.activity = Activity.for_tenant(self.workspace
+	self.task = Task.for_tenant(self.workspace
 				   ).objects.create(name='p0', owner=self.user)
     def test_record_and_override(self):
 	record = Record.for_tenant(self.workspace).objects.create(
-						  activity=self.activity
+						  task=self.task
 						, user=self.user)
 	record.end_original = ( record.start_original
 			      + datetime.timedelta(minutes=6) )
 	record.save()
 	dr = DailyRecord.for_tenant(self.workspace).objects.get(
 					  date=record.start_original.date()
-					, activity=self.activity
+					, task=self.task
 					, user=self.user)
 	self.assertEqual(float(dr.duration), 0.1)
 	record.start_override = ( record.start_original
@@ -32,7 +32,7 @@ class DurationTest(TestCase):
 	record.save()
 	dr = DailyRecord.for_tenant(self.workspace).objects.get(
 					  date=record.start_original.date()
-					, activity=self.activity
+					, task=self.task
 					, user=self.user)
 	self.assertEqual(float(dr.duration), 0.2)
 	record.end_override = ( record.start_original
@@ -40,12 +40,12 @@ class DurationTest(TestCase):
 	record.save()
 	dr = DailyRecord.for_tenant(self.workspace).objects.get(
 					  date=record.start_original.date()
-					, activity=self.activity
+					, task=self.task
 					, user=self.user)
 	self.assertEqual(float(dr.duration), 0.3)
     def test_multiple_days(self):
 	record = Record.for_tenant(self.workspace).objects.create(
-						  activity=self.activity
+						  task=self.task
 						, user=self.user)
 	record.end_original = ( record.start_original
 			      + datetime.timedelta(2) )
@@ -55,21 +55,21 @@ class DurationTest(TestCase):
 	aftertomorrow = today + datetime.timedelta(2)
 	dr1 = DailyRecord.for_tenant(self.workspace).objects.get(
 					  date=today
-					, activity=self.activity
+					, task=self.task
 					, user=self.user).duration
 	dr2 = DailyRecord.for_tenant(self.workspace).objects.get(
 					  date=tomorrow
-					, activity=self.activity
+					, task=self.task
 					, user=self.user).duration
 	self.assertEqual(float(dr2), 24)
 	dr3 = DailyRecord.for_tenant(self.workspace).objects.get(
 					  date=aftertomorrow
-					, activity=self.activity
+					, task=self.task
 					, user=self.user).duration
 	self.assertEqual(float(dr1+dr2+dr3), 48)
     def test_multiple_days_with_override(self):
 	record = Record.for_tenant(self.workspace).objects.create(
-						  activity=self.activity
+						  task=self.task
 						, user=self.user)
 	record.start_override = datetime.datetime(2012, 1, 1, 12, 0, tzinfo=utc)
 	record.end_override = ( record.start_override
@@ -80,17 +80,17 @@ class DurationTest(TestCase):
 	aftertomorrow = today + datetime.timedelta(2)
 	dr1 = DailyRecord.for_tenant(self.workspace).objects.get(
 					  date=today
-					, activity=self.activity
+					, task=self.task
 					, user=self.user).duration
 	self.assertEqual(float(dr1), 12)
 	dr2 = DailyRecord.for_tenant(self.workspace).objects.get(
 					  date=tomorrow
-					, activity=self.activity
+					, task=self.task
 					, user=self.user).duration
 	self.assertEqual(float(dr2), 24)
 	dr3 = DailyRecord.for_tenant(self.workspace).objects.get(
 					  date=aftertomorrow
-					, activity=self.activity
+					, task=self.task
 					, user=self.user).duration
 	self.assertEqual(float(dr3), 12)
 
@@ -100,11 +100,11 @@ class MultipleRecordADayTest(TestCase):
 	auth = User.objects.create_user(username='charly@lagat.com'
 				     , password='secret')
 	self.user = createUserProfile(auth, self.workspace)
-	self.activity = Activity.for_tenant(self.workspace
+	self.task = Task.for_tenant(self.workspace
 				   ).objects.create(name='p0', owner=self.user)
 	for i in range(2):
 	    record = Record.for_tenant(self.workspace).objects.create(
-						      activity=self.activity
+						      task=self.task
 						    , user=self.user)
 	    record.end_original = ( record.start_original
 				  + datetime.timedelta(minutes=6) )
@@ -112,20 +112,20 @@ class MultipleRecordADayTest(TestCase):
     def test_no_override(self):
 	for i in range(2):
 	    record = Record.for_tenant(self.workspace).objects.create(
-						      activity=self.activity
+						      task=self.task
 						    , user=self.user)
 	    record.end_original = ( record.start_original
 				  + datetime.timedelta(minutes=6) )
 	    record.save()
 	dr = DailyRecord.for_tenant(self.workspace).objects.get(
 					  date=record.start_original.date()
-					, activity=self.activity
+					, task=self.task
 					, user=self.user)
 	self.assertEqual(float(dr.duration), 0.4)
     def test_start_override(self):
 	for i in range(2):
 	    record = Record.for_tenant(self.workspace).objects.create(
-						      activity=self.activity
+						      task=self.task
 						    , user=self.user)
 	    record.start_override = ( record.start_original
 				  - datetime.timedelta(minutes=6) )
@@ -134,13 +134,13 @@ class MultipleRecordADayTest(TestCase):
 	    record.save()
 	dr = DailyRecord.for_tenant(self.workspace).objects.get(
 					  date=record.start_original.date()
-					, activity=self.activity
+					, task=self.task
 					, user=self.user)
 	self.assertEqual(float(dr.duration), 0.6)
     def test_end_override(self):
 	for i in range(2):
 	    record = Record.for_tenant(self.workspace).objects.create(
-						      activity=self.activity
+						      task=self.task
 						    , user=self.user)
 	    record.end_original = ( record.start_original
 				  + datetime.timedelta(minutes=3) )
@@ -149,13 +149,13 @@ class MultipleRecordADayTest(TestCase):
 	    record.save()
 	dr = DailyRecord.for_tenant(self.workspace).objects.get(
 					  date=record.start_original.date()
-					, activity=self.activity
+					, task=self.task
 					, user=self.user)
 	self.assertEqual(float(dr.duration), 0.4)
     def test_both_override(self):
 	for i in range(2):
 	    record = Record.for_tenant(self.workspace).objects.create(
-						      activity=self.activity
+						      task=self.task
 						    , user=self.user)
 	    record.start_override = ( record.start_original
 				  - datetime.timedelta(minutes=3) )
@@ -166,7 +166,7 @@ class MultipleRecordADayTest(TestCase):
 	    record.save()
 	dr = DailyRecord.for_tenant(self.workspace).objects.get(
 					  date=record.start_original.date()
-					, activity=self.activity
+					, task=self.task
 					, user=self.user)
 	self.assertEqual(float(dr.duration), 0.4)
       
