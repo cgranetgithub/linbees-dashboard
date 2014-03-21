@@ -10,9 +10,9 @@
 {% endblock head %}
 
 {% block home %}
-    <hr class="featurette-divider">
-    <div class="container">
-	<form method="post" action="{% url 'django.contrib.auth.views.login' %}" class="form-signin" role="form">
+  <div class="container">
+    <div class="row">
+      <form method="post" action="{% url 'django.contrib.auth.views.login' %}" class="form-signin" role="form">
 	{% csrf_token %}
 	{% bootstrap_form form label_class='sr-only' show_help=False %}
 	{% buttons %}
@@ -20,8 +20,8 @@
 	    {% trans "Sign in" %}
 	  </button>
 	{% endbuttons %}
-	</form>
-	<p class="text-center">{% trans "No account yet?" %}  <a href="{% url 'signup:signup' %}">{% trans "Sign up now" %}</a></p>
-    </div><!-- /.container -->
-    <hr class="featurette-divider">
+      </form>
+      <p class="text-center">{% trans "No account yet?" %}  <a href="{% url 'signup:signup' %}">{% trans "Sign up now" %}</a></p>
+    </div>
+  </div><!-- /.container -->
 {% endblock home %}

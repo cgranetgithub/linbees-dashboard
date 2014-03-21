@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-03-21 15:03+0000\n"
+"POT-Creation-Date: 2014-03-21 16:25+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -398,10 +398,10 @@ msgstr ""
 "suivi les étapes suivantes:"
 
 #: templates/dashboard/no_data_message.html:6
-#: templates/dashboard/no_task_message.html:6 templates/signup/signup.html:21
+#: templates/dashboard/no_task_message.html:6 templates/signup/signup.html:20
 #: templates/website/home.html:44
 msgid "Sign up"
-msgstr "Inscrivez-vous"
+msgstr "S'inscire"
 
 #: templates/dashboard/no_data_message.html:7
 #: templates/dashboard/no_task_message.html:7
@@ -449,10 +449,6 @@ msgstr "Pas encore de compte ?"
 #: templates/registration/login.html:24 templates/website/home.html:64
 #: templates/website/pricing.html:16
 msgid "Sign up now"
-msgstr "Inscription"
-
-#: templates/signup/signup.html:16
-msgid "Please sign up"
 msgstr "Inscription"
 
 #: templates/website/about.html:7
@@ -621,3 +617,6 @@ msgstr "Une question ?"
 #: templates/website/pricing.html:23
 msgid "Contact our sales team"
 msgstr "Contactez notre équipe commerciale"
+
+#~ msgid "Please sign up"
+#~ msgstr "Inscription"
