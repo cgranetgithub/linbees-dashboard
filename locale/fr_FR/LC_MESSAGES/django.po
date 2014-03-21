@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-03-12 11:51+0100\n"
+"POT-Creation-Date: 2014-03-21 09:40+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,9 +18,9 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 #: backapps/activity/forms.py:15 templates/administration/user_admin.html:8
-#: templates/dashboard/base.html:59
+#: templates/dashboard/base.html:57
 msgid "Activities"
-msgstr "Activités"
+msgstr "Tâches"
 
 #: backapps/activity/models.py:11 backapps/activity/models.py:26
 #: backapps/activity/models.py:41 backapps/department/models.py:10
@@ -49,7 +49,7 @@ msgstr "créé le"
 #: backapps/profile/models.py:40 backapps/salary/models.py:12
 #: backapps/satisfaction/models.py:12 backapps/workspace/models.py:48
 msgid "updated at"
-msgstr ""
+msgstr "mis à jour le"
 
 #: backapps/activity/models.py:17 backapps/activity/models.py:32
 #: backapps/activity/models.py:51 backapps/department/models.py:16
@@ -61,7 +61,7 @@ msgstr "nom"
 #: backapps/activity/models.py:53 backapps/department/models.py:18
 #: backapps/satisfaction/models.py:16
 msgid "description"
-msgstr ""
+msgstr "description"
 
 #: backapps/activity/models.py:47
 msgid "monitored"
@@ -77,11 +77,11 @@ msgstr "groupe"
 
 #: backapps/activity/models.py:57
 msgid "type"
-msgstr ""
+msgstr "type"
 
 #: backapps/activity/models.py:59
 msgid "sub-activity of"
-msgstr "sous-projet de"
+msgstr "sous-tâche de"
 
 #: backapps/activity/models.py:60
 msgid "owned by"
@@ -109,7 +109,7 @@ msgstr "commentaire"
 
 #: backapps/preference/models.py:8
 msgid "Keep on top"
-msgstr "Maintenir au dessus"
+msgstr "Toujours devant"
 
 #: backapps/profile/forms.py:84 templates/administration/user_admin.html:11
 msgid "Users"
@@ -125,19 +125,19 @@ msgstr ""
 
 #: backapps/profile/models.py:28
 msgid "workspace admin"
-msgstr ""
+msgstr "Admin du workspace"
 
 #: backapps/profile/models.py:30
 msgid "HR admin"
-msgstr ""
+msgstr "Admin RH"
 
 #: backapps/profile/models.py:32
 msgid "primary activities admin"
-msgstr ""
+msgstr "Admin d'tâche mère"
 
 #: backapps/profile/models.py:35
 msgid "has power transfer from"
-msgstr ""
+msgstr "délégation de"
 
 #: backapps/salary/models.py:14
 msgid "user"
@@ -159,19 +159,18 @@ msgstr "salaire mensuel"
 
 #: backapps/salary/models.py:19
 msgid "this reprensents the cost of the employee per month"
-msgstr "cette valeur repr&#233;sente le co&#251;t du salari&#233; par mois"
+msgstr "cette valeur représente le coût du salarié par mois"
 
 #: backapps/workspace/models.py:21
 msgid "in trial mode"
-msgstr "en p&#233;riode d'essai"
+msgstr "en période d'essai"
 
 #: backapps/workspace/models.py:22
 msgid ""
 "this field indicate that your are using your workspace for evaluation. "
 "Deactivate it once you are ready to go to production mode."
 msgstr ""
-"ce champ indique si vous utilisez linbees en mode &#233;valuation ou "
-"production."
+"ce champ indique si vous utilisez linbees en mode évaluation ou production."
 
 #: backapps/workspace/models.py:26
 msgid "main contact name"
@@ -187,7 +186,7 @@ msgstr ""
 
 #: backapps/workspace/models.py:32
 msgid "address (line1)"
-msgstr "Adresse (ligne 1)"
+msgstr "adresse (ligne 1)"
 
 #: backapps/workspace/models.py:35
 msgid "zipcode"
@@ -212,6 +211,8 @@ msgstr "nom du tableau de bord"
 #: backapps/workspace/models.py:51
 msgid "by default, the dashboard name is your company email domain"
 msgstr ""
+"par défaut, le nom du tableau de bord est celui du nom de domaine de votre "
+"société"
 
 #: backapps/workspace/models.py:58
 msgid "next invoice date"
@@ -226,6 +227,8 @@ msgstr "nombre d'utilisateurs"
 msgid ""
 "%(name)s, your account was successfully created. Welcome to %(ws)s dashboard!"
 msgstr ""
+"%(name)s, votre compte a été créé avec succès. Bienvenue sur le tableau de "
+"bord de %(ws)s !"
 
 #: frontapps/website/forms.py:7
 msgid "Your email address"
@@ -241,6 +244,8 @@ msgid ""
 "It seems that your company '%(workspace)s' has not registered yet. You will "
 "be able to create your an account once your company is registered."
 msgstr ""
+"Il semble que votre société '%(workspace)s' n'a pas encore été enregistrée. "
+"Vous pourrez créer un compte lorsque votre société aura été enregistrée."
 
 #: libs/messages.py:7
 #, python-format
@@ -249,12 +254,18 @@ msgid ""
 "'%(domain)s'). You need to have your own company email domain. If you do not "
 "have one, please contact us, we will find a solution!"
 msgstr ""
+"Nous ne pouvons enregistrer les adresses emails des fournisseurs d'accès "
+"publiques comme '%(domain)s'). Vous devez utilisez l'adresse email de votre "
+"société. Si vous n'en avez pas, contactez nous. Nous trouverons une "
+"solution !"
 
 #: libs/messages.py:12
 msgid ""
 "There is already a dashboard with that name. Someone in your company has "
 "created it. Please contact that person."
 msgstr ""
+"Il y a déja un tableau de bord avec ce nom. Quelqu'un dans votre société l'a "
+"déjà créé. Merci de le contacter."
 
 #: libs/messages.py:15
 msgid "A user with that email already exists."
@@ -266,15 +277,15 @@ msgstr "Bienvenue"
 
 #: templates/admin/base.html:33
 msgid "Documentation"
-msgstr ""
+msgstr "Documentation"
 
 #: templates/admin/base.html:36
 msgid "Change password"
 msgstr "Changer le mot de passe"
 
-#: templates/admin/base.html:38 templates/dashboard/base.html:63
+#: templates/admin/base.html:38 templates/dashboard/base.html:61
 msgid "Log out"
-msgstr "D&#233;connexion"
+msgstr "Déconnexion"
 
 #: templates/admin/base.html:47
 msgid "Home"
@@ -282,25 +293,25 @@ msgstr "Accueil"
 
 #: templates/admin/base_site.html:4
 msgid "linbees site admin"
-msgstr ""
+msgstr "Admin de Linbees"
 
 #: templates/admin/base_site.html:7
 msgid "linbees administration"
-msgstr ""
+msgstr "Administration de linbees"
 
 #: templates/administration/account_admin.html:10
 #: templates/administration/workspace_admin.html:10
-#: templates/dashboard/activity_admin.html:32
+#: templates/dashboard/activity_admin.html:22
 msgid "Apply"
 msgstr "appliquer"
 
 #: templates/administration/admin.html:9
-msgid "Company info"
-msgstr "Info société"
-
-#: templates/administration/admin.html:10
 msgid "Change my password"
 msgstr "Changer mon mot de passe"
+
+#: templates/administration/admin.html:10
+msgid "Company info"
+msgstr "Info société"
 
 #: templates/administration/user_admin.html:14
 msgid "Workspace"
@@ -317,11 +328,11 @@ msgstr "Sauver"
 
 #: templates/clientapp/home.html:9
 msgid "Select your activity"
-msgstr "Sélectionnez votre activité"
+msgstr "Sélectionnez votre tâche"
 
 #: templates/clientapp/home.html:16
 msgid "There is no activity defined yet."
-msgstr "Il n'y a aucune activité définie."
+msgstr "Il n'y a aucune tâche définie."
 
 #: templates/clientapp/home.html:32
 msgid "Your last 5 activities"
@@ -338,15 +349,15 @@ msgstr "S'identifier"
 
 #: templates/clientapp/login.html:17
 msgid "Or create a new account"
-msgstr "Cr&#233;er un compte"
+msgstr "Ou créez un compte"
 
 #: templates/clientapp/register.html:11
 msgid "Create your account"
-msgstr "Cr&#233;ez un compte"
+msgstr "Créez votre compte"
 
 #: templates/clientapp/register.html:15
 msgid "Create"
-msgstr "Cr&#233;er"
+msgstr "Créer"
 
 #: templates/clientapp/register.html:17
 msgid "Cancel"
@@ -356,42 +367,19 @@ msgstr "Annuler"
 msgid "back"
 msgstr "retour"
 
-#: templates/dashboard/activity_admin.html:9
-msgid "You have not created any activity yet."
-msgstr ""
-
 #: templates/dashboard/activity_admin.html:10
-msgid "Please define below the activities you would like to monitor."
-msgstr ""
-
-#: templates/dashboard/activity_admin.html:11
-msgid ""
-"For each activity, give its name, its owner (probably you) and validate."
-msgstr ""
-
-#: templates/dashboard/activity_admin.html:17
 msgid "Create a new activity"
-msgstr "Cr&#233;er une activité"
+msgstr "Créez une tâche"
 
-#: templates/dashboard/analysis.html:5
-msgid "Analysis"
-msgstr ""
-
-#: templates/dashboard/analysis.html:6
-msgid ""
-"You need at least 1 year of collected data before you can use the analysis "
-"module."
-msgstr ""
-
-#: templates/dashboard/base.html:57
+#: templates/dashboard/base.html:55
 msgid "Overview"
 msgstr "Vue d'ensemble"
 
-#: templates/dashboard/base.html:58
+#: templates/dashboard/base.html:56
 msgid "Time"
 msgstr "Temps"
 
-#: templates/dashboard/base.html:62
+#: templates/dashboard/base.html:60
 msgid "Settings"
 msgstr "Réglages"
 
@@ -402,66 +390,55 @@ msgstr "Paiement"
 #: templates/dashboard/late_payment.html:6
 msgid "There is an issue with your last invoice. Please contact us."
 msgstr ""
-
-#: templates/dashboard/no_activity_message.html:4
-msgid ""
-"This is probably the first time you come to your dashboard, as we do not "
-"detect any activity yet."
-msgstr ""
+"Il y a un problème avec votre dernière facture. Veuillez nous contacter."
 
 #: templates/dashboard/no_activity_message.html:5
+#: templates/dashboard/no_data_message.html:5
 msgid ""
-"The first thing you need to do is to define the tasks and projects (we call "
-"them activities) that you would like to monitor."
+"We do not detect any data.</strong><br>Make sure you have done the following "
+"actions:"
 msgstr ""
+"Nous ne détectons aucune donnée.</strong><br>Veuillez vérifier que vous avez "
+"suivi les étapes suivantes:"
 
 #: templates/dashboard/no_activity_message.html:6
-msgid ""
-"These activities will automatically appear in the linbees application, to "
-"your teams."
-msgstr ""
+#: templates/dashboard/no_data_message.html:6 templates/signup/signup.html:21
+#: templates/website/home.html:44
+msgid "Sign up"
+msgstr "Inscrivez-vous"
 
 #: templates/dashboard/no_activity_message.html:7
-msgid "To create activities, go to the "
-msgstr ""
+#: templates/dashboard/no_data_message.html:7
+msgid "Create activities"
+msgstr "Définissez des tâches"
 
 #: templates/dashboard/no_activity_message.html:8
-msgid "activity adminstration section"
-msgstr ""
+#: templates/dashboard/no_data_message.html:8 templates/website/home.html:48
+msgid "Share the app"
+msgstr "Partagez l'app"
 
 #: templates/dashboard/no_activity_message.html:9
-msgid " and create some activities."
-msgstr ""
+#: templates/dashboard/no_data_message.html:9
+msgid "Collect data"
+msgstr "Collectez les données"
 
-#: templates/dashboard/no_data_message.html:4
-msgid "We do not detect any data to display."
-msgstr "Il n'y a aucune donn&#233;e &#224; afficher"
+#: templates/dashboard/no_data_message.html:8
+msgid "(click here to go to the download section)"
+msgstr "(cliquez ici pour aller dans la section des téléchargements)"
 
-#: templates/dashboard/no_data_message.html:5
-msgid "This means that your teams are not using linbees yet."
-msgstr ""
-
-#: templates/dashboard/no_data_message.html:6
-msgid "Click here to go to the linbees download page."
-msgstr ""
-
-#: templates/dashboard/overview.html:11
+#: templates/dashboard/overview.html:10
 msgid "users"
 msgstr "utilisateurs"
 
-#: templates/dashboard/overview.html:12
+#: templates/dashboard/overview.html:11
 msgid "activities"
-msgstr "activit&#233;s"
+msgstr "tâches"
 
-#: templates/dashboard/overview.html:13
-msgid "dashboard created on"
-msgstr "cr&#233;&#233; le"
-
-#: templates/dashboard/overview.html:41
+#: templates/dashboard/overview.html:38
 msgid "Generate"
-msgstr ""
+msgstr "Générer"
 
-#: templates/dashboard/time.html:23
+#: templates/dashboard/time.html:39
 msgid "Submit"
 msgstr "Envoyer"
 
@@ -473,16 +450,13 @@ msgstr "Retour au début"
 msgid "No account yet?"
 msgstr "Pas encore de compte ?"
 
-#: templates/registration/login.html:24 templates/website/home.html:46
+#: templates/registration/login.html:24 templates/website/home.html:64
+#: templates/website/pricing.html:16
 msgid "Sign up now"
-msgstr "S'inscrire"
+msgstr "Inscription"
 
 #: templates/signup/signup.html:16
 msgid "Please sign up"
-msgstr "S'inscrire"
-
-#: templates/signup/signup.html:21 templates/website/home.html:27
-msgid "Sign up"
 msgstr "Inscription"
 
 #: templates/website/about.html:7
@@ -494,22 +468,24 @@ msgid ""
 "linbees is a cloud application platform – a new way of monitoring and "
 "managing internal activities."
 msgstr ""
-"linbees est un service cloud &#224; une nouvelle fa&#231;on  de g&#233;rer "
-"l'activit&#233; interne des entreprises en suivant le temps de travail."
+"linbees est un service cloud – une nouvelle façon  de gérer l'tâche des "
+"entreprises."
 
 #: templates/website/about.html:9
 msgid ""
 "With the minimum effort and constraint for the users, linbees brings the "
 "most powerful insight about internal activity to the management."
 msgstr ""
-"linbees time permet d'obtenir une vue compl&#233;te de l'activit&#233; de "
-"votreoganisation, sans effort ni contrainte de la part des collaborateurs."
+"linbees time permet d'obtenir une vue complète de l'tâche de votre "
+"oganisation, sans effort ni contrainte de la part des collaborateurs."
 
 #: templates/website/about.html:10
 msgid ""
 "linbees is a start-up company based in Paris, founded by seasoned engineers, "
 "experts in project and process management."
 msgstr ""
+"linbees est une start-up basée à Paris, fondée par des ingénieurs "
+"expérimentés, experts dans la gestion de projet et de process."
 
 #: templates/website/about.html:11
 msgid "Our philosophy"
@@ -519,38 +495,48 @@ msgstr "Notre philosophy"
 msgid "Constraint-less and simple!"
 msgstr "Faire simple et sans contrainte !"
 
-#: templates/website/apps.html:17 templates/website/apps.html.py:23
-#: templates/website/apps.html:29
+#: templates/website/apps.html:16 templates/website/apps.html.py:22
+#: templates/website/apps.html:28
 msgid "for"
 msgstr "pour"
 
-#: templates/website/apps.html:18
+#: templates/website/apps.html:17
 msgid ""
-"Download Linbees app for Windows, compatible with Windows XP and later "
+"Download Linbees app for Windows<br>compatible with Windows XP and later "
 "(32/64 bit)"
 msgstr ""
+"Téléchargez l'app Linbees pour Windows<br>compatible avec Windows XP et "
+"versions ultérieures (32/64 bit)"
 
-#: templates/website/apps.html:24
-msgid "Download Linbees app for Linux, compatible with any 64 bit distro"
+#: templates/website/apps.html:23
+msgid "Download Linbees app for Linux<br>compatible with any 64 bit distro"
 msgstr ""
+"Téléchargez l'app Linbees pour Linus<br>compatible avec toutes les distro 64 "
+"bit"
 
-#: templates/website/apps.html:30
+#: templates/website/apps.html:29
 msgid ""
-"Download Linbees app for Mac, compatible with Mac OS X 10.6 and later (64 "
+"Download Linbees app for Mac<br>compatible with Mac OS X 10.6 and later (64 "
 "bit)"
 msgstr ""
+"Téléchargez l'app Linbees pour Mac<br>compatible avec Mac OS X 10.6 et "
+"versions ultérieures (64 bit)"
 
 #: templates/website/base.html:57
 msgid "Pricing"
-msgstr "Tarif"
+msgstr "Tarifs"
 
-#: templates/website/base.html:58 templates/website/home.html:33
+#: templates/website/base.html:58 templates/website/home.html:50
 msgid "Download"
-msgstr "T&#233;l&#233;charger"
+msgstr "Télécharger"
 
 #: templates/website/base.html:59
 msgid "Contact"
-msgstr ""
+msgstr "Contact"
+
+#: templates/website/base.html:63
+msgid "My dashboard"
+msgstr "Mon tableau de bord"
 
 #: templates/website/contact.html:13
 msgid "Any question?"
@@ -560,232 +546,78 @@ msgstr "Une question ?"
 msgid "Send"
 msgstr "Envoyer"
 
-#: templates/website/home.html:14
-msgid "We help you capture genuine data"
-msgstr ""
+#: templates/website/home.html:30
+msgid "Connect with your staff"
+msgstr "Connect with your staff"
 
-#: templates/website/home.html:15
-msgid "A real-time-tracking solution for the industry"
-msgstr ""
+#: templates/website/home.html:30
+msgid " and get real data"
+msgstr " and get real data"
 
-#: templates/website/home.html:16
+#: templates/website/home.html:31
+msgid "Innovative time-tracking technology"
+msgstr "Technologie innovante de suivi des temps"
+
+#: templates/website/home.html:33
 msgid "See how it works"
 msgstr "Voir la démo"
 
-#: templates/website/home.html:26
-msgid ""
-"Click on sign up to create an account for your company. It's instant, it's "
-"free, no credit card is required."
-msgstr ""
+#: templates/website/home.html:42
+msgid "Create your dashboard"
+msgstr "Créez votre tableau de bord"
 
-#: templates/website/home.html:32
+#: templates/website/home.html:43
 msgid ""
-"Download the app and give them to your users. Or ask them to download and "
-"install themselves. We have apps for most operating systems."
+"Create an account for your company.<br>It's instant, it's free, no credit "
+"card is required."
 msgstr ""
+"Enregistrez votre société.<br>C'est instantané, gratuit et ne nécessite pas "
+"de carte bancaire."
 
-#: templates/website/home.html:38
+#: templates/website/home.html:49
 msgid ""
-"Go to your dashboard and start seeing the activity of your teams, projects, "
-"the related costs... and much more!"
+"Download the app and send it to your employees.<br>Or let them download and "
+"install it themselves."
 msgstr ""
+"Téléchargez l'app et envoyez là à vos employés.<br>Ou laissez les la "
+"télécharger et l'installer eux-mêmes."
 
-#: templates/website/home.html:39
+#: templates/website/home.html:54
+msgid "Get your activity reports"
+msgstr "Obtenez vos rapports d'activité"
+
+#: templates/website/home.html:55
+msgid ""
+"Go to your dashboard and check how much time is spent on each task of your "
+"company."
+msgstr ""
+"Accédez votre tableau de bord et vérifiez le temps passé sur chaque tâche de "
+"votre société."
+
+#: templates/website/home.html:56
 msgid "Go to your dashboard"
 msgstr "Accédez à votre tableau de bord"
 
-#: templates/website/how.html:8
-msgid "Discover how linbees works"
-msgstr "Découvrez comment linbees fonctionne."
-
 #: templates/website/legal.html:7
 msgid "Legal"
-msgstr "Informations l&#233;gales"
+msgstr "Informations légales"
 
-#: templates/website/pricing.html:8
-msgid "\tper user and per month."
-msgstr "\tpar utilisateur et par mois."
+#: templates/website/pricing.html:13
+msgid "/ active user / month"
+msgstr "/ utilisateur actif / mois"
 
-#: templates/website/pricing.html:9
-msgid "No subscription, you pay as you go."
-msgstr "Pas de souscription, vous payez selon votre consommation."
+#: templates/website/pricing.html:14
+msgid "(the first three months are free)"
+msgstr "(les trois premiers mois sont offerts)"
 
-#: templates/website/pricing.html:10
-msgid "Try it out, the first three months are offered!"
-msgstr "Essayez, les trois premiers mois sont offerts."
+#: templates/website/pricing.html:22
+msgid "Pay as you go!"
+msgstr "Payez en fonction de votre utilisation"
 
-#: templates/website/stories.html:7
-msgid "Client stories"
-msgstr "Exp&#233;riences clients"
+#: templates/website/pricing.html:23
+msgid "Any special request?"
+msgstr "Une question ?"
 
-#~ msgid "start date must be lower than end date"
-#~ msgstr ""
-#~ "la date de dbut doit &#234;tre inf&#233;rieure &#224; la date de fin"
-
-#~ msgid "overlapping dates detected"
-#~ msgstr "certaines fen&#234;tres de temps se chevauchent"
-
-#~ msgid ""
-#~ "this will be the name of your dashboard. You might want to use the name "
-#~ "of your company."
-#~ msgstr "Ce nom sera utilis&#233; pour nommer votre tableau de bord."
-
-#~ msgid ""
-#~ "name of the contact who will receive important information, such has "
-#~ "invoices."
-#~ msgstr ""
-#~ "nom du contact qui recevra les informations importantes, par exemple "
-#~ "lesfactures"
-
-#~ msgid ""
-#~ "email address of the contact who will receive important information, such "
-#~ "has invoices."
-#~ msgstr ""
-#~ "email du contact qui recevra les informations importantes, par exemple "
-#~ "lesfactures"
-
-#~ msgid "postal address of your organization."
-#~ msgstr "Adresse postale de la soci&#233;t&#233;"
-
-#~ msgid "address (line2)"
-#~ msgstr "Adresse (ligne 2)"
-
-#~ msgid "company"
-#~ msgstr "soci&#233;t&#233;"
-
-#~ msgid "company you belong to."
-#~ msgstr "soci&#233;t&#233; dont vous d&#233;pendez"
-
-#~ msgid "this workspace does not exist."
-#~ msgstr "ce compte n'est pas reconnu."
-
-#~ msgid "Subject"
-#~ msgstr "Sujet"
-
-#~ msgid "There is currently no activity in your workspace."
-#~ msgstr "Vous n'avez pas encore cr&#233;&#233; de projet."
-
-#~ msgid "Please create one below."
-#~ msgstr "Vous pouvez cr&#233;er des projets &#224; partir de cette page."
-
-#~ msgid "Fill a name and click on the apply button."
-#~ msgstr "Saisissez un nom et validez."
-
-#~ msgid "Add"
-#~ msgstr "Ajout"
-
-#~ msgid "Connected as"
-#~ msgstr "Connect&#233; en tant que"
-
-#~ msgid "logout"
-#~ msgstr "se d&#233;connecter"
-
-#~ msgid "You are not connected."
-#~ msgstr "Vous n'&#233;tes pas connect&#233;"
-
-#~ msgid "Need some help?"
-#~ msgstr "Besoin d'aide?"
-
-#~ msgid "Click here!"
-#~ msgstr "Cliquez ici !"
-
-#~ msgid "Last records"
-#~ msgstr "Derniers enregistrements"
-
-#~ msgid "Please make sure that the apps are being used."
-#~ msgstr ""
-#~ "V&#233;rifiez que les utilisateurs ont t&#233;l&#233;charg&#233; et "
-#~ "utilisent l'application linbees."
-
-#~ msgid "About"
-#~ msgstr "A propos"
-
-#~ msgid "There is currently no activity."
-#~ msgstr "Il n'y a aucun projet."
-
-#~ msgid ""
-#~ "Please got to the adminstration section and make sure you have some "
-#~ "activities that you want to monitor."
-#~ msgstr ""
-#~ "Allez dans la section administration et v&#233;rifiez que vous avez "
-#~ "cr&#233;&#233; des projets"
-
-#~ msgid "There is no data yet."
-#~ msgstr "Il n'y a pas de donn&#233;es pour l'instant."
-
-#~ msgid "Make sure that the apps are being used by the users."
-#~ msgstr ""
-#~ "V&#233;rifiez que les utilisateurs ont t&#233;l&#233;charg&#233; et "
-#~ "utilisent l'application linbees."
-
-#~ msgid "Please got to the adminstration section and create some activities."
-#~ msgstr "Allez dans la section administration pour cr&#233;er des projets"
-
-#~ msgid "Your username and password didn't match. Please try again."
-#~ msgstr "Email ou mot de passe incorrect, veuillez r&#233;essayer"
-
-#~ msgid "Signup"
-#~ msgstr "Cr&#233;er un compte"
-
-#~ msgid "How it works"
-#~ msgstr "Comment &#231;a marche"
-
-#~ msgid "Login"
-#~ msgstr "Connexion"
-
-#~ msgid ""
-#~ "At linbees we imagine new approaches for projects and production "
-#~ "management."
-#~ msgstr ""
-#~ "linbees imagine des approches nouvelles de la gestion des projets et "
-#~ "productions."
-
-#~ msgid ""
-#~ "linbees proposes an innovative solution for monitoring activity inside "
-#~ "companies and organizations."
-#~ msgstr ""
-#~ "linbees propose une solution innovante pour suivre l'activit&#233; d'une "
-#~ "entreprise ou d'une organisation."
-
-#~ msgid "What can it do for me?"
-#~ msgstr "Qu'est que linbees peut faire pour moi ?"
-
-#~ msgid ""
-#~ "linbees enables you to record the time that your teams, groups and "
-#~ "divisions spent on they activities, tasks and activities."
-#~ msgstr ""
-#~ "linbees permet d'enregistrer le temps pass&#233; par vos collaborateurs, "
-#~ "&#233;quipes, groupes sur les diff&#233;rents projets et t&#226;ches de "
-#~ "la soci&#233;t&#233;."
-
-#~ msgid ""
-#~ "linbees aggregates all this information and shows you how time your "
-#~ "company or organization spent on each activities, but more important, how "
-#~ "much it costs."
-#~ msgstr ""
-#~ "linbees agr&#233;ge toutes ces donn&#233;es pour fournir le temps "
-#~ "pass&#233; sur chaque projet, mais &#233;galement le co&#251;t de chaque "
-#~ "projet."
-
-#~ msgid "Check-out these video"
-#~ msgstr "Regardez ces vid&#233;os"
-
-#~ msgid "Sign up, it's free!"
-#~ msgstr "Cr&#233;ez un compte, c'est gratuit !"
-
-#~ msgid ""
-#~ "Signup is free, no credit card is required and it takes only 2 minutes to "
-#~ "get your own environment ready."
-#~ msgstr ""
-#~ "D&#233;ployer linbees est gratuit et ne prend que 2 minutes (pas de carte "
-#~ "bancaire n&#233;cessaire)."
-
-#~ msgid "Pay as you go"
-#~ msgstr "Payez suivant votre utilisation"
-
-#~ msgid ""
-#~ "Pricing is based on the number of users actively using the service. There "
-#~ "is no subscription. You pay only for what you use."
-#~ msgstr ""
-#~ "La facturation est bas&#233;e sur le nombre d'utilisateurs actifs. Il n'y "
-#~ "a pas d'engagement. Vous payez pour ce que vous utilisez."
+#: templates/website/pricing.html:23
+msgid "Contact our sales team"
+msgstr "Contactez notre équipe commerciale"

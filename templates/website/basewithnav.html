@@ -1,0 +1,35 @@
+{% extends "website/base.html" %}
+{% load url from future %}
+{% load i18n %}
+
+
+{% block nav-buttons %}
+  <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+    <span class="sr-only">Toggle navigation</span>
+    <span class="icon-bar"></span>
+    <span class="icon-bar"></span>
+    <span class="icon-bar"></span>
+    <span class="icon-bar"></span>
+    <span class="icon-bar"></span>
+  </button>
+{% endblock nav-buttons %}
+
+{% block nav-links %}
+<div class="navbar-collapse collapse">
+  <ul class="nav navbar-nav">
+    <li><a href="{% url 'website:pricing' %}">{% trans "Pricing" %}</a></li>
+    <li><a href="{% url 'website:apps' %}">{% trans "Download" %}</a></li>
+    <li><a href="{% url 'website:contact' %}">{% trans "Contact" %}</a></li>
+  </ul>
+  <ul class="nav navbar-nav navbar-right">
+    {% if user.is_authenticated %}
+      <li><a href="{% url 'dashboard:overview' %}">{% trans "My dashboard" %}</a></li>
+    {% else %}
+      <li><a href="{% url 'django.contrib.auth.views.login' %}">{% trans "Sign in" %}</a></li>
+    {% endif %}
+  </ul>
+</div>
+{% endblock nav-links %}
+
+{% block home %}
+{% endblock %}

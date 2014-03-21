@@ -9,7 +9,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="">
-  <meta name="author" content="linbees">
+  <meta name="author" content="">
   <link rel="shortcut icon" href="{% static 'website/icon.png' %}">
 
   <title>{% block title %}Linbees{% endblock %}</title>
@@ -19,7 +19,7 @@
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
   <![endif]-->
-  
+
   <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
   {% load bootstrap3 %}
@@ -36,36 +36,18 @@
   {% endblock %}
 </head>
 
+<!-- NAVBAR
+================================================== -->
 <body>
-
-  <!-- NAVBAR
-  ================================================== -->
-  <div class="navbar navbar-inverse navbar-static-top" role="navigation">
+  <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
     <div class="container">
       <div class="navbar-header">
-	<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-	  <span class="sr-only">Toggle navigation</span>
-	  <span class="icon-bar"></span>
-	  <span class="icon-bar"></span>
-	  <span class="icon-bar"></span>
-	  <span class="icon-bar"></span>
-	</button>
 	<a class="navbar-brand" href="{% url 'home' %}">Linbees</a>
+	{% block nav-buttons %}
+	{% endblock nav-buttons %}
       </div>
-      <div class="navbar-collapse collapse">
-	<ul class="nav navbar-nav">
-	  <li><a href="{% url 'website:pricing' %}">{% trans "Pricing" %}</a></li>
-	  <li><a href="{% url 'website:apps' %}">{% trans "Download" %}</a></li>
-	  <li><a href="{% url 'website:contact' %}">{% trans "Contact" %}</a></li>
-	</ul>
-	<ul class="nav navbar-nav navbar-right">
-	  {% if user.is_authenticated %}
-	  <li><a href="{% url 'dashboard:overview' %}">{% trans "My dashboard" %}</a></li>
-	  {% else %}
-	  <li><a href="{% url 'django.contrib.auth.views.login' %}">{% trans "Sign in" %}</a></li>
-	  {% endif %}
-	</ul>
-      </div>
+      {% block nav-links %}
+      {% endblock nav-links %}
     </div>
   </div>
 
@@ -75,9 +57,9 @@
     <!-- FOOTER -->
   <div id="footer">
     <div class="container">
-      {% include "website/lang_snippet.html" %}
+      <p>{% include "website/lang_snippet.html" %}</p>
       <p class="pull-right"><a href="#">{% trans "Back to top" %}</a></p>
-<!--       <p>© 2014 linbees SAS · <a href="#">Privacy</a> · <a href="{% url 'website:legal' %}">Terms</a></p> -->
+<!--       <p>© 2014 Linbees SAS · <a href="#">Privacy</a> · <a href="{% url 'website:legal' %}">Terms</a></p> -->
     </div><!-- /.container -->
   </div><!-- /.footer -->
 
