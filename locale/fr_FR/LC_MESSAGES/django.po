@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-03-21 09:40+0000\n"
+"POT-Creation-Date: 2014-03-21 15:03+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,75 +17,46 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: backapps/task/forms.py:15 templates/administration/user_admin.html:8
-#: templates/dashboard/base.html:57
-msgid "Tasks"
-msgstr "Tâches"
-
-#: backapps/task/models.py:11 backapps/task/models.py:26
-#: backapps/task/models.py:41 backapps/department/models.py:10
-#: backapps/invoice/models.py:10 backapps/payment/models.py:12
-#: backapps/preference/models.py:19 backapps/profile/models.py:12
-#: backapps/profile/models.py:26 backapps/salary/models.py:8
-#: backapps/satisfaction/models.py:8 backapps/satisfaction/models.py:23
+#: backapps/department/models.py:10 backapps/invoice/models.py:10
+#: backapps/payment/models.py:12 backapps/preference/models.py:19
+#: backapps/profile/models.py:12 backapps/profile/models.py:26
+#: backapps/salary/models.py:8 backapps/satisfaction/models.py:8
+#: backapps/satisfaction/models.py:23 backapps/task/models.py:11
+#: backapps/task/models.py:26 backapps/task/models.py:41
 #: backapps/workspace/models.py:44
 msgid "active"
 msgstr "actif"
 
-#: backapps/task/models.py:13 backapps/task/models.py:28
-#: backapps/task/models.py:43 backapps/department/models.py:12
-#: backapps/invoice/models.py:12 backapps/payment/models.py:14
-#: backapps/preference/models.py:21 backapps/profile/models.py:14
-#: backapps/profile/models.py:38 backapps/salary/models.py:10
-#: backapps/satisfaction/models.py:10 backapps/satisfaction/models.py:25
+#: backapps/department/models.py:12 backapps/invoice/models.py:12
+#: backapps/payment/models.py:14 backapps/preference/models.py:21
+#: backapps/profile/models.py:14 backapps/profile/models.py:38
+#: backapps/salary/models.py:10 backapps/satisfaction/models.py:10
+#: backapps/satisfaction/models.py:25 backapps/task/models.py:13
+#: backapps/task/models.py:28 backapps/task/models.py:43
 #: backapps/workspace/models.py:46
 msgid "created at"
 msgstr "créé le"
 
+#: backapps/department/models.py:14 backapps/invoice/models.py:14
+#: backapps/payment/models.py:16 backapps/preference/models.py:23
+#: backapps/profile/models.py:16 backapps/profile/models.py:40
+#: backapps/salary/models.py:12 backapps/satisfaction/models.py:12
 #: backapps/task/models.py:15 backapps/task/models.py:30
-#: backapps/task/models.py:45 backapps/department/models.py:14
-#: backapps/invoice/models.py:14 backapps/payment/models.py:16
-#: backapps/preference/models.py:23 backapps/profile/models.py:16
-#: backapps/profile/models.py:40 backapps/salary/models.py:12
-#: backapps/satisfaction/models.py:12 backapps/workspace/models.py:48
+#: backapps/task/models.py:45 backapps/workspace/models.py:48
 msgid "updated at"
 msgstr "mis à jour le"
 
+#: backapps/department/models.py:16 backapps/satisfaction/models.py:14
 #: backapps/task/models.py:17 backapps/task/models.py:32
-#: backapps/task/models.py:51 backapps/department/models.py:16
-#: backapps/satisfaction/models.py:14
+#: backapps/task/models.py:51
 msgid "name"
 msgstr "nom"
 
+#: backapps/department/models.py:18 backapps/satisfaction/models.py:16
 #: backapps/task/models.py:19 backapps/task/models.py:34
-#: backapps/task/models.py:53 backapps/department/models.py:18
-#: backapps/satisfaction/models.py:16
+#: backapps/task/models.py:53
 msgid "description"
 msgstr "description"
-
-#: backapps/task/models.py:47
-msgid "monitored"
-msgstr "suivi"
-
-#: backapps/task/models.py:49
-msgid "primary"
-msgstr "primaire"
-
-#: backapps/task/models.py:55
-msgid "group"
-msgstr "groupe"
-
-#: backapps/task/models.py:57
-msgid "type"
-msgstr "type"
-
-#: backapps/task/models.py:59
-msgid "sub-task of"
-msgstr "sous-tâche de"
-
-#: backapps/task/models.py:60
-msgid "owned by"
-msgstr "appartenant à"
 
 #: backapps/invoice/models.py:16
 msgid "sent at"
@@ -160,6 +131,35 @@ msgstr "salaire mensuel"
 #: backapps/salary/models.py:19
 msgid "this reprensents the cost of the employee per month"
 msgstr "cette valeur représente le coût du salarié par mois"
+
+#: backapps/task/forms.py:15 templates/administration/user_admin.html:8
+#: templates/dashboard/base.html:57
+msgid "Tasks"
+msgstr "Tâches"
+
+#: backapps/task/models.py:47
+msgid "monitored"
+msgstr "suivi"
+
+#: backapps/task/models.py:49
+msgid "primary"
+msgstr "primaire"
+
+#: backapps/task/models.py:55
+msgid "group"
+msgstr "groupe"
+
+#: backapps/task/models.py:57
+msgid "type"
+msgstr "type"
+
+#: backapps/task/models.py:59
+msgid "sub-task of"
+msgstr "sous-tâche de"
+
+#: backapps/task/models.py:60
+msgid "owned by"
+msgstr "appartenant à"
 
 #: backapps/workspace/models.py:21
 msgid "in trial mode"
@@ -343,7 +343,7 @@ msgid "Please sign in"
 msgstr "S'identifier"
 
 #: templates/clientapp/login.html:11 templates/registration/login.html:20
-#: templates/website/base.html:65
+#: templates/website/basewithnav.html:28
 msgid "Sign in"
 msgstr "S'identifier"
 
@@ -367,10 +367,6 @@ msgstr "Annuler"
 msgid "back"
 msgstr "retour"
 
-#: templates/dashboard/task_admin.html:10
-msgid "Create a new task"
-msgstr "Créez une tâche"
-
 #: templates/dashboard/base.html:55
 msgid "Overview"
 msgstr "Vue d'ensemble"
@@ -392,8 +388,8 @@ msgid "There is an issue with your last invoice. Please contact us."
 msgstr ""
 "Il y a un problème avec votre dernière facture. Veuillez nous contacter."
 
-#: templates/dashboard/no_task_message.html:5
 #: templates/dashboard/no_data_message.html:5
+#: templates/dashboard/no_task_message.html:5
 msgid ""
 "We do not detect any data.</strong><br>Make sure you have done the following "
 "actions:"
@@ -401,30 +397,30 @@ msgstr ""
 "Nous ne détectons aucune donnée.</strong><br>Veuillez vérifier que vous avez "
 "suivi les étapes suivantes:"
 
-#: templates/dashboard/no_task_message.html:6
-#: templates/dashboard/no_data_message.html:6 templates/signup/signup.html:21
+#: templates/dashboard/no_data_message.html:6
+#: templates/dashboard/no_task_message.html:6 templates/signup/signup.html:21
 #: templates/website/home.html:44
 msgid "Sign up"
 msgstr "Inscrivez-vous"
 
-#: templates/dashboard/no_task_message.html:7
 #: templates/dashboard/no_data_message.html:7
+#: templates/dashboard/no_task_message.html:7
 msgid "Create tasks"
 msgstr "Définissez des tâches"
 
-#: templates/dashboard/no_task_message.html:8
-#: templates/dashboard/no_data_message.html:8 templates/website/home.html:48
+#: templates/dashboard/no_data_message.html:8
+#: templates/dashboard/no_task_message.html:8 templates/website/home.html:48
 msgid "Share the app"
 msgstr "Partagez l'app"
-
-#: templates/dashboard/no_task_message.html:9
-#: templates/dashboard/no_data_message.html:9
-msgid "Collect data"
-msgstr "Collectez les données"
 
 #: templates/dashboard/no_data_message.html:8
 msgid "(click here to go to the download section)"
 msgstr "(cliquez ici pour aller dans la section des téléchargements)"
+
+#: templates/dashboard/no_data_message.html:9
+#: templates/dashboard/no_task_message.html:9
+msgid "Collect data"
+msgstr "Collectez les données"
 
 #: templates/dashboard/overview.html:10
 msgid "users"
@@ -438,13 +434,13 @@ msgstr "tâches"
 msgid "Generate"
 msgstr "Générer"
 
+#: templates/dashboard/task_admin.html:10
+msgid "Create a new task"
+msgstr "Créez une tâche"
+
 #: templates/dashboard/time.html:39
 msgid "Submit"
 msgstr "Envoyer"
-
-#: templates/registration/base.html:57 templates/website/base.html:79
-msgid "Back to top"
-msgstr "Retour au début"
 
 #: templates/registration/login.html:24
 msgid "No account yet?"
@@ -460,31 +456,31 @@ msgid "Please sign up"
 msgstr "Inscription"
 
 #: templates/website/about.html:7
-msgid "What is linbees?"
-msgstr "Qu'est que linbees"
+msgid "What is Linbees?"
+msgstr "Qu'est que Linbees"
 
 #: templates/website/about.html:8
 msgid ""
-"linbees is a cloud application platform – a new way of monitoring and "
-"managing internal tasks."
+"Linbees is a cloud application platform – a new way of monitoring and "
+"managing internal activities."
 msgstr ""
-"linbees est un service cloud – une nouvelle façon  de gérer l'tâche des "
+"Linbees est un service cloud – une nouvelle façon  de gérer l'activité des "
 "entreprises."
 
 #: templates/website/about.html:9
 msgid ""
-"With the minimum effort and constraint for the users, linbees brings the "
-"most powerful insight about internal task to the management."
+"With the minimum effort and constraint for the users, Linbees brings the "
+"most powerful insight about internal activities to the management."
 msgstr ""
-"linbees time permet d'obtenir une vue complète de l'tâche de votre "
+"Linbees permet d'obtenir une vue complète de l'activité de votre "
 "oganisation, sans effort ni contrainte de la part des collaborateurs."
 
 #: templates/website/about.html:10
 msgid ""
-"linbees is a start-up company based in Paris, founded by seasoned engineers, "
+"Linbees is a start-up company based in Paris, founded by seasoned engineers, "
 "experts in project and process management."
 msgstr ""
-"linbees est une start-up basée à Paris, fondée par des ingénieurs "
+"Linbees est une start-up basée à Paris, fondée par des ingénieurs "
 "expérimentés, experts dans la gestion de projet et de process."
 
 #: templates/website/about.html:11
@@ -522,19 +518,23 @@ msgstr ""
 "Téléchargez l'app Linbees pour Mac<br>compatible avec Mac OS X 10.6 et "
 "versions ultérieures (64 bit)"
 
-#: templates/website/base.html:57
+#: templates/website/base.html:61
+msgid "Back to top"
+msgstr "Retour au début"
+
+#: templates/website/basewithnav.html:20
 msgid "Pricing"
 msgstr "Tarifs"
 
-#: templates/website/base.html:58 templates/website/home.html:50
+#: templates/website/basewithnav.html:21 templates/website/home.html:50
 msgid "Download"
 msgstr "Télécharger"
 
-#: templates/website/base.html:59
+#: templates/website/basewithnav.html:22
 msgid "Contact"
 msgstr "Contact"
 
-#: templates/website/base.html:63
+#: templates/website/basewithnav.html:26
 msgid "My dashboard"
 msgstr "Mon tableau de bord"
 
@@ -583,7 +583,7 @@ msgstr ""
 "télécharger et l'installer eux-mêmes."
 
 #: templates/website/home.html:54
-msgid "Get your task reports"
+msgid "Get your activity reports"
 msgstr "Obtenez vos rapports d'activité"
 
 #: templates/website/home.html:55
