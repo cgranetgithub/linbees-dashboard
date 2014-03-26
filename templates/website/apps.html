@@ -4,29 +4,38 @@
 
 {% block head %}
   <link href="{% static 'website/carousel.css' %}" rel="stylesheet">
-  <link href="{% static 'website/justified-nav.css' %}" rel="stylesheet">
+<!--   <link href="{% static 'website/justified-nav.css' %}" rel="stylesheet"> -->
 {% endblock head %}
 
 {% block home %}
+  <div class="container">
+    <div class="row">
+      <h1 class="text-primary text-center">{% trans "Download the Linbees app" %}</h1>
+    </div><!-- /.row -->
+  </div><!-- /.container -->
+
   <div class="container marketing">
     <div class="row">
-      <div class="col-lg-4">
-	<a href="{% static 'website/linbees-1.2-win32.msi' %}">
-	  <img onmouseout="this.src='{% static 'website/windows-logo.png' %}'" onmouseover="this.src='{% static 'website/windows-logo-highlight.png' %}'" src="{% static 'website/windows-logo.png' %}" /></a>
+      <div class="col-lg-4 col-sm-4">
+	<img src="{% static 'website/windows.png' %}" />
 	<h2>{% trans "for" %} Windows</h2>
-	<p>{% trans "Download Linbees app for Windows<br>compatible with Windows XP and later (32/64 bit)" %}</p>
+	<a href="{% static 'website/linbees-1.2-win32.msi' %}">
+	  {% trans "linbees-1.2-win32.msi" %}
+	</a>
       </div><!-- /.col-lg-4 -->
       <div class="col-lg-4">
-	<a href="{% static 'website/linbees-1.2.linux-x86_64.tar.gz' %}">
-	  <img onmouseout="this.src='{% static 'website/linux-logo.png' %}'" onmouseover="this.src='{% static 'website/linux-logo-highlight.png' %}'" src="{% static 'website/linux-logo.png' %}" /></a>
-	<h2>{% trans "for" %} Linux</h2>
-	<p>{% trans "Download Linbees app for Linux<br>compatible with any 64 bit distro" %}</p>
-      </div><!-- /.col-lg-4 -->
-      <div class="col-lg-4">
-	<a href="{% static 'website/linbees-1.2.dmg' %}">
-	  <img onmouseout="this.src='{% static 'website/mac-logo.png' %}'" onmouseover="this.src='{% static 'website/mac-logo-highlight.png' %}'" src="{% static 'website/mac-logo.png' %}" /></a>
+	<img src="{% static 'website/mac.png' %}" />
 	<h2>{% trans "for" %} Mac</h2>
-	<p>{% trans "Download Linbees app for Mac<br>compatible with Mac OS X 10.6 and later (64 bit)" %}</p>
+	<a href="{% static 'website/linbees-1.2.dmg' %}">
+	  {% trans "linbees-1.2.dmg" %}
+	</a>
+      </div><!-- /.col-lg-4 -->
+      <div class="col-lg-4">
+	<img src="{% static 'website/linux.png' %}" />
+	<h2>{% trans "for" %} Linux</h2>
+	<a href="{% static 'website/linbees-1.2.linux-x86_64.tar.gz' %}">
+	  {% trans "linbees-1.2.linux-x86_64.tar.gz" %}
+	</a>
       </div><!-- /.col-lg-4 -->
     </div><!-- /.row -->
   </div><!-- /.container -->
