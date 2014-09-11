@@ -1,9 +1,9 @@
 from django.db import models
-from django.contrib.auth.models import User
-from django.utils.translation import ugettext_lazy as _
 from tenancy.models import TenantModel
-from backapps.department.models import Department
-from backapps.workspace.models import Workspace
+from django.utils.translation import ugettext_lazy as _
+from backapps.workspace.models import Workspace   ### MUST BE FIST BEFORE
+from backapps.department.models import Department ### TENANT CLASS
+from django.contrib.auth.models import User
 
 class TenantLink(models.Model):
     user      = models.OneToOneField(User, primary_key=True)

@@ -22,14 +22,15 @@ def generate_users(workspace, nb=10):
 	user = User.objects.create_user(username=email, password=email, email=email)
 	createUserProfile(user, workspace)
 
-#def clean_tasks(workspace):
-    #existing = Task.for_tenant(workspace).objects.all()
-    #existing.delete()
+def clean_tasks(workspace):
+    existing = Task.for_tenant(workspace).objects.all()
+    existing.delete()
 
-#def generate_tasks(workspace, nb=10):
-    #for n in range(nb):
-	#name = "Task_%d"%n
-	#Task.for_tenant(workspace).objects.create(name=name)
+def generate_tasks(workspace, user, nb=10):
+    owner = Profile.for_tenant(workspace).objects.get(user=user)
+    for n in range(nb):
+	name = "Task_%d"%n
+	Task.for_tenant(workspace).objects.create(name=name, owner=owner)
 
 def clean_records(workspace):
     existing = DailyRecord.for_tenant(workspace).objects.all()

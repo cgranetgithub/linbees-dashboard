@@ -1,4 +1,6 @@
 from django.db import models
+from django.utils.translation import ugettext_lazy as _
+from tenancy.models import TenantModel
 
 class Criteria(TenantModel):
     """

@@ -1,12 +1,12 @@
 import datetime
-from tenancy.models import TenantModel
 from django.db import models
 from django.db.models import Sum, Q
 from django.db.models.signals import post_save
 from django.utils.timezone import now
-from backapps.task.models import Task
 from backapps.profile.models import Profile
+from backapps.task.models import Task
 from libs.chart.calculus import record2daily
+from tenancy.models import TenantModel
 
 class Record(TenantModel):
     """

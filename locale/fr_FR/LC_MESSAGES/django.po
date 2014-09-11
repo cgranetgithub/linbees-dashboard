@@ -401,7 +401,7 @@ msgstr ""
 #: templates/dashboard/no_task_message.html:6 templates/signup/signup.html:20
 #: templates/website/home.html:44
 msgid "Sign up"
-msgstr "S'inscire"
+msgstr "Créez un compte"
 
 #: templates/dashboard/no_data_message.html:7
 #: templates/dashboard/no_task_message.html:7
@@ -567,8 +567,7 @@ msgid ""
 "Create an account for your company.<br>It's instant, it's free, no credit "
 "card is required."
 msgstr ""
-"Enregistrez votre société.<br>C'est instantané, gratuit et ne nécessite pas "
-"de carte bancaire."
+"Créez un compe.<br>C'est instantané, gratuit et sans engagement."
 
 #: templates/website/home.html:49
 msgid ""

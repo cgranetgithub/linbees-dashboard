@@ -11,9 +11,9 @@ SECRET_KEY = '(jut!-c_9j^a==v$+6(-w3x7v#%*ljd7y2h0w-=*d4r@f5hy-z'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'djangodb',
-        'USER': 'charles',
-        'PASSWORD': 'sc39cf63',
+        'NAME': 'linbees',
+        'USER': 'devlinbees',
+        'PASSWORD': 'test',
         'HOST': 'localhost',
         'PORT': '',
     }
