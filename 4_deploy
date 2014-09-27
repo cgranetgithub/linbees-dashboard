@@ -1,3 +1,6 @@
+before deploy do the following
+
+1) update internationalization locally
 python manage.py makemessages  --settings=service.settings.dev --all -i venv
 python manage.py compilemessages  --settings=service.settings.dev
 

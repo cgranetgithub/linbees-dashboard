@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-09-27 14:20+0000\n"
+"POT-Creation-Date: 2014-09-27 20:37+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -133,6 +133,7 @@ msgid "this reprensents the cost of the employee per month"
 msgstr "cette valeur représente le coût du salarié par mois"
 
 #: backapps/task/forms.py:15 templates/administration/user_admin.html:8
+#: templates/dashboard/base.html:57
 msgid "Projects"
 msgstr "Projets"
 
@@ -374,10 +375,6 @@ msgstr "Vue d'ensemble"
 msgid "Time"
 msgstr "Temps"
 
-#: templates/dashboard/base.html:57
-msgid "Project"
-msgstr "Projet"
-
 #: templates/dashboard/base.html:60
 msgid "Settings"
 msgstr "Réglages"
@@ -471,7 +468,8 @@ msgstr "Temps par projet au cours du temps<br><small>(en heures)</small>"
 
 #: templates/dashboard/time.html:57
 msgid "Cumulated time per project over time<br><small>(in hours)</small>"
-msgstr "Temps cumulé par projet au cours du temps<br><small>(en heures)</small>"
+msgstr ""
+"Temps cumulé par projet au cours du temps<br><small>(en heures)</small>"
 
 #: templates/registration/login.html:24
 msgid "No account yet?"
@@ -637,6 +635,9 @@ msgstr "Une question ?"
 #: templates/website/pricing.html:23
 msgid "Contact our sales team"
 msgstr "Contactez notre équipe commerciale"
+
+#~ msgid "Project"
+#~ msgstr "Projet"
 
 #~ msgid "Projects repartition"
 #~ msgstr "Répartition des projets"
