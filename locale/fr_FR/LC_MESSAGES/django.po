@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-03-21 16:25+0000\n"
+"POT-Creation-Date: 2014-09-27 14:20+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -20,8 +20,8 @@ msgstr ""
 #: backapps/department/models.py:10 backapps/invoice/models.py:10
 #: backapps/payment/models.py:12 backapps/preference/models.py:19
 #: backapps/profile/models.py:12 backapps/profile/models.py:26
-#: backapps/salary/models.py:8 backapps/satisfaction/models.py:8
-#: backapps/satisfaction/models.py:23 backapps/task/models.py:11
+#: backapps/salary/models.py:8 backapps/satisfaction/models.py:10
+#: backapps/satisfaction/models.py:25 backapps/task/models.py:11
 #: backapps/task/models.py:26 backapps/task/models.py:41
 #: backapps/workspace/models.py:44
 msgid "active"
@@ -30,8 +30,8 @@ msgstr "actif"
 #: backapps/department/models.py:12 backapps/invoice/models.py:12
 #: backapps/payment/models.py:14 backapps/preference/models.py:21
 #: backapps/profile/models.py:14 backapps/profile/models.py:38
-#: backapps/salary/models.py:10 backapps/satisfaction/models.py:10
-#: backapps/satisfaction/models.py:25 backapps/task/models.py:13
+#: backapps/salary/models.py:10 backapps/satisfaction/models.py:12
+#: backapps/satisfaction/models.py:27 backapps/task/models.py:13
 #: backapps/task/models.py:28 backapps/task/models.py:43
 #: backapps/workspace/models.py:46
 msgid "created at"
@@ -40,19 +40,19 @@ msgstr "créé le"
 #: backapps/department/models.py:14 backapps/invoice/models.py:14
 #: backapps/payment/models.py:16 backapps/preference/models.py:23
 #: backapps/profile/models.py:16 backapps/profile/models.py:40
-#: backapps/salary/models.py:12 backapps/satisfaction/models.py:12
+#: backapps/salary/models.py:12 backapps/satisfaction/models.py:14
 #: backapps/task/models.py:15 backapps/task/models.py:30
 #: backapps/task/models.py:45 backapps/workspace/models.py:48
 msgid "updated at"
 msgstr "mis à jour le"
 
-#: backapps/department/models.py:16 backapps/satisfaction/models.py:14
+#: backapps/department/models.py:16 backapps/satisfaction/models.py:16
 #: backapps/task/models.py:17 backapps/task/models.py:32
 #: backapps/task/models.py:51
 msgid "name"
 msgstr "nom"
 
-#: backapps/department/models.py:18 backapps/satisfaction/models.py:16
+#: backapps/department/models.py:18 backapps/satisfaction/models.py:18
 #: backapps/task/models.py:19 backapps/task/models.py:34
 #: backapps/task/models.py:53
 msgid "description"
@@ -133,9 +133,8 @@ msgid "this reprensents the cost of the employee per month"
 msgstr "cette valeur représente le coût du salarié par mois"
 
 #: backapps/task/forms.py:15 templates/administration/user_admin.html:8
-#: templates/dashboard/base.html:57
-msgid "Tasks"
-msgstr "Tâches"
+msgid "Projects"
+msgstr "Projets"
 
 #: backapps/task/models.py:47
 msgid "monitored"
@@ -327,15 +326,15 @@ msgid "Save"
 msgstr "Sauver"
 
 #: templates/clientapp/home.html:9
-msgid "Select your task"
-msgstr "Sélectionnez votre tâche"
+msgid "Select your current activity"
+msgstr "Sélectionnez votre activité en cours"
 
 #: templates/clientapp/home.html:16
-msgid "There is no task defined yet."
-msgstr "Il n'y a aucune tâche définie."
+msgid "There is no project defined yet."
+msgstr "Aucun projet n'est défini pour l'instant."
 
 #: templates/clientapp/home.html:32
-msgid "Your last 5 tasks"
+msgid "Your last 5 activities"
 msgstr "Vos 5 dernières activités"
 
 #: templates/clientapp/login.html:7
@@ -374,6 +373,10 @@ msgstr "Vue d'ensemble"
 #: templates/dashboard/base.html:56
 msgid "Time"
 msgstr "Temps"
+
+#: templates/dashboard/base.html:57
+msgid "Project"
+msgstr "Projet"
 
 #: templates/dashboard/base.html:60
 msgid "Settings"
@@ -427,20 +430,48 @@ msgid "users"
 msgstr "utilisateurs"
 
 #: templates/dashboard/overview.html:11
-msgid "tasks"
-msgstr "tâches"
+msgid "projects"
+msgstr "projets"
 
-#: templates/dashboard/overview.html:38
-msgid "Generate"
-msgstr "Générer"
+#: templates/dashboard/overview.html:22
+msgid "Most time consuming projects"
+msgstr "Projets les plus consommateurs de temps"
+
+#: templates/dashboard/overview.html:25
+msgid "hours)"
+msgstr "heures)"
+
+#: templates/dashboard/overview.html:28
+msgid "Projects involving the highest number of resources"
+msgstr "Projets impliquant le plus grand nombre de personnes"
+
+#: templates/dashboard/overview.html:31
+msgid "persons)"
+msgstr "personnes)"
+
+#: templates/dashboard/overview.html:34
+msgid "active users"
+msgstr "utilisateurs actifs"
+
+#: templates/dashboard/overview.html:42
+msgid "Time repartition per project"
+msgstr "Répartition du temps par projet"
 
 #: templates/dashboard/task_admin.html:10
-msgid "Create a new task"
-msgstr "Créez une tâche"
+msgid "Create a new project"
+msgstr "Créer un nouveau projet"
 
 #: templates/dashboard/time.html:39
 msgid "Submit"
 msgstr "Envoyer"
+
+#: templates/dashboard/time.html:49
+msgid "Time per project over time<br><small>(in hours)</small>"
+msgstr "Temps par projet au cours du temps<br><small>(en heures)</small>"
+
+#: templates/dashboard/time.html:57
+msgid "Cumulated time per project over time<br><small>(in hours)</small>"
+msgstr "Temps cumulé par projet au cours du temps<br><small>(en heures)</small>"
 
 #: templates/registration/login.html:24
 msgid "No account yet?"
@@ -487,32 +518,26 @@ msgstr "Notre philosophy"
 msgid "Constraint-less and simple!"
 msgstr "Faire simple et sans contrainte !"
 
-#: templates/website/apps.html:16 templates/website/apps.html.py:22
-#: templates/website/apps.html:28
+#: templates/website/apps.html:13
+msgid "Download the Linbees app"
+msgstr "Télécharger les apps Linbees"
+
+#: templates/website/apps.html:21 templates/website/apps.html.py:28
+#: templates/website/apps.html:35
 msgid "for"
 msgstr "pour"
 
-#: templates/website/apps.html:17
-msgid ""
-"Download Linbees app for Windows<br>compatible with Windows XP and later "
-"(32/64 bit)"
-msgstr ""
-"Téléchargez l'app Linbees pour Windows<br>compatible avec Windows XP et "
-"versions ultérieures (32/64 bit)"
-
 #: templates/website/apps.html:23
-msgid "Download Linbees app for Linux<br>compatible with any 64 bit distro"
+msgid "linbees-1.2-win32.msi"
 msgstr ""
-"Téléchargez l'app Linbees pour Linus<br>compatible avec toutes les distro 64 "
-"bit"
 
-#: templates/website/apps.html:29
-msgid ""
-"Download Linbees app for Mac<br>compatible with Mac OS X 10.6 and later (64 "
-"bit)"
+#: templates/website/apps.html:30
+msgid "linbees-1.2.dmg"
 msgstr ""
-"Téléchargez l'app Linbees pour Mac<br>compatible avec Mac OS X 10.6 et "
-"versions ultérieures (64 bit)"
+
+#: templates/website/apps.html:37
+msgid "linbees-1.2.linux-x86_64.tar.gz"
+msgstr ""
 
 #: templates/website/base.html:61
 msgid "Back to top"
@@ -534,11 +559,11 @@ msgstr "Contact"
 msgid "My dashboard"
 msgstr "Mon tableau de bord"
 
-#: templates/website/contact.html:13
+#: templates/website/contact.html:8
 msgid "Any question?"
 msgstr "Une question ?"
 
-#: templates/website/contact.html:18
+#: templates/website/contact.html:13
 msgid "Send"
 msgstr "Envoyer"
 
@@ -566,8 +591,7 @@ msgstr "Créez votre tableau de bord"
 msgid ""
 "Create an account for your company.<br>It's instant, it's free, no credit "
 "card is required."
-msgstr ""
-"Créez un compe.<br>C'est instantané, gratuit et sans engagement."
+msgstr "Créez un compe.<br>C'est instantané, gratuit et sans engagement."
 
 #: templates/website/home.html:49
 msgid ""
@@ -582,12 +606,9 @@ msgid "Get your activity reports"
 msgstr "Obtenez vos rapports d'activité"
 
 #: templates/website/home.html:55
-msgid ""
-"Go to your dashboard and check how much time is spent on each task of your "
-"company."
+msgid "Go to your dashboard and check how much time is spent on each project."
 msgstr ""
-"Accédez votre tableau de bord et vérifiez le temps passé sur chaque tâche de "
-"votre société."
+"Accédez votre tableau de bord et vérifiez le temps passé sur chaque projet."
 
 #: templates/website/home.html:56
 msgid "Go to your dashboard"
@@ -617,5 +638,11 @@ msgstr "Une question ?"
 msgid "Contact our sales team"
 msgstr "Contactez notre équipe commerciale"
 
-#~ msgid "Please sign up"
-#~ msgstr "Inscription"
+#~ msgid "Projects repartition"
+#~ msgstr "Répartition des projets"
+
+#~ msgid "tasks"
+#~ msgstr "tâches"
+
+#~ msgid "Tasks"
+#~ msgstr "Tâches"

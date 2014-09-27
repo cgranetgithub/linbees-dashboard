@@ -1,5 +1,6 @@
 from django_webtest import WebTest
 from django.test.client import Client
+from django.core.management import call_command
 from backapps.workspace.models import Workspace
 from django.contrib.auth.models import User
 import libs.chart.generate_data as gen
@@ -30,24 +31,28 @@ class SimpleJourneyTest(WebTest):
         form['username'] = 'password1@password1.com'
         form['password'] = 'password1'
         form.submit()
-	response = self.app.get('/dashboard/')
+        response = self.app.get('/dashboard/')
         self.assertContains(response, "password1")
-        self.assertContains(response, "3 tasks")
+        self.assertContains(response, "3 projects")
     def test_generate(self):
         form = self.app.get('/dashboard/login/').forms[0] #form 1 is the language one
         form['username'] = 'password1@password1.com'
         form['password'] = 'password1'
         form.submit()
-	response = self.app.get('/dashboard/')
-	self.assertContains(response, "detect")
-	response.form.submit() #generate
-	response = self.app.get('/dashboard/')
-        self.assertContains(response, "p0")
-        self.assertContains(response, "p1")
-        self.assertContains(response, "p2")
-	response = self.app.get('/dashboard/time/')
-        self.assertContains(response, "p0")
-        self.assertContains(response, "p1")
-        self.assertContains(response, "p2")
-	response = self.app.get('/dashboard/').form
-	response.submit() #generate
+        response = self.app.get('/dashboard/')
+        self.assertContains(response, "detect")
+        #generate
+        call_command('populate_workspace', 'password1-com',
+                     'password1@password1.com', 3, 3,
+                     '2014-01-01', '2014-01-30')
+        #response.form.submit() #generate
+        response = self.app.get('/dashboard/')
+        self.assertContains(response, "3 projects")
+        #self.assertContains(response, "Task_1")
+        #self.assertContains(response, "Task_2")
+        response = self.app.get('/dashboard/time/')
+        self.assertContains(response, "Task_0")
+        self.assertContains(response, "Task_1")
+        self.assertContains(response, "Task_2")
+        #response = self.app.get('/dashboard/').form
+        #response.submit() #generate

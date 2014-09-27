@@ -12,7 +12,7 @@ class TaskForm(forms.ModelForm):
         }
 
 class TaskListForm(forms.Form):
-    plist = forms.MultipleChoiceField(label=_('Tasks')
+    plist = forms.MultipleChoiceField(label=_('Projects')
 				    , widget=forms.CheckboxSelectMultiple)
     def __init__(self, ws, *args, **kwargs):
         super(TaskListForm, self).__init__(*args, **kwargs)

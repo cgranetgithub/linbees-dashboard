@@ -6,14 +6,14 @@
 {% block content %}
   <div class="row">
     <div class="col-md-12">
-      <h3>{% trans "Select your task" %}</h2>
+      <h3>{% trans "Select your current activity" %}</h2>
       <div class="panel panel-default">
 	<div class="panel-body">
 	  <a href="/clientapp/" class="pull-right">
 	    {% bootstrap_icon "refresh" %}
 	  </a>
 	  {% if form.tasks|length_is:"0" %}
-	    <p>{% trans "There is no task defined yet." %}</p>
+	    <p>{% trans "There is no project defined yet." %}</p>
 	  {% else %}
 	    <form action={{ form_action }} method="post" class="form-signin" role="form"> {% csrf_token %}
 	      {% bootstrap_form form %}
@@ -29,7 +29,7 @@
   </div></div></div></div>
   <div class="row">
     <div class="col-md-12">
-    <h4>{% trans "Your last 5 tasks" %}</h2>
+    <h4>{% trans "Your last 5 activities" %}</h2>
     <table class="table table-striped table-condensed">
     {% for r in records %}
     <tr>

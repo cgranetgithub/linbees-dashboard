@@ -27,15 +27,15 @@ class Record(TenantModel):
     end_original   = models.DateTimeField(blank=True, null=True, editable=False)
     client         = models.CharField(max_length=255, editable=False)
     def start(self):
-	""" returns if start_override datetime if it exists,
-	otherise the start_original datetime.
-	Result will never be None"""
-	return self.start_override or self.start_original
+        """ returns if start_override datetime if it exists,
+        otherise the start_original datetime.
+        Result will never be None"""
+        return self.start_override or self.start_original
     def end(self):
-	""" returns if end_override datetime if it exists,
-	otherise the end_original datetime, which can be null"""
-	return self.end_override or self.end_original
-	
+        """ returns if end_override datetime if it exists,
+        otherise the end_original datetime, which can be null"""
+        return self.end_override or self.end_original
+        
 class DailyRecord(TenantModel):
     """
     Inherits TenantModel => tenant specific class
@@ -47,30 +47,30 @@ class DailyRecord(TenantModel):
     user     = models.ForeignKey(Profile, editable=False)
     duration = models.DecimalField(default=0, max_digits=10, decimal_places=2, editable=False) # hours
     class Meta:
-	unique_together = (("date", "task", "user"),)
+        unique_together = (("date", "task", "user"),)
 
 def update_DailyRecord(sender, instance, *args, **kwargs):
     workspace, task, user = instance.tenant, instance.task, instance.user
     if instance.start() and instance.end():
-	start = instance.start().replace(hour=0, minute=0, second=0, microsecond=0)
-	end = instance.end().replace(hour=0, minute=0, second=0, microsecond=0)
-	end += datetime.timedelta(1)
-	# get all records from the same period for the same task & same user
-	qs = Record.for_tenant(workspace).objects.filter(
-		    ( Q(start_original__gte=start) & Q(start_override__isnull=True) ) | Q(start_override__gte=start)
-		  , ( Q(end_original__lte=end) & Q(end_override__isnull=True) ) | Q(end_override__lte=end)
-		  , task=task
-		  , user=user
-		  )
-	# calculate
-	data_dict = record2daily(qs)
-	# update or create the daily_task entries for the period and task
-	for date in data_dict.iterkeys():
-	    (dpt, created) = DailyRecord.for_tenant(workspace
-			      ).objects.get_or_create(
-				task=task, date=date, user=user)
-	    dpt.duration = data_dict[date].total_seconds()/3600
-	    dpt.save()
+        start = instance.start().replace(hour=0, minute=0, second=0, microsecond=0)
+        end = instance.end().replace(hour=0, minute=0, second=0, microsecond=0)
+        end += datetime.timedelta(1)
+        # get all records from the same period for the same task & same user
+        qs = Record.for_tenant(workspace).objects.filter(
+                    ( Q(start_original__gte=start) & Q(start_override__isnull=True) ) | Q(start_override__gte=start)
+                , ( Q(end_original__lte=end) & Q(end_override__isnull=True) ) | Q(end_override__lte=end)
+                , task=task
+                , user=user
+                )
+        # calculate
+        data_dict = record2daily(qs)
+        # update or create the daily_task entries for the period and task
+        for date in data_dict.iterkeys():
+            (dpt, created) = DailyRecord.for_tenant(workspace
+                            ).objects.get_or_create(
+                                task=task, date=date, user=user)
+            dpt.duration = data_dict[date].total_seconds()/3600
+            dpt.save()
 
 post_save.connect(update_DailyRecord, sender=Record)
 
@@ -80,14 +80,14 @@ def get_ongoing_task(profile):
     """
     workspace = profile.tenant
     qs = Record.for_tenant(workspace).objects.filter(
-				user=profile).order_by('start_original')
+                                user=profile).order_by('start_original')
     ret = None
     if qs.count() > 0:
-	last_record = qs[qs.count()-1]
-	if last_record.end_original is None:
-	    ret = last_record
+        last_record = qs[qs.count()-1]
+        if last_record.end_original is None:
+            ret = last_record
     return ret
-  
+
 def new_task(profile, task):
     """
     this is a safe function
@@ -98,11 +98,11 @@ def new_task(profile, task):
     #close last entry
     last_record = get_ongoing_task(profile)
     if last_record is not None:
-	last_record.end_original = now()
-	last_record.save()
+        last_record.end_original = now()
+        last_record.save()
     #create new entry
     cur_record = None
     if task is not None:
-	cur_record = Record.for_tenant(workspace).objects.create(
-					      user=profile, task=task)
+        cur_record = Record.for_tenant(workspace).objects.create(
+                                            user=profile, task=task)
     return (last_record, cur_record)

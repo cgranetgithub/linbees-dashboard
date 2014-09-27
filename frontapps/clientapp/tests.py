@@ -59,7 +59,7 @@ class RegisterTest(WebTest):
         form['password1'] = 'secret'
         form['password2'] = 'secret'
         response = form.submit().follow()
-        self.assertContains(response, "Select your task")
+        self.assertContains(response, "Select your current activity")
         ws = Workspace.objects.get(name='lagat-com')
         user = User.objects.get(email='charlot@lagat.com')
         assert user.is_staff is False
