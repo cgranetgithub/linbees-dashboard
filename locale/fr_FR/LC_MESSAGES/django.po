@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-09-27 20:37+0000\n"
+"POT-Creation-Date: 2014-09-28 17:15+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -303,7 +303,7 @@ msgstr "Administration de linbees"
 #: templates/administration/workspace_admin.html:10
 #: templates/dashboard/task_admin.html:22
 msgid "Apply"
-msgstr "appliquer"
+msgstr "Appliquer"
 
 #: templates/administration/admin.html:9
 msgid "Change my password"
@@ -401,7 +401,7 @@ msgstr ""
 #: templates/dashboard/no_task_message.html:6 templates/signup/signup.html:20
 #: templates/website/home.html:44
 msgid "Sign up"
-msgstr "Créez un compte"
+msgstr "Inscription"
 
 #: templates/dashboard/no_data_message.html:7
 #: templates/dashboard/no_task_message.html:7
@@ -450,17 +450,25 @@ msgstr "personnes)"
 msgid "active users"
 msgstr "utilisateurs actifs"
 
-#: templates/dashboard/overview.html:42
+#: templates/dashboard/overview.html:41
 msgid "Time repartition per project"
 msgstr "Répartition du temps par projet"
+
+#: templates/dashboard/overview.html:50
+msgid "(*) over the last"
+msgstr "(*) les données de cette page sont calculées sur les"
+
+#: templates/dashboard/overview.html:50
+msgid "days"
+msgstr "derniers jours"
 
 #: templates/dashboard/task_admin.html:10
 msgid "Create a new project"
 msgstr "Créer un nouveau projet"
 
 #: templates/dashboard/time.html:39
-msgid "Submit"
-msgstr "Envoyer"
+msgid "Update"
+msgstr "Mettre à jour"
 
 #: templates/dashboard/time.html:49
 msgid "Time per project over time<br><small>(in hours)</small>"
@@ -547,7 +555,7 @@ msgstr "Tarifs"
 
 #: templates/website/basewithnav.html:21 templates/website/home.html:50
 msgid "Download"
-msgstr "Télécharger"
+msgstr "Téléchargement"
 
 #: templates/website/basewithnav.html:22
 msgid "Contact"
@@ -589,7 +597,7 @@ msgstr "Créez votre tableau de bord"
 msgid ""
 "Create an account for your company.<br>It's instant, it's free, no credit "
 "card is required."
-msgstr "Créez un compe.<br>C'est instantané, gratuit et sans engagement."
+msgstr "Créez un compte.<br>C'est instantané, gratuit et sans engagement."
 
 #: templates/website/home.html:49
 msgid ""
@@ -610,7 +618,7 @@ msgstr ""
 
 #: templates/website/home.html:56
 msgid "Go to your dashboard"
-msgstr "Accédez à votre tableau de bord"
+msgstr "Tableau de bord"
 
 #: templates/website/legal.html:7
 msgid "Legal"
@@ -635,6 +643,9 @@ msgstr "Une question ?"
 #: templates/website/pricing.html:23
 msgid "Contact our sales team"
 msgstr "Contactez notre équipe commerciale"
+
+#~ msgid "Submit"
+#~ msgstr "Envoyer"
 
 #~ msgid "Project"
 #~ msgstr "Projet"
