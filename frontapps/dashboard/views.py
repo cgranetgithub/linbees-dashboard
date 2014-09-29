@@ -123,23 +123,19 @@ def time(request):
                 'form_action'   : reverse('dashboard:time')}
         queryset = DailyRecord.for_tenant(workspace
                                     ).objects.filter(task__monitored=True)
+        #tasks evolution over time
+        (array, line_options) = tasks_over_time(workspace, queryset)
+        (line_data, line_options) = cumulative_task_over_time(array,
+                                                              startdate,
+                                                              enddate)
+        context['chart2_data'] = line_data
+        context['chart2_options'] = line_options
+        #tasks evolution over time
         queryset = queryset_filter(queryset, a_select, u_select,
                                    startdate, enddate)
-        ##tasks time sum
-        #(pie_data, pie_options) = pie_total_time(queryset, 
-                                                 #a_select, u_select,
-                                                 #startdate, enddate)
-        #context['chart1_data'] = pie_data
-        #context['chart1_options'] = pie_options
-        
-        #tasks evolution over time
         (array, line_options) = tasks_over_time(workspace, queryset)
         context['chart1_data'] = array
         context['chart1_options'] = line_options
-        #tasks evolution over time
-        (line_data, line_options) = cumulative_task_over_time(array)
-        context['chart2_data'] = line_data
-        context['chart2_options'] = line_options
     return render(request, 'dashboard/time.html', context)
 
 @login_required

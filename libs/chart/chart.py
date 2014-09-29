@@ -67,17 +67,28 @@ def tasks_over_time(workspace, queryset):
                 #};
     #return (array, options)
 
-def cumulative_task_over_time(array):
+### DIRTY this should be reworked ###
+def cumulative_task_over_time(array, startdate=None, enddate=None):
     # start from 1: to skip title row / col
     cum_array = []
     if len(array) > 1:
+        cum_array.insert(0, array[1])
         previous = array[1][1:]
-        cum_array = [array[0], array[1]]
         for i in array[2:]:
             tmp = [x+y for (x,y) in zip(previous, i[1:])]
             cum_array.append([i[0]] + tmp)
             previous = tmp
     cum_options = {'is3D':'true', 'backgroundColor':'transparent'}
+    startindex = 0
+    endindex = len(cum_array)
+    if startdate and enddate:
+        for i in cum_array:
+            if startdate.isoformat() == i[0]:
+                startindex = cum_array.index(i)
+            if enddate.isoformat() == i[0]:
+                endindex = cum_array.index(i)
+        cum_array = cum_array[startindex:endindex+1]
+    cum_array.insert(0, array[0])
     return (cum_array, cum_options)
 
 #def bar(data_dict, task_list):

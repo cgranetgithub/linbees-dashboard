@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-09-28 17:43+0000\n"
+"POT-Creation-Date: 2014-09-29 13:24+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -340,7 +340,7 @@ msgstr "Vos 5 dernières activités"
 
 #: templates/clientapp/login.html:7
 msgid "Please sign in"
-msgstr "S'identifier"
+msgstr "Identifiez-vous"
 
 #: templates/clientapp/login.html:11 templates/registration/login.html:20
 #: templates/website/basewithnav.html:28
