@@ -6,11 +6,11 @@ import dateutil.parser
 
 class Command(BaseCommand):
     args = u"""<workspace_name username number_of_users number_of_tasks 
-start_date end_date>"""
+start_date end_date keep_existing>"""
     help = u'Populate the workspace with fake generated data'
     def handle(self, * args, ** options):
         self.stdout.write(u'Analyze arguments')
-        (ws_name, username, users_nb, tasks_nb, start, end) = args
+        (ws_name, username, users_nb, tasks_nb, start, end, keep) = args
 
         ws = Workspace.objects.get(name=ws_name)
         user = User.objects.get(username=username)
@@ -18,15 +18,18 @@ start_date end_date>"""
         tasks_nb = int(tasks_nb)
         start = dateutil.parser.parse(start)
         end = dateutil.parser.parse(end)
-
-        self.stdout.write(u'Clean database')
-        gen.clean_records(ws)
-        gen.clean_tasks(ws)
-        gen.clean_users(ws, user)
-        self.stdout.write(u'Generate users')
-        gen.generate_users(ws, users_nb)
-        self.stdout.write(u'Generate tasks')
-        gen.generate_tasks(ws, user, tasks_nb)
+        if keep=='false' or keep=='False':
+            keep = False
+        
+        if not keep:
+            self.stdout.write(u'Clean database')
+            gen.clean_records(ws)
+            gen.clean_tasks(ws)
+            gen.clean_users(ws, user)
+            self.stdout.write(u'Generate users')
+            gen.generate_users(ws, users_nb)
+            self.stdout.write(u'Generate tasks')
+            gen.generate_tasks(ws, user, tasks_nb)
         self.stdout.write(u'Generate records')
         gen.generate_records(ws, start, end)
         self.stdout.write(u'done')
