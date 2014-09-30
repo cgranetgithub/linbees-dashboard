@@ -4,70 +4,70 @@
 {% load bootstrap3 %}
 
 {% block head %}
-  <link href="{% static 'website/carousel.css' %}" rel="stylesheet">
-  <link href="{% static 'website/justified-nav.css' %}" rel="stylesheet">
-  <script>
-  $(function() {
+<link href="{% static 'website/carousel.css' %}" rel="stylesheet">
+<link href="{% static 'website/justified-nav.css' %}" rel="stylesheet">
+<script>
+$(function() {
     $('a[href*=#]:not([href=#])').click(function() {
-      if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'') && location.hostname == this.hostname) {
-	var target = $(this.hash);
-	target = target.length ? target : $('[name=' + this.hash.slice(1) +']');
-	if (target.length) {
-	  $('html,body').animate({
-	    scrollTop: target.offset().top
-	  }, 1000);
-	  return false;
-	}
-      }
+    if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'') && location.hostname == this.hostname) {
+        var target = $(this.hash);
+        target = target.length ? target : $('[name=' + this.hash.slice(1) +']');
+        if (target.length) {
+            $('html,body').animate({
+                scrollTop: target.offset().top
+            }, 1000);
+            return false;
+        }
+    }
     });
-  });
-  </script>
+});
+</script>
 {% endblock head %}
 
 {% block home %}
-  <div class="container-fluid frontbanner">
+<div class="container-fluid frontbanner">
     <div class="jumbotron">
-      <h2 id="title_part_1">{% trans "Connect with your staff" %}<strong id="title_part_2" class="linbees-blue">{% trans " and get real data" %}</strong></h2>
-      <h3>{% trans "Innovative time-tracking technology" %}</h3>
-      <br>
-      <a id="link2video" class="btn btn-lg btn-success" href="#videoanchor" role="button">{% trans "See how it works" %}</a>
+        <h2 id="title_part_1">{% trans "Connect with your staff" %}<strong id="title_part_2" class="linbees-blue">{% trans " and get real data" %}</strong></h2>
+        <h3>{% trans "Innovative time-tracking technology" %}</h3>
+        <br>
+        <a id="link2video" class="btn btn-lg btn-success" href="#videoanchor" role="button">{% trans "See how it works" %}</a>
     </div>
-  </div>
-  
-  <div class="container marketing">
+</div>
+
+<div class="container marketing">
     <!-- Three columns of text below the carousel -->
     <div class="row">
-      <div class="col-lg-4 col-sm-4">
-	<img src="{% static 'website/signup.jpg' %}" style="width: 200px; height: 200px;" class="img-circle" alt="Sensor App">
-	<h3>{% trans "Create your dashboard" %}</h2>
-	<p>{% trans "Create an account for your company.<br>It's instant, it's free, no credit card is required." %}</p>
-	<p><a class="btn btn-default" href="{% url 'signup:signup' %}" role="button">{% trans "Sign up" %}</a></p>
-      </div><!-- /.col-lg-4 -->
-      <div class="col-lg-4 col-sm-4">
-	<img src="{% static 'website/share.jpg' %}" style="width: 200px; height: 200px;" class="img-circle" alt="Cloud service">
-	<h3>{% trans "Share the app" %}</h2>
-	<p>{% trans "Download the app and send it to your employees.<br>Or let them download and install it themselves." %}</p>
-	<p><a class="btn btn-default" href="{% url 'website:apps' %}" role="button">{% trans "Download" %}</a></p>
-      </div><!-- /.col-lg-4 -->
-      <div class="col-lg-4 col-sm-4">
-	<img src="{% static 'website/reporting.jpg' %}" style="width: 200px; height: 200px;" class="img-circle" alt="Dashboard">
-	<h3>{% trans "Get your activity reports" %}</h2>
-	<p>{% trans "Go to your dashboard and check how much time is spent on each project." %}</p>
-	<p><a class="btn btn-default" href="{% url 'dashboard:overview' %}" role="button">{% trans "Go to your dashboard" %}</a></p>
-      </div><!-- /.col-lg-4 -->
+    <div class="col-lg-4 col-sm-4">
+        <img src="{% static 'website/signup.jpg' %}" style="width: 200px; height: 200px;" class="img-circle" alt="Sensor App">
+        <h3>{% trans "Create your dashboard" %}</h2>
+        <p>{% trans "Create an account for your company.<br>It's instant, it's free, no credit card is required." %}</p>
+        <p><a class="btn btn-default" href="{% url 'signup:signup' %}" role="button">{% trans "Sign up" %}</a></p>
+    </div><!-- /.col-lg-4 -->
+    <div class="col-lg-4 col-sm-4">
+        <img src="{% static 'website/share.jpg' %}" style="width: 200px; height: 200px;" class="img-circle" alt="Cloud service">
+        <h3>{% trans "Share the app" %}</h2>
+        <p>{% trans "Download the app and send it to your employees.<br>Or let them download and install it themselves." %}</p>
+        <p><a class="btn btn-default" href="{% url 'website:apps' %}" role="button">{% trans "Download" %}</a></p>
+    </div><!-- /.col-lg-4 -->
+    <div class="col-lg-4 col-sm-4">
+        <img src="{% static 'website/reporting.jpg' %}" style="width: 200px; height: 200px;" class="img-circle" alt="Dashboard">
+        <h3>{% trans "Get your activity reports" %}</h2>
+        <p>{% trans "Go to your dashboard and check how much time is spent on each project." %}</p>
+        <p><a class="btn btn-default" href="{% url 'dashboard:overview' %}" role="button">{% trans "Go to your dashboard" %}</a></p>
+    </div><!-- /.col-lg-4 -->
     </div><!-- /.row -->
-  </div>
+</div>
 
-  <div class="container-fluid signupbanner">
+<div class="container-fluid signupbanner">
     <a  name="videoanchor" />
     <div class="jumbotron">
-	  <a class="btn btn-lg btn-primary" href="{% url 'signup:signup' %}" role="button">{% trans "Sign up now" %}</a>
+        <a class="btn btn-lg btn-primary" href="{% url 'signup:signup' %}" role="button">{% trans "Sign up now" %}</a>
     </div>
-  </div>
+</div>
 
-<!--  <div class="container-fluid bannercolor">
+<div class="container-fluid bannercolor">
     <div class="jumbotron">
-      <iframe width="672" height="378" src="//www.youtube.com/embed/WkBcaoYBYIE" frameborder="0" allowfullscreen></iframe>
+        <iframe frameborder="0" width="896" height="504" src="//www.dailymotion.com/embed/video/x26xl7t" allowfullscreen></iframe>
     </div>
-  </div>-->
+</div>
 {% endblock home %}
