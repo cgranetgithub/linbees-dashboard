@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-09-29 14:01+0000\n"
+"POT-Creation-Date: 2014-09-30 09:42+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -471,12 +471,10 @@ msgid "Update"
 msgstr "Mettre à jour"
 
 #: templates/dashboard/time.html:49
-#, fuzzy
 msgid "Time per project<br><small>(in hours)</small>"
 msgstr "Temps par projet<br><small>(en heures)</small>"
 
 #: templates/dashboard/time.html:57
-#, fuzzy
 msgid "Cumulated time per project<br><small>(in hours)</small>"
 msgstr "Temps cumulé par projet<br><small>(en heures)</small>"
 
