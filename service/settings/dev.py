@@ -28,6 +28,11 @@ del DEFAULT_FILE_STORAGE
 STATIC_ROOT = 'staticfiles'
 STATIC_URL = '/static/'
 
+TEST_RUNNER = 'xmlrunner.extra.djangotestrunner.XMLTestRunner'
+TEST_OUTPUT_VERBOSE = True
+TEST_OUTPUT_DESCRIPTIONS = True
+TEST_OUTPUT_DIR = 'xmlrunner'
+
 EMAIL_HOST = 'auth.smtp.1and1.fr'
 EMAIL_HOST_USER = 'contact@linbees.com'
 EMAIL_HOST_PASSWORD = 'sc39cf63'
