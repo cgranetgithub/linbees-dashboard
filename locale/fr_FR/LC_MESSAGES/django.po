@@ -550,7 +550,7 @@ msgstr "Retour au début"
 
 #: templates/website/basewithnav.html:20
 msgid "Pricing"
-msgstr "Tarifs"
+msgstr "Tarif"
 
 #: templates/website/basewithnav.html:21 templates/website/home.html:50
 msgid "Download"

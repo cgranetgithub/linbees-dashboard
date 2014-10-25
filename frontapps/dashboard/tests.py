@@ -44,7 +44,7 @@ class SimpleJourneyTest(WebTest):
         #generate
         call_command('populate_workspace', 'password1-com',
                      'password1@password1.com', 3, 3,
-                     '2014-01-01', '2014-01-30')
+                     '2014-01-01', '2014-01-30', 'False')
         #response.form.submit() #generate
         response = self.app.get('/dashboard/')
         self.assertContains(response, "3 projects")
