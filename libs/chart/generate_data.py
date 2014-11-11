@@ -46,10 +46,10 @@ def generate_records(workspace, begin_date=None, end_date=None):
     if begin_date is None:
         begin_date = end_date - datetime.timedelta(10)
     nb_days = (end_date - begin_date).days
-    users = Profile.objects.by_workspace(workspace).all()
+    profiles = Profile.objects.by_workspace(workspace).all()
     cur = begin_date
     dailyrecord_list = []
-    for u in users:
+    for profile in profiles:
         if tasks.count() > 5:
             nb = 5
         else:
@@ -66,7 +66,8 @@ def generate_records(workspace, begin_date=None, end_date=None):
             for p in plist:
                 delta = datetime.timedelta(hours=int(d), minutes=int(d%1*60))
                 end = start + delta
-                Record.objects.create(workspace=workspace, user=u, task=p,
+                Record.objects.create(workspace=workspace, profile=profile,
+                                      task=p,
                                       start_override=start, end_original=end)
                 d = (random.uniform(7, 8) - cum)/(working_on)
                 cum +=d

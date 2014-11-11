@@ -10,7 +10,7 @@ class FixedSalary(TenantModel):
                                             , verbose_name=_('created at'))
     updated_at  = models.DateTimeField(auto_now=True
                                             , verbose_name=_('updated at'))
-    user        = models.ForeignKey(Profile, editable=False
+    profile     = models.ForeignKey(Profile, editable=False
                                         , verbose_name=_('user'))
     start_date  = models.DateField(verbose_name=_('start date'))
     end_date    = models.DateField(verbose_name=_('end date'))

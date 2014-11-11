@@ -26,4 +26,4 @@ class Satisfaction(TenantModel):
     created_at  = models.DateTimeField(auto_now_add=True,
                                        verbose_name=_('created at'))
     criteria    = models.ForeignKey(Criteria)
-    user        = models.ForeignKey(Profile, editable=False)
+    profile     = models.ForeignKey(Profile, editable=False)

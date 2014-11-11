@@ -8,8 +8,8 @@ from libs.messages import ws_already_exist, public_email_not_allowed
 
 class UrlTest(TestCase):
     def test_urls(self):
-	c = Client()
-	response = c.get('/signup/')
+        c = Client()
+        response = c.get('/signup/')
         self.assertContains(response, "signup")
 
 class SignupTest(WebTest):
@@ -59,4 +59,4 @@ class SignupTest(WebTest):
         form['password2'] = 'toto'
         response = form.submit()
         self.assertContains(response, 
-			    public_email_not_allowed%{'domain':'gmail.com'})
+                            public_email_not_allowed%{'domain':u'gmail.com'})

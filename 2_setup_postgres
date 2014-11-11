@@ -20,3 +20,8 @@ postgres@s17101495:~$ exit
 configure phppgadmin (see https://help.ubuntu.com/community/phpPgAdmin)
 - edit /etc/phppgadmin/apache.conf to allow all (and comment 127.0.0.1)
 - reload and restart apache
+
+RESET
+# drop current database, required if table has new fields
+PGPASSWORD=test psql -hlocalhost linbees devlinbees
+> DROP SCHEMA PUBLIC CASCADE; CREATE SCHEMA PUBLIC;

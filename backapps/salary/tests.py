@@ -13,7 +13,7 @@ class SimpleTest(TestCase):
         self.p = createUserProfile(u, self.ws)
     def test_create_instance(self):
         fs = FixedSalary.objects.create(workspace=self.ws,
-                                        user=self.p,
+                                        profile=self.p,
                                         start_date=datetime.today(),
                                         end_date=datetime.today(),
                                         monthly_wage=100)

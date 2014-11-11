@@ -59,7 +59,7 @@ def sum_and_sort_time(queryset, limit=None):
     return queryset
 
 def resources_involved(queryset, limit=None):
-    queryset = queryset.distinct('user', 'task')
+    queryset = queryset.distinct('profile', 'task')
     data = defaultdict(int)
     for i in queryset:
         data[i.task] += 1
@@ -71,7 +71,7 @@ def resources_involved(queryset, limit=None):
     return items
 
 def active_users(queryset):
-    queryset = queryset.distinct('user')
+    queryset = queryset.distinct('profile')
     return queryset.count()
 
 #def records2days(queryset):

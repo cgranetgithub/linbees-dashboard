@@ -52,6 +52,7 @@ INSTALLED_APPS = (
     'backapps.record',
     'backapps.preference',
     'backapps.department',
+    'backapps.invoice',
     'frontapps.dashboard',
     'frontapps.administration',
     'frontapps.website',

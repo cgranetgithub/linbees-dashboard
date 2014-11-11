@@ -19,7 +19,7 @@ def tasks_over_time(workspace, queryset):
                                                             ).distinct('date')
     # get tasks
     id_list = queryset.order_by('task__name'
-                        ).values_list('task_id').distinct('task__id')
+                        ).values_list('task_id').distinct('task__name')
     tasks = Task.objects.by_workspace(workspace
                             ).filter(id__in=id_list).order_by('name')
     # build array

@@ -21,7 +21,7 @@ class Record(TenantModel):
     start_override = models.DateTimeField(blank=True, null=True)
     end_override   = models.DateTimeField(blank=True, null=True)
     #not editable
-    user           = models.ForeignKey(Profile, editable=False)
+    profile        = models.ForeignKey(Profile, editable=False)
     updated_at     = models.DateTimeField(auto_now=True)
     start_original = models.DateTimeField(auto_now_add=True)
     end_original   = models.DateTimeField(blank=True, null=True, editable=False)
@@ -44,23 +44,30 @@ class DailyRecord(TenantModel):
     """
     date     = models.DateField(editable=False)
     task = models.ForeignKey(Task, editable=False)
-    user     = models.ForeignKey(Profile, editable=False)
-    duration = models.DecimalField(default=0, max_digits=10, decimal_places=2, editable=False) # hours
+    profile     = models.ForeignKey(Profile, editable=False)
+    duration = models.DecimalField(default=0, max_digits=10,
+                                   decimal_places=2, editable=False) # hours
     class Meta:
-        unique_together = (("workspace", "date", "task", "user"),)
+        unique_together = (("workspace", "date", "task", "profile"),)
 
 def update_DailyRecord(sender, instance, *args, **kwargs):
-    workspace, task, user = instance.workspace, instance.task, instance.user
+    (workspace, task, profile) = (instance.workspace, instance.task,
+                                  instance.profile)
     if instance.start() and instance.end():
-        start = instance.start().replace(hour=0, minute=0, second=0, microsecond=0)
+        start = instance.start().replace(hour=0, minute=0,
+                                         second=0, microsecond=0)
         end = instance.end().replace(hour=0, minute=0, second=0, microsecond=0)
         end += datetime.timedelta(1)
         # get all records from the same period for the same task & same user
         qs = Record.objects.by_workspace(workspace).filter(
-                    ( Q(start_original__gte=start) & Q(start_override__isnull=True) ) | Q(start_override__gte=start)
-                , ( Q(end_original__lte=end) & Q(end_override__isnull=True) ) | Q(end_override__lte=end)
-                , task=task
-                , user=user
+                     (  Q(start_original__gte=start) 
+                      & Q(start_override__isnull=True) )
+                    | Q(start_override__gte=start)
+                   , (  Q(end_original__lte=end) 
+                      & Q(end_override__isnull=True) )
+                    | Q(end_override__lte=end)
+                   , task=task
+                   , profile=profile
                 )
         # calculate
         data_dict = record2daily(qs)
@@ -68,7 +75,7 @@ def update_DailyRecord(sender, instance, *args, **kwargs):
         for date in data_dict.iterkeys():
             (dpt, created) = DailyRecord.objects.get_or_create(
                                 workspace=workspace,
-                                task=task, date=date, user=user)
+                                task=task, date=date, profile=profile)
             dpt.duration = data_dict[date].total_seconds()/3600
             dpt.save()
 
@@ -80,7 +87,7 @@ def get_ongoing_task(profile):
     """
     workspace = profile.workspace
     qs = Record.objects.by_workspace(workspace).filter(
-                                user=profile).order_by('start_original')
+                                profile=profile).order_by('start_original')
     ret = None
     if qs.count() > 0:
         last_record = qs[qs.count()-1]
@@ -104,5 +111,5 @@ def new_task(profile, task):
     cur_record = None
     if task is not None:
         cur_record = Record.objects.create(workspace=workspace,
-                                           user=profile, task=task)
+                                           profile=profile, task=task)
     return (last_record, cur_record)

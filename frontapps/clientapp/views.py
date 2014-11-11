@@ -52,7 +52,7 @@ def client_home(request):
             init = {'tasks' : ''}
         form = TaskForm(request, initial=init)
     records = Record.objects.by_workspace(workspace
-                                    ).filter(user=profile
+                                    ).filter(profile=profile
                                     ).order_by('start_original').reverse()[:5]
     return render(request, 'clientapp/home.html',{'form':form
                                                 ,'form_action':"/clientapp/"

@@ -12,9 +12,9 @@ class Preference(TenantModel):
     '''
     Inherits TenantModel => tenant specific class
     '''
-    user  = models.ForeignKey(Profile, editable=False)
-    key   = models.CharField(max_length=255, editable=False)
-    value = models.CharField(max_length=255)
+    profile  = models.ForeignKey(Profile, editable=False)
+    key      = models.CharField(max_length=255, editable=False)
+    value    = models.CharField(max_length=255)
     is_active   = models.BooleanField(default=True,
                                       verbose_name=_('active'))
     created_at  = models.DateTimeField(auto_now_add=True,
@@ -22,13 +22,13 @@ class Preference(TenantModel):
     updated_at  = models.DateTimeField(auto_now=True,
                                        verbose_name=_('updated at'))
     class Meta:
-        unique_together = (('workspace', 'user', 'key'),)
+        unique_together = (('workspace', 'profile', 'key'),)
 
 def create_prefs(sender, instance, *args, **kwargs):
-    workspace, user = instance.workspace, instance
+    workspace, profile = instance.workspace, instance
     for (i,j) in PREFERENCES_DICT.iteritems():
         Preference.objects.get_or_create(workspace=workspace,
-                                         user=user, key=i, 
+                                         profile=profile, key=i, 
                                          defaults = {'value':j['value']})
 
 post_save.connect(create_prefs, sender=Profile)
