@@ -2,7 +2,6 @@ from django.test import TestCase
 from django_webtest import WebTest
 from django.test.client import Client
 from django.contrib.auth.models import User
-#import workspace first!
 from backapps.workspace.models import Workspace, getDashboardNameFromEmail
 from backapps.task.models import Task
 from backapps.profile.models import Profile, createUserProfile

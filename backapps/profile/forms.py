@@ -54,24 +54,24 @@ class RegistrationForm(UserCreationForm):
     class Meta:
         model = User
         fields = ('email', 'first_name', 'last_name', 'username',
-		  'password1', 'password2')
+                'password1', 'password2')
     def clean(self):
-	cleaned_data = super(RegistrationForm, self).clean()
-	email = self.cleaned_data['email']
-	#check email unicity
+        cleaned_data = super(RegistrationForm, self).clean()
+        email = self.cleaned_data['email']
+        #check email unicity
         try:
             User.objects.get(email=email)
         except User.DoesNotExist:
             pass
-	else:
-	    raise forms.ValidationError(existing_email)
-	#check non-public email domain
-	provider = email.split('@')[1]
-	if provider in EMAIL_PROVIDER_BLACKLIST:
-	    raise forms.ValidationError(
-				public_email_not_allowed%{'domain':provider})
-	# Always return the full collection of cleaned data.
-	return cleaned_data
+        else:
+            raise forms.ValidationError(existing_email)
+        #check non-public email domain
+        provider = email.split('@')[1]
+        if provider in EMAIL_PROVIDER_BLACKLIST:
+            raise forms.ValidationError(
+                                public_email_not_allowed%{'domain':provider})
+        # Always return the full collection of cleaned data.
+        return cleaned_data
     def save(self, commit=True):
         user=super(RegistrationForm, self).save(commit=False)
         user.email=self.cleaned_data['email']
@@ -82,7 +82,7 @@ class RegistrationForm(UserCreationForm):
 
 class ProfileListForm(forms.Form):
     plist = forms.MultipleChoiceField(label=_('Users')
-				    , widget=forms.CheckboxSelectMultiple)
+                                    , widget=forms.CheckboxSelectMultiple)
     def __init__(self, ws, *args, **kwargs):
         super(ProfileListForm, self).__init__(*args, **kwargs)
         pl = Profile.objects.by_workspace(ws).filter()
