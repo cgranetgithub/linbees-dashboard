@@ -20,8 +20,8 @@ def tasks_over_time(workspace, queryset):
     # get tasks
     id_list = queryset.order_by('task__name'
                         ).values_list('task_id').distinct('task__id')
-    tasks = Task.for_tenant(workspace
-                            ).objects.filter(id__in=id_list).order_by('name')
+    tasks = Task.objects.by_workspace(workspace
+                            ).filter(id__in=id_list).order_by('name')
     # build array
     array = [['Dates'] + [ p.name.encode('latin1') for p in tasks] ]
     for d in dates:
@@ -41,14 +41,14 @@ def tasks_over_time(workspace, queryset):
 #def users_over_time(workspace, user):
     #if user is None:
         #return ([], {})
-    #queryset = DailyRecord.for_tenant(workspace).objects.filter(user=user
+    #queryset = DailyRecord.objects.by_workspace(workspace).filter(user=user
                                                             #, task__monitored=True)
     ## get dates (warning works only with postegresql because of distinct)
     #dates = queryset.values_list('date', flat=True).order_by('date').distinct('date')
     ## get tasks (no distinct on foreignkey for now in django)
     #id_list = queryset.order_by('task__name').values_list('task_id'
                                                             #).distinct('task__id')
-    #tasks = Task.for_tenant(workspace).objects.filter(id__in=id_list
+    #tasks = Task.objects.by_workspace(workspace).filter(id__in=id_list
                                                         #, monitored=True)
     ## build array
     #array = [['Dates'] + [ p.name.encode('latin1') for p in tasks] ]

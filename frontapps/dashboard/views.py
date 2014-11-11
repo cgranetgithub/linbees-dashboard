@@ -15,20 +15,20 @@ from libs.chart.chart import (tasks_over_time, cumulative_task_over_time,
                               pie_total_time)
 from libs.chart.calculus import (sum_and_sort_time, resources_involved,
                                  active_users, queryset_filter)
-from tenancy.forms import tenant_modelform_factory
+#from tenancy.forms import tenant_modelform_factory
 
 def check_data_existence(request):
-    workspace = request.user.tenantlink.workspace
-    context = {'tasks_number': Task.for_tenant(workspace
-                                    ).objects.filter(monitored=True).count()
-            ,'nodata':not(DailyRecord.for_tenant(workspace).objects.exists())
+    workspace = request.user.profile.workspace
+    context = {'tasks_number': Task.objects.by_workspace(workspace
+                                    ).filter(monitored=True).count()
+            ,'nodata':not(DailyRecord.objects.by_workspace(workspace).exists())
             }
     some_data = context['tasks_number'] != 0 and not context['nodata']
     return (context, some_data)
 
 def has_paid(user):
     return True
-    #return (  user.tenantlink.workspace.paid_until
+    #return (  user.profile.workspace.paid_until
             #+ datetime.timedelta(30)               ) > now().date()
 
 def logout_view(request):
@@ -50,8 +50,8 @@ def latePayment(request):
     #(context, some_data) = check_data_existence(request)
     #if some_data:
         #user = request.user
-        #workspace = request.user.tenantlink.workspace
-        #pl = Profile.for_tenant(workspace).objects.all()
+        #workspace = request.user.profile.workspace
+        #pl = Profile.objects.by_workspace(workspace).all()
         #choices = [ (p.user_id, p.user.email) for p in pl ]
         #if request.method == 'POST':
             #form = SelectForm(request, choices=choices)
@@ -71,19 +71,21 @@ def latePayment(request):
 
 @login_required
 def taskAdmin(request, task_id=None):
-    workspace = request.user.tenantlink.workspace
-    #no_task =    (Task.for_tenant(workspace).objects.count() == 0)
-    no_task = not(Task.for_tenant(workspace).objects.exists())
-    taskTenantForm = tenant_modelform_factory(workspace, TaskForm)
-    choices = Task.for_tenant(workspace).objects.all()
+    workspace = request.user.profile.workspace
+    #no_task =    (Task.objects.by_workspace(workspace).count() == 0)
+    no_task = not(Task.objects.by_workspace(workspace).exists())
+    #taskTenantForm = tenant_modelform_factory(workspace, TaskForm)
+    taskTenantForm = TaskForm
+    choices = Task.objects.by_workspace(workspace).all()
     inst = None
     if task_id:
-        inst = Task.for_tenant(workspace).objects.get(id=task_id)
+        inst = Task.objects.by_workspace(workspace).get(id=task_id)
     if request.method == 'POST':
         editform = taskTenantForm(request.POST, instance=inst)
         if editform.is_valid():
             new_task = editform.save(commit=False)
-            p = Profile.for_tenant(workspace).objects.get(user=request.user)
+            new_task.workspace = workspace ###maybe something to improve here
+            p = Profile.objects.by_workspace(workspace).get(user=request.user)
             new_task.owner = p
             new_task.save()
             return redirect(reverse('dashboard:taskNew'))
@@ -101,10 +103,10 @@ def taskAdmin(request, task_id=None):
 def time(request):
     (context, some_data) = check_data_existence(request)
     if some_data:
-        workspace = request.user.tenantlink.workspace
-        al = Task.for_tenant(workspace).objects.filter(monitored=True)
+        workspace = request.user.profile.workspace
+        al = Task.objects.by_workspace(workspace).filter(monitored=True)
         a_choices = ( (p.id, p.name) for p in al )
-        ul = Profile.for_tenant(workspace).objects.all()
+        ul = Profile.objects.by_workspace(workspace).all()
         u_choices = ( (p.user_id, p.user.email) for p in ul )
         a_select  = None
         u_select  = None
@@ -121,8 +123,8 @@ def time(request):
             form = TaskUserForm(request, tasks=a_choices, users=u_choices)
         context = {'form' : form,
                 'form_action'   : reverse('dashboard:time')}
-        queryset = DailyRecord.for_tenant(workspace
-                                    ).objects.filter(task__monitored=True)
+        queryset = DailyRecord.objects.by_workspace(workspace
+                                    ).filter(task__monitored=True)
         #tasks evolution over time
         (array, line_options) = tasks_over_time(workspace, queryset)
         (line_data, line_options) = cumulative_task_over_time(array,
@@ -142,13 +144,13 @@ def time(request):
 @user_passes_test(has_paid, login_url=reverse_lazy('dashboard:latePayment'))
 def overview(request):
     (context, some_data) = check_data_existence(request)
-    workspace = request.user.tenantlink.workspace
+    workspace = request.user.profile.workspace
     context['workspace'] = workspace
-    context['users_number'] = Profile.for_tenant(workspace).objects.filter(
+    context['users_number'] = Profile.objects.by_workspace(workspace).filter(
                                                         is_active=True).count()
     if some_data:
-        queryset = DailyRecord.for_tenant(workspace
-                        ).objects.filter(task__monitored=True)
+        queryset = DailyRecord.objects.by_workspace(workspace
+                        ).filter(task__monitored=True)
         context['period'] = 90
         startd = datetime.datetime.today() - datetime.timedelta(
                                                 context['period'])

@@ -1,5 +1,5 @@
 from django.db import models
-from tenancy.models import TenantModel
+from libs.tenant import TenantModel
 
 class PaymentData(TenantModel):
     '''

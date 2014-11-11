@@ -85,6 +85,6 @@ class ProfileListForm(forms.Form):
 				    , widget=forms.CheckboxSelectMultiple)
     def __init__(self, ws, *args, **kwargs):
         super(ProfileListForm, self).__init__(*args, **kwargs)
-        pl = Profile.for_tenant(ws).objects.filter()
+        pl = Profile.objects.by_workspace(ws).filter()
         self.fields['plist'].choices = ( (p.user.id, p.user.email) for p in pl )
         self.fields['plist'].initial = [ p.user.id for p in pl ]

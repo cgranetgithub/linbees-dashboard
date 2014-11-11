@@ -6,7 +6,7 @@ from django.utils.timezone import now
 from backapps.profile.models import Profile
 from backapps.task.models import Task
 from libs.chart.calculus import record2daily
-from tenancy.models import TenantModel
+from libs.tenant import TenantModel
 
 class Record(TenantModel):
     """
@@ -47,16 +47,16 @@ class DailyRecord(TenantModel):
     user     = models.ForeignKey(Profile, editable=False)
     duration = models.DecimalField(default=0, max_digits=10, decimal_places=2, editable=False) # hours
     class Meta:
-        unique_together = (("date", "task", "user"),)
+        unique_together = (("workspace", "date", "task", "user"),)
 
 def update_DailyRecord(sender, instance, *args, **kwargs):
-    workspace, task, user = instance.tenant, instance.task, instance.user
+    workspace, task, user = instance.workspace, instance.task, instance.user
     if instance.start() and instance.end():
         start = instance.start().replace(hour=0, minute=0, second=0, microsecond=0)
         end = instance.end().replace(hour=0, minute=0, second=0, microsecond=0)
         end += datetime.timedelta(1)
         # get all records from the same period for the same task & same user
-        qs = Record.for_tenant(workspace).objects.filter(
+        qs = Record.objects.by_workspace(workspace).filter(
                     ( Q(start_original__gte=start) & Q(start_override__isnull=True) ) | Q(start_override__gte=start)
                 , ( Q(end_original__lte=end) & Q(end_override__isnull=True) ) | Q(end_override__lte=end)
                 , task=task
@@ -66,8 +66,8 @@ def update_DailyRecord(sender, instance, *args, **kwargs):
         data_dict = record2daily(qs)
         # update or create the daily_task entries for the period and task
         for date in data_dict.iterkeys():
-            (dpt, created) = DailyRecord.for_tenant(workspace
-                            ).objects.get_or_create(
+            (dpt, created) = DailyRecord.objects.get_or_create(
+                                workspace=workspace,
                                 task=task, date=date, user=user)
             dpt.duration = data_dict[date].total_seconds()/3600
             dpt.save()
@@ -78,8 +78,8 @@ def get_ongoing_task(profile):
     """
     get the current "opened" (ongoing) record of the given user, if any
     """
-    workspace = profile.tenant
-    qs = Record.for_tenant(workspace).objects.filter(
+    workspace = profile.workspace
+    qs = Record.objects.by_workspace(workspace).filter(
                                 user=profile).order_by('start_original')
     ret = None
     if qs.count() > 0:
@@ -94,7 +94,7 @@ def new_task(profile, task):
     - close the current ongoing task, if any
     - create a new record, if a task is given
     """
-    workspace = profile.tenant
+    workspace = profile.workspace
     #close last entry
     last_record = get_ongoing_task(profile)
     if last_record is not None:
@@ -103,6 +103,6 @@ def new_task(profile, task):
     #create new entry
     cur_record = None
     if task is not None:
-        cur_record = Record.for_tenant(workspace).objects.create(
-                                            user=profile, task=task)
+        cur_record = Record.objects.create(workspace=workspace,
+                                           user=profile, task=task)
     return (last_record, cur_record)

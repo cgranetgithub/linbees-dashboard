@@ -12,7 +12,7 @@ from backapps.task.models import Task
 
 def client_login(request):
     return auth.views.login(request, template_name='clientapp/login.html'
-		, extra_context={'next':'/clientapp/'})
+                , extra_context={'next':'/clientapp/'})
 
 def client_register(request):
     if request.method == 'POST':
@@ -20,10 +20,10 @@ def client_register(request):
         if form.is_valid():
             newuser = form.save()
             user = auth.authenticate( username=form.cleaned_data["username"]
-				    , password=form.cleaned_data["password2"])
+                                    , password=form.cleaned_data["password2"])
             if user is not None and user.is_active:
-		auth.login(request, user)
-		return redirect(reverse('clientapp:home'))
+                auth.login(request, user)
+                return redirect(reverse('clientapp:home'))
     else:
         form = ClientUserForm()
     return render(request, 'clientapp/register.html', {'form': form
@@ -31,8 +31,8 @@ def client_register(request):
     
 @login_required(login_url=reverse_lazy('clientapp:login'))
 def client_home(request):
-    workspace = request.user.tenantlink.workspace
-    profile = Profile.for_tenant(workspace).objects.get(user=request.user)
+    workspace = request.user.profile.workspace
+    profile = Profile.objects.by_workspace(workspace).get(user=request.user)
     last_task = False
     if request.method == 'POST':
         form = TaskForm(request)
@@ -41,7 +41,7 @@ def client_home(request):
                 task = None
             else:
                 pid = form.cleaned_data['tasks']
-                task = Task.for_tenant(workspace).objects.get(pk=pid)
+                task = Task.objects.by_workspace(workspace).get(pk=pid)
             new_task(profile, task)
             return redirect(reverse('clientapp:home'))
     else:
@@ -51,20 +51,20 @@ def client_home(request):
         else:
             init = {'tasks' : ''}
         form = TaskForm(request, initial=init)
-    records = Record.for_tenant(workspace
-				    ).objects.filter(user=profile
-				    ).order_by('start_original').reverse()[:5]
+    records = Record.objects.by_workspace(workspace
+                                    ).filter(user=profile
+                                    ).order_by('start_original').reverse()[:5]
     return render(request, 'clientapp/home.html',{'form':form
-                                                 ,'form_action':"/clientapp/"
-                                                 ,'records':records
-                                                 ,'user':request.user
-                                                 ,'last_task':last_task
-                                                 ,'debug':settings.DEBUG})
+                                                ,'form_action':"/clientapp/"
+                                                ,'records':records
+                                                ,'user':request.user
+                                                ,'last_task':last_task
+                                                ,'debug':settings.DEBUG})
 
 @login_required(login_url=reverse_lazy('clientapp:login'))
 def client_logout(request):
-    workspace = request.user.tenantlink.workspace
-    profile = Profile.for_tenant(workspace).objects.get(user=request.user)
+    workspace = request.user.profile.workspace
+    profile = Profile.objects.by_workspace(workspace).get(user=request.user)
     new_task(profile, None)
     auth.logout(request)
     return redirect(reverse('clientapp:home'))

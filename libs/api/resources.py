@@ -26,15 +26,15 @@ class PreferenceResource(Resource):
             kwargs['pk'] = bundle_or_obj.id
         return kwargs
     def get_object_list(self, request):
-        tenant = request.user.tenantlink.workspace
-	user = Profile.for_tenant(tenant).objects.get(user=request.user)
-        results = Preference.for_tenant(tenant).objects.filter(user=user)
+        tenant = request.user.profile.workspace
+	user = Profile.objects.by_workspace(tenant).get(user=request.user)
+        results = Preference.objects.by_workspace(tenant).filter(user=user)
         return results
     def obj_get_list(self, request=None, **kwargs):
         return self.get_object_list(kwargs['bundle'].request)
     def obj_get(self, request=None, **kwargs):
-        tenant = kwargs['bundle'].request.user.tenantlink.workspace
-        res = Preference.for_tenant(tenant).objects.get(pk=kwargs['pk'])
+        tenant = kwargs['bundle'].request.user.profile.workspace
+        res = Preference.objects.by_workspace(tenant).get(pk=kwargs['pk'])
         return res
     def rollback(self, bundles):
         pass
@@ -56,15 +56,15 @@ class TaskResource(Resource):
             kwargs['pk'] = bundle_or_obj.id
         return kwargs
     def get_object_list(self, request):
-        tenant = request.user.tenantlink.workspace
-	user = Profile.for_tenant(tenant).objects.get(user=request.user)
-        results = Task.for_tenant(tenant).objects.all()
+        tenant = request.user.profile.workspace
+	user = Profile.objects.by_workspace(tenant).get(user=request.user)
+        results = Task.objects.by_workspace(tenant).all()
         return results
     def obj_get_list(self, request=None, **kwargs):
         return self.get_object_list(kwargs['bundle'].request)
     def obj_get(self, request=None, **kwargs):
-        tenant = kwargs['bundle'].request.user.tenantlink.workspace
-        res = Task.for_tenant(tenant).objects.get(pk=kwargs['pk'])
+        tenant = kwargs['bundle'].request.user.profile.workspace
+        res = Task.objects.by_workspace(tenant).get(pk=kwargs['pk'])
         return res
     def rollback(self, bundles):
         pass
@@ -88,15 +88,15 @@ class RecordResource(Resource):
             kwargs['pk'] = bundle_or_obj.id
         return kwargs
     def get_object_list(self, request):
-        tenant = request.user.tenantlink.workspace
-	user = Profile.for_tenant(tenant).objects.get(user=request.user)
-        results = Record.for_tenant(tenant).objects.filter(user=user)
+        tenant = request.user.profile.workspace
+	user = Profile.objects.by_workspace(tenant).get(user=request.user)
+        results = Record.objects.by_workspace(tenant).filter(user=user)
         return results
     def obj_get_list(self, request=None, **kwargs):
         return self.get_object_list(kwargs['bundle'].request)
     def obj_get(self, request=None, **kwargs):
-        tenant = kwargs['bundle'].request.user.tenantlink.workspace
-        res = Record.for_tenant(tenant).objects.get(pk=kwargs['pk'])
+        tenant = kwargs['bundle'].request.user.profile.workspace
+        res = Record.objects.by_workspace(tenant).get(pk=kwargs['pk'])
         return res
     def rollback(self, bundles):
         pass
@@ -116,8 +116,8 @@ class CloseLastRecordResource(Resource):
 	
 	"""
         lazy_user = bundle.request.user
-        tenant = lazy_user.tenantlink.workspace
-	user = Profile.for_tenant(tenant).objects.get(user=lazy_user)
+        tenant = lazy_user.profile.workspace
+	user = Profile.objects.by_workspace(tenant).get(user=lazy_user)
         task = None
         new_task(user, task)
     def rollback(self, bundles):

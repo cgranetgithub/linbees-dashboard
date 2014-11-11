@@ -3,7 +3,7 @@ from django_webtest import WebTest
 from django.test.client import Client
 from django.contrib.auth.models import User
 from backapps.workspace.models import Workspace #import before tenants
-from backapps.profile.models import Profile, TenantLink
+from backapps.profile.models import Profile
 from libs.messages import ws_already_exist, public_email_not_allowed
 
 class UrlTest(TestCase):
@@ -27,7 +27,7 @@ class SignupTest(WebTest):
         user = User.objects.get(email='password1@password1.com')
         assert user.is_staff is False
         assert user.is_superuser is False
-        p = Profile.for_tenant(ws).objects.get(user=user)
+        p = Profile.objects.by_workspace(ws).get(user=user)
         assert p.is_admin_workspace is True
         assert p.is_admin_hr is False
         assert p.is_admin_primary is False

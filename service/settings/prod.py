@@ -115,7 +115,6 @@ EMAIL_USE_TLS = False
 # linbees specific
 DEFAULT_PRICE = 5 #euros
 DEFAULT_FREE_PERIOD = 90 #days
-TENANCY_TENANT_MODEL= 'workspace.Workspace'
 LOGIN_URL = '/dashboard/login/'
 LOGIN_REDIRECT_URL = '/dashboard/'
 

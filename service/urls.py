@@ -7,7 +7,7 @@ admin.autodiscover()
 
 from tastypie.api import Api
 from libs.api.resources import (TaskResource, RecordResource,
-				PreferenceResource, CloseLastRecordResource)
+                                PreferenceResource, CloseLastRecordResource)
 
 v1_api = Api(api_name='v1')
 #v1_api.register(UserResource())
@@ -39,5 +39,5 @@ if os.environ.get("STAGING") == 'True':
     from django.http import HttpResponse
     urlpatterns += patterns('',
     (r'^robots\.txt$', lambda r: HttpResponse("User-agent: *\nDisallow: /", 
-					      content_type="text/plain"))
+                                            content_type="text/plain"))
     )

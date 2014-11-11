@@ -116,13 +116,13 @@ def active_users(queryset):
 #def tasksAlongTime2(workspace, task_id=None):
     #t = datetime.datetime.now()
     #if task_id is not None:
-        #qs = Record.for_tenant(workspace).objects.filter(task__id=task_id)
-        #tasks = [Task.for_tenant(workspace).objects.get(pk=task_id)]
+        #qs = Record.objects.by_workspace(workspace).filter(task__id=task_id)
+        #tasks = [Task.objects.by_workspace(workspace).get(pk=task_id)]
     #else:
-        #qs = Record.for_tenant(workspace).objects.all()
-        #p_dicts = Record.for_tenant(workspace).objects.values("task")
+        #qs = Record.objects.by_workspace(workspace).all()
+        #p_dicts = Record.objects.by_workspace(workspace).values("task")
         #p_list = [p["task"] for p in p_dicts]
-        #tasks = [Task.for_tenant(workspace).objects.get(pk=p) for p in set(p_list)]
+        #tasks = [Task.objects.by_workspace(workspace).get(pk=p) for p in set(p_list)]
     #if qs.count() == 0:
         #return ({}, [])
     #data_dict = records2days(qs)
@@ -144,10 +144,10 @@ def active_users(queryset):
     #return ret_dict
 
 #def tasksSum(workspace):
-    #tasks = Task.for_tenant(workspace).objects.all()
+    #tasks = Task.objects.by_workspace(workspace).all()
     #time_dict = defaultdict(datetime.timedelta)
     #for p in tasks:
-        #records = Record.for_tenant(workspace).objects.filter(task__name__exact=p.name)
+        #records = Record.objects.by_workspace(workspace).filter(task__name__exact=p.name)
         #sum_time = datetime.timedelta(0)
         #for r in records:
                 #if r.end() is not None:

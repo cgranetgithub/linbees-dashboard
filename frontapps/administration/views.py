@@ -22,7 +22,7 @@ def accountAdmin(request):
 
 @login_required
 def workspaceAdmin(request):
-    workspace = request.user.tenantlink.workspace
+    workspace = request.user.profile.workspace
     if request.method == 'POST':
 	form = WorkspaceChangeForm(request.POST, instance=workspace)
 	if form.is_valid():
@@ -36,7 +36,7 @@ def workspaceAdmin(request):
 
 #@login_required
 #def userAdmin(request):
-    #workspace = request.user.tenantlink.workspace
+    #workspace = request.user.profile.workspace
     #fsalaryformset = tenant_modelformset_factory(workspace, FixedSalaryFormSet)
     #if request.method == 'POST':
 	#userform = UserChangeForm(request.POST)

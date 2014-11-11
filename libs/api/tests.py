@@ -31,7 +31,7 @@ class TaskTest(TestCase):
 	u = User.objects.create_user(username='charly@lagat.com'
 				     , password='secret')
 	ud = createUserProfile(u, workspace)
-	Task.for_tenant(workspace).objects.create(name='p1', owner=ud)
+	Task.objects.by_workspace(workspace).create(name='p1', owner=ud)
     def test_get_list(self):
 	c = Client()
 	c.login(username='charly@lagat.com', password='secret')
@@ -51,8 +51,8 @@ class RecordTest(TestCase):
 	u = User.objects.create_user(username='charly@lagat.com'
 				     , password='secret')
 	ud = createUserProfile(u, workspace)
-	p = Task.for_tenant(workspace).objects.create(name='p1', owner=ud)
-	Record.for_tenant(workspace).objects.create(task=p, user=ud)
+	p = Task.objects.by_workspace(workspace).create(name='p1', owner=ud)
+	Record.objects.by_workspace(workspace).create(task=p, user=ud)
     def test_get_list(self):
 	c = Client()
 	c.login(username='charly@lagat.com', password='secret')
