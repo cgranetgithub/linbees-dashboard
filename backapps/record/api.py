@@ -1,10 +1,13 @@
 from tastypie import fields
+from tastypie.http import HttpUnauthorized, HttpForbidden
+from tastypie.utils import trailing_slash
 from tastypie.bundle import Bundle
+from django.conf.urls import url
 from tastypie.resources import Resource, ModelResource
 from tastypie.authorization import DjangoAuthorization
 from tastypie.authentication import SessionAuthentication
-from backapps.record.models import Record, new_task
 from backapps.profile.models import Profile
+from backapps.record.models import Record, new_task
 
 class RecordResource(ModelResource):
     id = fields.IntegerField(attribute='id')
@@ -22,27 +25,26 @@ class RecordResource(ModelResource):
         tenant = profile.workspace
         results = Record.objects.by_workspace(tenant).filter(profile=profile)
         return results
-
-class CloseLastRecordResource(Resource):
-    class Meta:
-        resource_name = 'closelastrecord'
-        object_class = Record
-        authentication = SessionAuthentication()
-        authorization = DjangoAuthorization()
-        allowed_methods = ['post']
-    def obj_create(self, bundle, **kwargs):
-        """
-        called for POST requests
-        this fn only calls "new_task" with no task
-        in result, the current ongoing task is ended
-        
-        """
-        lazy_user = bundle.request.user
-        profile = lazy_user.profile
-        #tenant = lazy_user.profile.workspace
-        #user = Profile.objects.by_workspace(tenant).get(user=lazy_user)
-        task = None
-        new_task(user, task)
-    #def rollback(self, bundles):
-        #pass
-
+    def prepend_urls(self):
+        return [
+            url(r"^(?P<resource_name>%s)/closelast%s$" %
+                (self._meta.resource_name, trailing_slash()),
+                self.wrap_view('closelast'), name="api_closelast"),
+        ]
+    def closelast(self, request, **kwargs):
+        self.method_check(request, allowed=['post'])
+        self.is_authenticated(request)
+        #self.throttle_check(request)
+        if request.user and request.user.is_authenticated():
+            try:
+                new_task(request.user.profile, None)
+                return self.create_response(request, {u'success': True})
+            except:
+                return self.create_response(request, 
+                                            {u'reason': u'Unexpected'},
+                                            HttpForbidden)
+        else:
+            return self.create_response(
+                                    request,
+                                    {u'reason': u"You are not authenticated"},
+                                    HttpUnauthorized )

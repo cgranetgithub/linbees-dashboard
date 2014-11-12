@@ -6,17 +6,14 @@ from django.contrib import admin
 admin.autodiscover()
 
 from tastypie.api import Api
-#from libs.api.resources import (TaskResource, RecordResource,
-                                #PreferenceResource, CloseLastRecordResource)
 from backapps.task.api import TaskResource
-from backapps.record.api import RecordResource, CloseLastRecordResource
+from backapps.record.api import RecordResource
 from backapps.preference.api import PreferenceResource
 
 v1_api = Api(api_name='v1')
 #v1_api.register(UserResource())
 v1_api.register(TaskResource())
 v1_api.register(RecordResource())
-v1_api.register(CloseLastRecordResource())
 v1_api.register(PreferenceResource())
 
 

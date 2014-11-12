@@ -57,19 +57,20 @@ class RegistrationForm(UserCreationForm):
                 'password1', 'password2')
     def clean(self):
         cleaned_data = super(RegistrationForm, self).clean()
-        email = self.cleaned_data['email']
-        #check email unicity
-        try:
-            User.objects.get(email=email)
-        except User.DoesNotExist:
-            pass
-        else:
-            raise forms.ValidationError(existing_email)
-        #check non-public email domain
-        provider = email.split('@')[1]
-        if provider in EMAIL_PROVIDER_BLACKLIST:
-            raise forms.ValidationError(
-                                public_email_not_allowed%{'domain':provider})
+        if 'email' in self.cleaned_data:
+            email = self.cleaned_data['email']
+            #check email unicity
+            try:
+                User.objects.get(email=email)
+            except User.DoesNotExist:
+                pass
+            else:
+                raise forms.ValidationError(existing_email)
+            #check non-public email domain
+            provider = email.split('@')[1]
+            if provider in EMAIL_PROVIDER_BLACKLIST:
+                raise forms.ValidationError(
+                                    public_email_not_allowed%{'domain':provider})
         # Always return the full collection of cleaned data.
         return cleaned_data
     def save(self, commit=True):

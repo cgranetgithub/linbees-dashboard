@@ -4,7 +4,6 @@ from django.core.urlresolvers import reverse
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.decorators import login_required
 from backapps.workspace.forms import WorkspaceChangeForm
-#from backapps.salary.forms import FixedSalaryFormSet
 
 @login_required
 def accountAdmin(request):

@@ -23,13 +23,14 @@ class TaskForm(forms.Form):
 class ClientUserForm(RegistrationForm):
     def clean(self):
         cleaned_data = super(ClientUserForm, self).clean()
-        email = self.cleaned_data['email']
-        ws_name = getDashboardNameFromEmail(email)
-        try:
-            Workspace.objects.get(name=ws_name)
-        except Workspace.DoesNotExist:
-            raise forms.ValidationError(
-                    register_but_ws_does_not_exist%{'workspace':ws_name})
+        if 'email' in self.cleaned_data:
+            email = self.cleaned_data['email']
+            ws_name = getDashboardNameFromEmail(email)
+            try:
+                Workspace.objects.get(name=ws_name)
+            except Workspace.DoesNotExist:
+                raise forms.ValidationError(
+                        register_but_ws_does_not_exist%{'workspace':ws_name})
         # Always return the full collection of cleaned data.
         return cleaned_data
     def save(self):
