@@ -53,9 +53,11 @@ def cumulative_task_over_time(array, startdate=None, enddate=None):
     endindex = len(cum_array)
     if startdate and enddate:
         for i in cum_array:
-            if startdate.isoformat() == i[0]:
+            #if startdate.isoformat() == i[0]:
+            if startdate == i[0]:
                 startindex = cum_array.index(i)
-            if enddate.isoformat() == i[0]:
+            #if enddate.isoformat() == i[0]:
+            if enddate == i[0]:
                 endindex = cum_array.index(i)
         cum_array = cum_array[startindex:endindex+1]
     cum_array.insert(0, array[0])

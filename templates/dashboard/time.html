@@ -3,62 +3,62 @@
 {% load bootstrap3 %}
 
 {% block head %}
-  <script type="text/javascript" src="https://www.google.com/jsapi"></script>
-  <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
-  <script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
-  <script>
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
+<script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+<script>
     $(function() {
     $( "#id_startdate" ).datepicker({ dateFormat: "yy-mm-dd" });
     });
-  </script>
-  <script>
+</script>
+<script>
     $(function() {
     $( "#id_enddate" ).datepicker({ dateFormat: "yy-mm-dd" });
     });
-  </script>
+</script>
 {% endblock head %}
 
 {% block home %}
-  <div class="row">
+<div class="row">
     {% if tasks_number == 0 %}
-      <div class="col-md-4 col-md-offset-2">
-	{% include 'dashboard/no_task_message.html' %}
-      </div>
+    <div class="col-md-4 col-md-offset-2">
+        {% include 'dashboard/no_task_message.html' %}
+    </div>
     {% elif nodata == True %}
-      <div class="col-md-4 col-md-offset-2">
-	{% include 'dashboard/no_data_message.html' %}
-      </div>
+    <div class="col-md-4 col-md-offset-2">
+        {% include 'dashboard/no_data_message.html' %}
+    </div>
     {% else %}
-      <div class="col-md-2">
-	<div class="panel panel-default">
-	  <div class="panel-body">
-	    <form action={{ form_action }} method="post" role="form">{% csrf_token %}
-	      {% bootstrap_form form %}
-	      {% buttons %}
-		<button type="submit" class="btn btn-sm btn-primary">
-		  {% trans "Update" %}
-		</button>
-	      {% endbuttons %}
-	    </form>
-	  </div>
-	</div>
-      </div>
-      <div class="col-md-5">
-	<div class="panel panel-default">
-	  <div class="panel-body">
+    <div class="col-md-2">
+        <div class="panel panel-default">
+        <div class="panel-body">
+            <form action={{ form_action }} method="post" role="form">{% csrf_token %}
+            {% bootstrap_form form %}
+            {% buttons %}
+                <button type="submit" class="btn btn-sm btn-primary">
+                {% trans "Update" %}
+                </button>
+            {% endbuttons %}
+            </form>
+        </div>
+        </div>
+    </div>
+    <div class="col-md-5">
+        <div class="panel panel-default">
+        <div class="panel-body">
             <h3 class="text-primary">{% trans 'Time per project<br><small>(in hours)</small>' %}</h3>
-	    {% include "chart/linechart.html" with chart_data=chart1_data chart_options=chart1_options divname='chart1div' %}
-	  </div>
-	</div>
-      </div>
-      <div class="col-md-5">
-	<div class="panel panel-default">
-	  <div class="panel-body">
+                {% include "chart/linechart_ajax.html" with data_url="dashboard:data_time_per_project" startdate=startdate enddate=enddate divname='chart1div' %}
+        </div>
+        </div>
+    </div>
+    <div class="col-md-5">
+        <div class="panel panel-default">
+        <div class="panel-body">
             <h3 class="text-primary">{% trans 'Cumulated time per project<br><small>(in hours)</small>' %}</h3>
-	    {% include "chart/linechart.html" with chart_data=chart2_data chart_options=chart2_options divname='chart2div' %}
-	  </div>
-	</div>
-      </div>
+                {% include "chart/linechart_ajax.html" with data_url="dashboard:data_cumulated_time_per_project" startdate=startdate enddate=enddate divname='chart2div' %}
+        </div>
+        </div>
+    </div>
     {% endif %}
-  </div><!-- /.row -->
+</div><!-- /.row -->
 {% endblock home %}

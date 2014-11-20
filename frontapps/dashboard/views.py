@@ -15,7 +15,11 @@ from libs.chart.chart import (tasks_over_time, cumulative_task_over_time,
                               pie_total_time)
 from libs.chart.calculus import (sum_and_sort_time, resources_involved,
                                  active_users, queryset_filter)
-#from tenancy.forms import tenant_modelform_factory
+
+import json
+
+from django.http import Http404, HttpResponse
+
 
 def check_data_existence(request):
     workspace = request.user.profile.workspace
@@ -122,22 +126,9 @@ def time(request):
         else:
             form = TaskUserForm(request, tasks=a_choices, users=u_choices)
         context = {'form' : form,
-                'form_action'   : reverse('dashboard:time')}
-        queryset = DailyRecord.objects.by_workspace(workspace
-                                    ).filter(task__monitored=True)
-        #tasks evolution over time
-        (array, line_options) = tasks_over_time(workspace, queryset)
-        (line_data, line_options) = cumulative_task_over_time(array,
-                                                              startdate,
-                                                              enddate)
-        context['chart2_data'] = line_data
-        context['chart2_options'] = line_options
-        #tasks evolution over time
-        queryset = queryset_filter(queryset, a_select, u_select,
-                                   startdate, enddate)
-        (array, line_options) = tasks_over_time(workspace, queryset)
-        context['chart1_data'] = array
-        context['chart1_options'] = line_options
+                   'form_action':reverse('dashboard:time'),
+                   'startdate' : startdate,
+                   'enddate' : enddate}
     return render(request, 'dashboard/time.html', context)
 
 @login_required
@@ -162,26 +153,43 @@ def overview(request):
         (pie_data, pie_options) = pie_total_time(queryset)
         context['chart1_data'] = pie_data
         context['chart1_options'] = pie_options
-        
-        ##tasks evolution over time
-        #(bar_data, bar_options) = tasks_over_time(workspace)
-        #context['chart2_data'] = bar_data
-        #context['chart2_options'] = bar_options
-    #if workspace.on_trial:
-        #if request.method == 'POST':
-            #form = TrialForm(request.POST)
-            #if form.is_valid():
-                #gen.clean_records(workspace)
-                #gen.clean_users(workspace, request.user)
-                #gen.generate_users(workspace  , form.cleaned_data['users'])
-                #gen.generate_records(workspace, form.cleaned_data['start']
-                                            #, form.cleaned_data['end'])
-                #return redirect(reverse('dashboard:overview'))
-        #else:
-            #form = TrialForm(initial={
-                    #'start':datetime.datetime.today()-datetime.timedelta(10)
-                    #, 'end':datetime.datetime.today()
-                    #, 'users':10})
-        #context['form'] = form
-        #context['form_action'] = reverse('dashboard:overview')
     return render(request, 'dashboard/overview.html', context)
+
+@login_required
+@user_passes_test(has_paid, login_url=reverse_lazy('dashboard:latePayment'))
+def data_time_per_project(request, startdate, enddate):
+    (context, some_data) = check_data_existence(request)
+    if not some_data:
+        raise Http404
+    data = {}
+    workspace = request.user.profile.workspace
+    a_select  = None
+    u_select  = None
+    queryset = DailyRecord.objects.by_workspace(workspace
+                                ).filter(task__monitored=True)
+    queryset = queryset_filter(queryset, a_select, u_select,
+                               startdate, enddate)
+    (array, line_options) = tasks_over_time(workspace, queryset)
+    data['data'] = array
+    data['options'] = line_options
+    return HttpResponse(json.dumps(data), content_type="application/json")
+
+
+@login_required
+@user_passes_test(has_paid, login_url=reverse_lazy('dashboard:latePayment'))
+def data_cumulated_time_per_project(request, startdate, enddate):
+    (context, some_data) = check_data_existence(request)
+    if not some_data:
+        raise Http404
+    data = {}
+    workspace = request.user.profile.workspace
+    queryset = DailyRecord.objects.by_workspace(workspace
+                                ).filter(task__monitored=True)
+    #tasks evolution over time
+    (array, line_options) = tasks_over_time(workspace, queryset)
+    (line_data, line_options) = cumulative_task_over_time(array,
+                                                          startdate,
+                                                          enddate)
+    data['data'] = line_data
+    data['options'] = line_options
+    return HttpResponse(json.dumps(data), content_type="application/json")

@@ -1,4 +1,5 @@
 import datetime
+from dateutil import parser
 from operator import itemgetter
 from django.db.models import Sum, Count
 from collections import defaultdict, OrderedDict
@@ -40,10 +41,20 @@ def record2daily(queryset):
 
 def queryset_filter(queryset, task_list=None, user_list=None,
                         startdate=None, enddate=None):
-    if startdate:
-        queryset = queryset.filter(date__gte=startdate)
-    if enddate:
-        queryset = queryset.filter(date__lte=enddate)
+    if startdate is not None:
+        if type(startdate) not in (datetime.date, datetime.datetime):
+            try:
+                startdate = parser.parse(startdate).date()
+                queryset = queryset.filter(date__gte=startdate)
+            except:
+                pass
+    if enddate is not None:
+        if type(enddate) not in (datetime.date, datetime.datetime):
+            try:
+                enddate = parser.parse(enddate).date()
+                queryset = queryset.filter(date__lte=enddate)
+            except:
+                pass
     if task_list:
         queryset = queryset.filter(task__in=task_list)
     if user_list:
