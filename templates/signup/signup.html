@@ -18,7 +18,8 @@ function autofill( evt ) {
     var val = $('#id_email').val();
     $('#id_username').val( val );
     var p = val.indexOf('.');
-    if ( p > 0 ) {
+    var o = val.indexOf('@');
+    if ( (p>0 && o == -1) ||  (p>0 && p<o) ) {
         $('#id_first_name').val(val.substr(0, p).capitalize());
         var o = val.indexOf('@');
         if ( o > 0 ) {
@@ -28,7 +29,6 @@ function autofill( evt ) {
             $('#id_last_name').val(val.substr(p+1).capitalize());
         }
     } else {
-        var o = val.indexOf('@');
         if (o > 0 ) {
             $('#id_first_name').val(val.substr(0, o).capitalize());
             $('#id_last_name').val("");
