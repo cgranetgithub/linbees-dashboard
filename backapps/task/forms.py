@@ -5,9 +5,11 @@ from backapps.task.models import Task
 class TaskForm(forms.ModelForm):
     class Meta:
         model = Task
-        fields  = ('name', 'description')
+        fields  = ('name', 'description', 'parent', 'owner',
+                   'start_date', 'end_date', 'additional_cost',
+                   'cost_estimate', 'time_estimate')
         exclude = ('is_active', 'monitored', 'primary',
-                   'p_group', 'p_type', 'parent')
+                   'p_group', 'p_type')
         widgets = {
             'description': forms.Textarea(),
         }

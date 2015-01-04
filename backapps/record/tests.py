@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 from backapps.workspace.models import Workspace
 from backapps.profile.models import createUserProfile
 from backapps.task.models import Task
-from backapps.record.models import Record, DailyRecord
+from backapps.record.models import Record, DailyDurationPerTaskPerUser
 
 class DurationTest(TestCase):
     def setUp(self):
@@ -23,7 +23,7 @@ class DurationTest(TestCase):
         record.end_original = ( record.start_original
                             + datetime.timedelta(minutes=6) )
         record.save()
-        dr = DailyRecord.objects.by_workspace(self.workspace).get(
+        dr = DailyDurationPerTaskPerUser.objects.by_workspace(self.workspace).get(
                                         date=record.start_original.date(),
                                         task=self.task,
                                         profile=self.user)
@@ -31,7 +31,7 @@ class DurationTest(TestCase):
         record.start_override = ( record.start_original
                             - datetime.timedelta(minutes=6) )
         record.save()
-        dr = DailyRecord.objects.by_workspace(self.workspace).get(
+        dr = DailyDurationPerTaskPerUser.objects.by_workspace(self.workspace).get(
                                         date=record.start_original.date(),
                                         task=self.task,
                                         profile=self.user)
@@ -39,7 +39,7 @@ class DurationTest(TestCase):
         record.end_override = ( record.start_original
                             + datetime.timedelta(minutes=12) )
         record.save()
-        dr = DailyRecord.objects.by_workspace(self.workspace).get(
+        dr = DailyDurationPerTaskPerUser.objects.by_workspace(self.workspace).get(
                                         date=record.start_original.date(),
                                         task=self.task,
                                         profile=self.user)
@@ -54,16 +54,16 @@ class DurationTest(TestCase):
         today = record.start_original.date()
         tomorrow = today + datetime.timedelta(1)
         aftertomorrow = today + datetime.timedelta(2)
-        dr1 = DailyRecord.objects.by_workspace(self.workspace).get(
+        dr1 = DailyDurationPerTaskPerUser.objects.by_workspace(self.workspace).get(
                                         date=today,
                                         task=self.task,
                                         profile=self.user).duration
-        dr2 = DailyRecord.objects.by_workspace(self.workspace).get(
+        dr2 = DailyDurationPerTaskPerUser.objects.by_workspace(self.workspace).get(
                                         date=tomorrow,
                                         task=self.task,
                                         profile=self.user).duration
         self.assertEqual(float(dr2), 24)
-        dr3 = DailyRecord.objects.by_workspace(self.workspace).get(
+        dr3 = DailyDurationPerTaskPerUser.objects.by_workspace(self.workspace).get(
                                         date=aftertomorrow,
                                         task=self.task,
                                         profile=self.user).duration
@@ -78,17 +78,17 @@ class DurationTest(TestCase):
         today = record.start_override.date()
         tomorrow = today + datetime.timedelta(1)
         aftertomorrow = today + datetime.timedelta(2)
-        dr1 = DailyRecord.objects.by_workspace(self.workspace).get(
+        dr1 = DailyDurationPerTaskPerUser.objects.by_workspace(self.workspace).get(
                                         date=today
                                         , task=self.task
                                         , profile=self.user).duration
         self.assertEqual(float(dr1), 12)
-        dr2 = DailyRecord.objects.by_workspace(self.workspace).get(
+        dr2 = DailyDurationPerTaskPerUser.objects.by_workspace(self.workspace).get(
                                         date=tomorrow
                                         , task=self.task
                                         , profile=self.user).duration
         self.assertEqual(float(dr2), 24)
-        dr3 = DailyRecord.objects.by_workspace(self.workspace).get(
+        dr3 = DailyDurationPerTaskPerUser.objects.by_workspace(self.workspace).get(
                                         date=aftertomorrow
                                         , task=self.task
                                         , profile=self.user).duration
@@ -115,7 +115,7 @@ class MultipleRecordADayTest(TestCase):
             record.end_original = ( record.start_original
                                 + datetime.timedelta(minutes=6) )
             record.save()
-        dr = DailyRecord.objects.by_workspace(self.workspace).get(
+        dr = DailyDurationPerTaskPerUser.objects.by_workspace(self.workspace).get(
                                         date=record.start_original.date()
                                         , task=self.task
                                         , profile=self.user)
@@ -130,7 +130,7 @@ class MultipleRecordADayTest(TestCase):
             record.end_original = ( record.start_original
                                 + datetime.timedelta(minutes=6) )
             record.save()
-        dr = DailyRecord.objects.by_workspace(self.workspace).get(
+        dr = DailyDurationPerTaskPerUser.objects.by_workspace(self.workspace).get(
                                         date=record.start_original.date()
                                         , task=self.task
                                         , profile=self.user)
@@ -144,7 +144,7 @@ class MultipleRecordADayTest(TestCase):
             record.end_override = ( record.start_original
                                 + datetime.timedelta(minutes=6) )
             record.save()
-        dr = DailyRecord.objects.by_workspace(self.workspace).get(
+        dr = DailyDurationPerTaskPerUser.objects.by_workspace(self.workspace).get(
                                         date=record.start_original.date()
                                         , task=self.task
                                         , profile=self.user)
@@ -160,7 +160,7 @@ class MultipleRecordADayTest(TestCase):
             record.end_override = ( record.start_original
                                 + datetime.timedelta(minutes=3) )
             record.save()
-        dr = DailyRecord.objects.by_workspace(self.workspace).get(
+        dr = DailyDurationPerTaskPerUser.objects.by_workspace(self.workspace).get(
                                         date=record.start_original.date()
                                         , task=self.task
                                         , profile=self.user)

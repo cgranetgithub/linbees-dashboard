@@ -1,7 +1,7 @@
 import datetime
 from django.db.models import Sum
 from libs.chart.calculus import sum_and_sort_time, queryset_filter
-from backapps.record.models import DailyRecord
+from backapps.record.models import DailyDurationPerTaskPerUser
 from backapps.task.models import Task
 
 def pie_total_time(queryset):
@@ -12,10 +12,10 @@ def pie_total_time(queryset):
     pie_options = {'is3D':'true', 'backgroundColor':'transparent'};
     return (pie_data, pie_options)
 
-def tasks_over_time(workspace, queryset):
+def tasks_over_time(workspace, queryset, field, queryclass):
     # get dates (warning works only with postegresql because of distinct)
-    dates = queryset.values_list('date', flat=True).order_by('date'
-                                                            ).distinct('date')
+    dates = queryset.values_list('date', flat=True
+                                ).order_by('date').distinct('date')
     # get tasks
     id_list = queryset.order_by('task__name'
                         ).values_list('task_id').distinct('task__name')
@@ -27,9 +27,8 @@ def tasks_over_time(workspace, queryset):
         tmp = [d.isoformat()]
         for p in tasks:
             try:
-                duration = queryset.filter(date=d, task=p).aggregate(
-                                            Sum('duration'))['duration__sum']
-            except DailyRecord.DoesNotExist:
+                duration = getattr(queryset.get(date=d, task=p), field)
+            except queryclass.DoesNotExist:
                 tmp.append(0)
             else:
                 tmp.append(int(duration or 0))

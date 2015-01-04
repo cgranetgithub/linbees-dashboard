@@ -1,4 +1,4 @@
-from backapps.workspace.models import Workspace
 from django.contrib import admin
+from models import Workspace
 
 admin.site.register(Workspace)

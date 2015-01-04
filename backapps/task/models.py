@@ -1,7 +1,8 @@
 from django.db import models
-from django.utils.translation import ugettext_lazy as _
 from libs.tenant import TenantModel
+from mptt.models import MPTTModel, TreeForeignKey
 from backapps.profile.models import Profile
+from django.utils.translation import ugettext_lazy as _
 
 class TaskGroup(TenantModel):
     """
@@ -33,7 +34,7 @@ class TaskType(TenantModel):
     description = models.CharField(max_length=255, blank=True,
                                    verbose_name=_('description'))
 
-class Task(TenantModel):
+class Task(MPTTModel, TenantModel):
     """
     Inherits TenantModel => tenant specific class
     """
@@ -55,15 +56,26 @@ class Task(TenantModel):
                                     verbose_name=_('group'))
     p_type      = models.ForeignKey(TaskType, blank=True, null=True,
                                     verbose_name=_('type'))
-    parent      = models.ForeignKey('self', blank=True, null=True,
-                                    verbose_name=_('sub-task of'))
+    parent      = TreeForeignKey('self', blank=True, null=True,
+                                 verbose_name=_('parent task'),
+                                 related_name='children task')
     owner       = models.ForeignKey(Profile, verbose_name=_('owned by'))
+    start_date  = models.DateTimeField(blank=True, null=True,
+                                    verbose_name=_('start date estimate'))
+    end_date    = models.DateTimeField(blank=True, null=True,
+                                    verbose_name=_('end date estimate'))
+    additional_cost = models.IntegerField(blank=True, null=True,
+                                    verbose_name=_('additional cost'))
+    cost_estimate = models.IntegerField(blank=True, null=True,
+                                    verbose_name=_('cost estimate'))
+    time_estimate = models.IntegerField(blank=True, null=True,
+                                    verbose_name=_('time estimate (in hours)'))
+    
     class Meta:
         verbose_name = "Task"
         verbose_name_plural = "Tasks"
         unique_together = (('workspace', 'name', 'parent'),)
+    class MPTTMeta:
+        order_insertion_by = ['name']        
     def __unicode__(self):
-        ret = ""
-        if self.parent:
-            ret = self.parent + "/"
-        return u'%s%s'%(ret, self.name)
+        return u'%s'%(self.name)

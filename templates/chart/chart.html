@@ -1,0 +1,10 @@
+{% load staticfiles %}
+
+<script type="text/javascript">
+    // TODO: should be done only once to avoid consuming time
+    google.load("visualization", "1", {packages:["corechart"]});
+</script>
+
+<div id="{{ divname }}" class="chart">
+    <img src="{% static 'dashboard/ajax-loader.gif' %}" style='display: block; margin: auto auto;' />
+</div>

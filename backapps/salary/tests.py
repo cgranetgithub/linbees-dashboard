@@ -3,7 +3,7 @@ from django.test import TestCase
 from django.contrib.auth.models import User
 from backapps.workspace.models import Workspace #import before tenants
 from backapps.profile.models import createUserProfile
-from backapps.salary.models import FixedSalary
+from backapps.salary.models import DailySalary
 
 class SimpleTest(TestCase):
     def setUp(self):
@@ -12,7 +12,7 @@ class SimpleTest(TestCase):
                                     password='secret')
         self.p = createUserProfile(u, self.ws)
     def test_create_instance(self):
-        fs = FixedSalary.objects.create(workspace=self.ws,
+        fs = DailySalary.objects.create(workspace=self.ws,
                                         profile=self.p,
                                         start_date=datetime.today(),
                                         end_date=datetime.today(),

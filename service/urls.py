@@ -1,10 +1,6 @@
 from django.conf.urls import patterns, include, url
 from frontapps.website.views import BlankView
-
-# Uncomment the next two lines to enable the admin:
 from django.contrib import admin
-admin.autodiscover()
-
 from tastypie.api import Api
 from backapps.task.api import TaskResource
 from backapps.record.api import RecordResource

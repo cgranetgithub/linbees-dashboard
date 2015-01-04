@@ -2,13 +2,13 @@
 {% load i18n %}
 {% load bootstrap3 %}
 
-{% block content %}
-  <form action={{ form_action }} method="post" role="form">{% csrf_token %}
-      {% bootstrap_form form %}
-      {% buttons %}
-	<button type="submit" class="btn btn-sm btn-primary">
-	  {% trans "Apply" %}
-	</button>
-      {% endbuttons %}
-  </form>
-{% endblock content %}
+{% block col1 %}
+<form action={{ form_action }} method="post" role="form">{% csrf_token %}
+    {% bootstrap_form form %}
+    {% buttons %}
+        <button type="submit" class="btn btn-sm btn-primary">
+            {% trans "Apply" %}
+        </button>
+    {% endbuttons %}
+</form>
+{% endblock col1 %}

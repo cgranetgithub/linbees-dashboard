@@ -4,16 +4,19 @@
 
 {% block col1 %}
     <ul class="nav nav-sidebar">
+        <li><a href="{% url 'administration:taskNew' %}" class="list-group-item active">
+        {% trans "Create a new project" %}
+        </a><li>
         {% for c in choices %}
             <li>
-                <a href="{% url 'administration:salaryEdit' 2 %}">{{ c.user.get_full_name }} ({{ c.user.email }}) {{ c.user.id }} </a>
+                <a href="{% url 'administration:taskEdit' c.id %}">{{ c.name }}</a>
             <li>
         {% endfor %}
     </ul>
 {% endblock col1 %}
 {% block col2 %}
     <form action="" method="post" role="form">{% csrf_token %}
-        {% bootstrap_formset formset layout='horizontal' %}
+        {% bootstrap_form editform %}
         {% buttons %}
         <button type="submit" class="btn btn-sm btn-primary" id="creation">
             {% trans "Apply" %}

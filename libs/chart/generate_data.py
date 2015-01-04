@@ -1,9 +1,10 @@
 import random, datetime, math
 from django.utils.timezone import utc
 from django.contrib.auth.models import User
-from backapps.record.models import Record, DailyRecord
-from backapps.task.models import Task
 from backapps.profile.models import Profile, createUserProfile
+from backapps.record.models import Record, DailyDurationPerTaskPerUser
+from backapps.salary.models import DailySalary
+from backapps.task.models import Task
 
 def fn(x, length):
     return 3.0*math.cos((x+length)/(length/3.0))+4.0
@@ -15,24 +16,43 @@ def clean_users(workspace, user):
     for i in user_list:
         i.delete()
 
-def generate_users(workspace, nb=10):
+user_ids = []
+def generate_users(workspace, start_date, end_date, nb=10):
+    global user_ids
     for i in range(nb):
         email = 'user%i@%s'%(i, workspace.name.replace('-', '.'))
-        user = User.objects.create_user(username=email, password=email, email=email)
-        createUserProfile(user, workspace)
+        user = User.objects.create_user(username=email, password=email,
+                                        email=email, first_name='user%i'%(i))
+        profile = createUserProfile(user, workspace)
+        if len(user_ids) > 0:
+            profile.parent = Profile.objects.get(
+                                        user__id=random.choice(user_ids))
+            profile.save()
+        user_ids.append(user.id)
+        DailySalary.objects.create(workspace=workspace, profile=profile,
+                                   daily_wage=random.randint(500, 1000),
+                                   start_date=start_date, end_date=end_date)
 
 def clean_tasks(workspace):
     existing = Task.objects.by_workspace(workspace).all()
     existing.delete()
 
+task_ids = []
 def generate_tasks(workspace, user, nb=10):
+    global task_ids
     owner = Profile.objects.by_workspace(workspace).get(user=user)
     for n in range(nb):
         name = "Task_%d"%n
-        Task.objects.create(workspace=workspace, name=name, owner=owner)
+        if len(task_ids) > 5:
+            parent = Task.objects.get(id=random.choice(task_ids))
+        else:
+            parent=None
+        task = Task.objects.create(workspace=workspace, name=name,
+                                   owner=owner, parent=parent)
+        task_ids.append(task.id)
 
 def clean_records(workspace):
-    existing = DailyRecord.objects.by_workspace(workspace).all()
+    existing = DailyDurationPerTaskPerUser.objects.by_workspace(workspace).all()
     existing.delete()
     existing = Record.objects.by_workspace(workspace).all()
     existing.delete()

@@ -6,14 +6,14 @@
     <ul class="nav nav-sidebar">
         {% for c in choices %}
             <li>
-                <a href="{% url 'administration:salaryEdit' 2 %}">{{ c.user.get_full_name }} ({{ c.user.email }}) {{ c.user.id }} </a>
+                <a href="{% url 'administration:salaryEdit' c.user.id %}">{{ c.user.get_full_name }} ({{ c.user.email }}) </a>
             <li>
         {% endfor %}
     </ul>
 {% endblock col1 %}
 {% block col2 %}
     <form action="" method="post" role="form">{% csrf_token %}
-        {% bootstrap_formset formset layout='horizontal' %}
+        {% bootstrap_formset formset %}
         {% buttons %}
         <button type="submit" class="btn btn-sm btn-primary" id="creation">
             {% trans "Apply" %}

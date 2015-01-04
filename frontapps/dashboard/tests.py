@@ -14,13 +14,13 @@ class SimpleJourneyTest(WebTest):
         form['password2'] = 'password1'
         #form['full_name'] = 'ws1'
         form.submit()
-        form = self.app.get('/dashboard/task/new/').form
+        form = self.app.get('/administration/task/new/').form
         form['name'] = 'p0'
         form.submit()
-        form = self.app.get('/dashboard/task/new/').form
+        form = self.app.get('/administration/task/new/').form
         form['name'] = 'p1'
         form.submit()
-        form = self.app.get('/dashboard/task/new/').form
+        form = self.app.get('/administration/task/new/').form
         form['name'] = 'p2'
         form.submit()
         ws = Workspace.objects.get(name='password1-com')

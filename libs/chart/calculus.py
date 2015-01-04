@@ -39,8 +39,8 @@ def record2daily(queryset):
     data_dict = OrderedDict(sorted(date_dict.items(), key=lambda t: t[0]))
     return data_dict
 
-def queryset_filter(queryset, task_list=None, user_list=None,
-                        startdate=None, enddate=None):
+def queryset_filter(queryset, task_list=None,
+                    startdate=None, enddate=None, user_list=None):
     if startdate is not None:
         if type(startdate) not in (datetime.date, datetime.datetime):
             try:
@@ -55,10 +55,10 @@ def queryset_filter(queryset, task_list=None, user_list=None,
                 queryset = queryset.filter(date__lte=enddate)
             except:
                 pass
-    if task_list:
+    if task_list is not None:
         queryset = queryset.filter(task__in=task_list)
-    if user_list:
-        queryset = queryset.filter(user__in=user_list)
+    if user_list is not None:
+        queryset = queryset.filter(profile__in=user_list)
     return queryset
 
 def sum_and_sort_time(queryset, limit=None):

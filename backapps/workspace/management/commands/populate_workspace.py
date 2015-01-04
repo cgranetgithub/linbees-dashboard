@@ -27,7 +27,7 @@ start_date end_date keep_existing>"""
             gen.clean_tasks(ws)
             gen.clean_users(ws, user)
             self.stdout.write(u'Generate users')
-            gen.generate_users(ws, users_nb)
+            gen.generate_users(ws, start, end, users_nb)
             self.stdout.write(u'Generate tasks')
             gen.generate_tasks(ws, user, tasks_nb)
         self.stdout.write(u'Generate records')

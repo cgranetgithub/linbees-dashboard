@@ -42,7 +42,7 @@
     <div class="col-md-5">
         <div class="panel panel-default">
         <div class="panel-body">
-            <h3 class="text-primary">{% trans 'Time per project<br><small>(in hours)</small>' %}</h3>
+            <h3 class="text-primary">{% trans 'Cost per project<br><small> </small>' %}</h3>
                 {% include "chart/chart.html" with divname='chart1div' %}
         </div>
         </div>
@@ -50,14 +50,11 @@
     <div class="col-md-5">
         <div class="panel panel-default">
         <div class="panel-body">
-            <h3 class="text-primary">{% trans 'Cumulated time per project<br><small>(in hours)</small>' %}</h3>
+            <h3 class="text-primary">{% trans 'Cumulated cost per project<br><small> </small>' %}</h3>
                 {% include "chart/chart.html" with divname='chart2div' %}
         </div>
         </div>
     </div>
     {% endif %}
 </div><!-- /.row -->
-
-
-
 {% endblock home %}

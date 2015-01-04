@@ -45,10 +45,11 @@ INSTALLED_APPS = (
     'tastypie',   # for the API
     'storages',   # for static files on S3
     'bootstrap3', # for a sexy website!
+    'mptt',       # for trees management
     'backapps.workspace',
-    'backapps.profile',
     'backapps.salary',
     'backapps.task',
+    'backapps.profile',
     'backapps.record',
     'backapps.preference',
     'backapps.department',

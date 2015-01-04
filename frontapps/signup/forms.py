@@ -22,5 +22,7 @@ class SignupForm(RegistrationForm):
         workspace = Workspace.objects.create(name = ws_name)
         newuser = super(SignupForm, self).save()
         profile = createUserProfile(newuser, workspace)
-        profile.is_admin_workspace = True
+        profile.has_dashboard_access = True
+        profile.is_hr = True
+        profile.is_primary = True
         profile.save()
