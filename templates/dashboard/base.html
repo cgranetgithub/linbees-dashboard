@@ -21,14 +21,17 @@
 <![endif]-->
 
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
+<script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+
+<!-- jQuery UI (for datepicker) -->
+<link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/cupertino/jquery-ui.css">
+<script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+
 {% load bootstrap3 %}
 {% bootstrap_css %}
 {% bootstrap_javascript %}
-
-<script type="text/javascript" src="https://www.google.com/jsapi"></script>
-<link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
-<script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
 
 <!-- Custom styles for this template -->
 <link href="{% static 'dashboard/dashboard.css' %}" rel="stylesheet">
@@ -58,7 +61,7 @@
         <li><a href="{% url 'dashboard:overview' %}">{% trans "Overview" %}</a></li>
         <li><a href="{% url 'dashboard:time' %}">{% trans "Time" %}</a></li>
         <li><a href="{% url 'dashboard:cost' %}">{% trans "Costs" %}</a></li>
-<!--         <li><a href="{% url 'dashboard:user' %}">{% trans "Users" %}</a></li> -->
+        <li><a href="{% url 'dashboard:user_time' %}">{% trans "Users" %}</a></li>
         <li><a href="{% url 'administration:taskNew' %}">{% trans "Administration" %}</a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">	  
@@ -73,8 +76,5 @@
 {% block home %}
 {% endblock %}
 </div>
-
-<!-- Linbees js stuff -->
-{% include "dashboard/js_code.html" %}
 
 </body></html>

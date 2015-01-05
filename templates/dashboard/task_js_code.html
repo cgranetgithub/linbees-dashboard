@@ -1,0 +1,96 @@
+<script>
+$(function() {
+
+    $('button')
+        .button()
+        .click(function(event){
+            event.defaultPrevented;
+            draw_charts();
+    });
+
+    function draw_charts() {
+        if ( '{{ topic }}' == 'time' ) {
+            draw_time_per_project();
+            draw_cumulated_time_per_project();
+        } else if ( '{{ topic }}' == 'cost' ) {
+            draw_cost_per_project();
+            draw_cumulated_cost_per_project();
+        }
+    };
+    
+    function draw_time_per_project() {
+        var data_url = "{% url 'dashboard:time_per_project_query' %}";
+        var divname = "chart1div";
+        draw_line_chart(data_url, divname);
+    };
+
+    function draw_cumulated_time_per_project() {
+        var data_url = "{% url 'dashboard:cumulated_time_per_project_query' %}";
+        var divname = "chart2div";
+        draw_line_chart(data_url, divname);
+    };
+
+    function draw_cost_per_project() {
+        var data_url = "{% url 'dashboard:cost_per_project_query' %}";
+        var divname = "chart1div";
+        draw_line_chart(data_url, divname);
+    };
+
+    function draw_cumulated_cost_per_project() {
+        var data_url = "{% url 'dashboard:cumulated_cost_per_project_query' %}";
+        var divname = "chart2div";
+        draw_line_chart(data_url, divname);
+    };
+
+    function draw_line_chart(data_url, divname) {
+        var startdate = $('#startdate').val();
+        var enddate = $('#enddate').val();
+        var tasks = $('#tree_div').jstree(true).get_selected();
+        console.log(data_url, divname, startdate, enddate, tasks);
+        $.ajax({
+            url: data_url, 
+            data: {'csrfmiddlewaretoken': '{{csrf_token}}', 'startdate':startdate, 'enddate':enddate, 'tasks':JSON.stringify(tasks)},
+            success: function( returned_data ) {
+                console.log("Ok");
+                console.log(document.getElementById(divname));
+                try {
+                    var data = google.visualization.arrayToDataTable(returned_data['data']);
+                    var chart = new google.visualization.LineChart(document.getElementById(divname));
+                    chart.draw(data, returned_data['options']);
+                } catch(err) {
+                    console.log("an error has occured : " + err);
+                }
+            }
+        });
+    };
+    
+    $(function() {
+        $( "#startdate" ).datepicker({ dateFormat: "yy-mm-dd" });
+    });
+    $(function() {
+        $( "#enddate" ).datepicker({ dateFormat: "yy-mm-dd" });
+    });
+
+    $(function () {
+        $('#tree_div')
+        // once ready, select tasks and draw charts
+        .on('ready.jstree', function (e) {
+            $('#tree_div').jstree('select_node', {{tasks}});
+            draw_charts();
+        })
+        // create the instance
+        .jstree({
+            'core' : {
+                'data' : {
+                    'url':"{% url 'dashboard:tasks_query' %}", 
+                'dataType':'json',
+                }
+            },
+        });
+    });
+    
+});
+</script>
+
+<link href="http://static.jstree.com/3.0.8/assets/dist/themes/default/style.min.css" rel="stylesheet"></link>
+<script src="http://static.jstree.com/3.0.8/assets/dist/jstree.min.js"></script>

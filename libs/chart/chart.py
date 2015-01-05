@@ -12,7 +12,7 @@ def pie_total_time(queryset):
     pie_options = {'is3D':'true', 'backgroundColor':'transparent'};
     return (pie_data, pie_options)
 
-def tasks_over_time(workspace, queryset, field, queryclass):
+def over_time(workspace, queryset, field, queryclass):
     # get dates (warning works only with postegresql because of distinct)
     dates = queryset.values_list('date', flat=True
                                 ).order_by('date').distinct('date')
@@ -31,13 +31,13 @@ def tasks_over_time(workspace, queryset, field, queryclass):
             except queryclass.DoesNotExist:
                 tmp.append(0)
             else:
-                tmp.append(int(duration or 0))
+                tmp.append(float(duration or 0))
         array.append(tmp)
     options = {'is3D':'true', 'backgroundColor':'transparent'}
     return (array, options)
 
 ### DIRTY this should be reworked ###
-def cumulative_task_over_time(array, startdate=None, enddate=None):
+def cumulative_over_time(array, startdate=None, enddate=None):
     # start from 1: to skip title row / col
     cum_array = []
     if len(array) > 1:

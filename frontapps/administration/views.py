@@ -9,11 +9,11 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from backapps.workspace.forms import WorkspaceChangeForm
 from backapps.salary.models import DailySalary
 from backapps.salary.forms import SalaryFormSet
-from frontapps.checks import has_paid, has_dashboard_access
+from frontapps.checks import has_paid, has_access
 
 @login_required
 @user_passes_test(has_paid, login_url=reverse_lazy('dashboard:latePayment'))
-@user_passes_test(has_dashboard_access,
+@user_passes_test(has_access,
                   login_url=reverse_lazy('dashboard:noDashboardAccess'))
 def accountAdmin(request):
     user = request.user
@@ -30,7 +30,7 @@ def accountAdmin(request):
 
 @login_required
 @user_passes_test(has_paid, login_url=reverse_lazy('dashboard:latePayment'))
-@user_passes_test(has_dashboard_access,
+@user_passes_test(has_access,
                   login_url=reverse_lazy('dashboard:noDashboardAccess'))
 def workspaceAdmin(request):
     workspace = request.user.profile.workspace
@@ -47,7 +47,7 @@ def workspaceAdmin(request):
 
 @login_required
 @user_passes_test(has_paid, login_url=reverse_lazy('dashboard:latePayment'))
-@user_passes_test(has_dashboard_access,
+@user_passes_test(has_access,
                   login_url=reverse_lazy('dashboard:noDashboardAccess'))
 def salaryAdmin(request, profile_id=None):
     workspace = request.user.profile.workspace
@@ -72,7 +72,7 @@ def salaryAdmin(request, profile_id=None):
 
 @login_required
 @user_passes_test(has_paid, login_url=reverse_lazy('dashboard:latePayment'))
-@user_passes_test(has_dashboard_access,
+@user_passes_test(has_access,
                   login_url=reverse_lazy('dashboard:noDashboardAccess'))
 def taskAdmin(request, task_id=None):
     workspace = request.user.profile.workspace

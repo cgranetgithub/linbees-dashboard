@@ -1,0 +1,21 @@
+{% extends "dashboard/user.html" %}
+{% load i18n %}
+
+{% block col1 %}
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <p>{% trans 'Start date' %}<input type="text" id="startdate" value="{{ startdate }}"></p>
+            <p>{% trans 'End date' %}<input type="text" id="enddate" value="{{ enddate }}"></p>
+            <div id="tree_div"></div>
+        </div>
+    </div>
+{% endblock col1 %}
+
+{% block col2 %}
+    <div class="panel panel-default">
+        <div class="panel-body">
+            {% include "chart/chart.html" with divname='chartdiv' %}
+        </div>
+    </div>
+{% endblock col2 %}
+

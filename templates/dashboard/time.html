@@ -2,18 +2,6 @@
 {% load i18n %}
 {% load bootstrap3 %}
 
-{% block head %}
-<script type="text/javascript" src="https://www.google.com/jsapi"></script>
-<link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
-<script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
-
-<script src="http://static.jstree.com/3.0.8/assets/jquery.address-1.6.js"></script>
-<script src="http://static.jstree.com/3.0.8/assets/vakata.js"></script>
-<script src="http://static.jstree.com/3.0.8/assets/dist/jstree.min.js"></script>
-<link href="http://static.jstree.com/3.0.8/assets/bootstrap/css/bootstrap.min.css" rel="stylesheet"></link>
-<link href="http://static.jstree.com/3.0.8/assets/dist/themes/default/style.min.css" rel="stylesheet"></link>
-{% endblock head %}
-
 {% block home %}
 <div class="row">
     {% if tasks_number == 0 %}
@@ -58,6 +46,7 @@
     {% endif %}
 </div><!-- /.row -->
 
-
+<!-- Linbees js stuff -->
+{% include "dashboard/task_js_code.html" %}
 
 {% endblock home %}

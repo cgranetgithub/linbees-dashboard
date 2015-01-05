@@ -1,0 +1,18 @@
+{% extends "dashboard/user.html" %}
+
+{% block col1 %}
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div id="tree_div"></div>
+        </div>
+    </div>
+{% endblock col1 %}
+
+{% block col2 %}
+    <div class="panel panel-default">
+        <div class="panel-body">
+            {% include "chart/stackedchart.html"  with chart_data=chart1_data chart_options=chart1_options divname='chart1div' %}
+            {% include "chart/tablechart.html" with chart_data=chart1_data chart_options=chart1_options divname='chart3div' %}
+        </div>
+    </div>
+{% endblock col2 %}

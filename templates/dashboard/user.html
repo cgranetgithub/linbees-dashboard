@@ -2,34 +2,32 @@
 {% load i18n %}
 {% load bootstrap3 %}
 
-{% block head %}
-    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
-{% endblock head %}
-
 {% block home %}
-  <div class="row">
-    {% if tasks_number == 0 %}
-      {% include 'dashboard/no_task_message.html' %}
-    {% elif nodata == True %}
-      {% include 'dashboard/no_data_message.html' %}
-    {% else %}
-      <div class="col-md-2">
-	<div class="panel panel-default">
-	  <div class="panel-body">
-	    <form action={{ form_action }} method="post" role="form">{% csrf_token %}
-		{% bootstrap_form form %}
-	    </form>
-	  </div>
-	</div>
-      </div>
-      <div class="col-md-4">
-	<div class="panel panel-default">
-	  <div class="panel-body">
-	    {% include "chart/stackedchart.html"  with chart_data=chart1_data chart_options=chart1_options divname='chart1div' %}
-	    {% include "chart/tablechart.html" with chart_data=chart1_data chart_options=chart1_options divname='chart3div' %}
-	  </div>
-	</div>
-      </div>
-    {% endif %}
-  </div><!-- /.row -->
+    <div class="row">
+        {% if tasks_number == 0 %}
+            {% include 'dashboard/no_task_message.html' %}
+        {% elif nodata == True %}
+            {% include 'dashboard/no_data_message.html' %}
+        {% else %}
+            <div class="col-sm-2 col-md-1 sidebar">
+                <ul class="nav nav-sidebar">
+                    <li><a href="{% url 'dashboard:user_time'   %}">{% trans "Time" %}</a></li>
+                    <li><a href="{% url 'dashboard:user_info'   %}">{% trans 'Information' %}</a></li>
+                    <li><a href="{% url 'dashboard:user_salary' %}">{% trans 'Salary' %}</a></li>
+                </ul>
+            </div>
+            <div class="col-sm-3 col-sm-offset-2 col-md-2 col-md-offset-1">
+                {% block col1 %}
+                {% endblock col1 %}
+            </div>
+            <div class="col-sm-6 col-md-8">
+                {% block col2 %}
+                {% endblock col2 %}
+            </div>
+        {% endif %}
+    </div><!-- /.row -->
+
+    <!-- Linbees js stuff -->
+    {% include "dashboard/user_js_code.html" %}
+
 {% endblock home %}
