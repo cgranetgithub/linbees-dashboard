@@ -1,22 +1,17 @@
 <script>
 $(function() {
 
-    $('button')
-        .button()
-        .click(function(event){
-            event.defaultPrevented;
-            draw_charts();
-    });
-
-    function draw_charts() {
+    function update_div() {
         if ( '{{ topic }}' == 'time' ) {
             draw_time_per_user();
         } else if ( '{{ topic }}' == 'info' ) {
-            draw_cost_per_project();
-            draw_cumulated_cost_per_project();
+            var select = $('#tree_div').jstree(true).get_selected()[0];
+            var data_url = "{% url 'dashboard:edit_info' 0 %}".replace('/0/', '/'+select.toString()+'/');
+            update_form(data_url);
         } else if ( '{{ topic }}' == 'salary' ) {
-            draw_cost_per_project();
-            draw_cumulated_cost_per_project();
+            var select = $('#tree_div').jstree(true).get_selected()[0];
+            var data_url = "{% url 'dashboard:edit_salary' 0 %}".replace('/0/', '/'+select.toString()+'/');
+            update_form(data_url);
         }
     };
     
@@ -26,32 +21,20 @@ $(function() {
         draw_stacked_chart(data_url, divname);
     };
 
-    function draw_cumulated_time_per_project() {
-        var data_url = "{% url 'dashboard:cumulated_time_per_project_query' %}";
-        var divname = "chart2div";
-        draw_line_chart(data_url, divname);
-    };
-
-    function draw_cost_per_project() {
-        var data_url = "{% url 'dashboard:cost_per_project_query' %}";
-        var divname = "chart1div";
-        draw_line_chart(data_url, divname);
-    };
-
-    function draw_cumulated_cost_per_project() {
-        var data_url = "{% url 'dashboard:cumulated_cost_per_project_query' %}";
-        var divname = "chart2div";
-        draw_line_chart(data_url, divname);
+    function update_form(data_url) {
+        $.get( data_url, function( data ) {
+            $( "#form_div" ).html( data );
+        });
     };
 
     function draw_stacked_chart(data_url, divname) {
         var startdate = $('#startdate').val();
         var enddate = $('#enddate').val();
-        var user = $('#tree_div').jstree(true).get_selected()[0];
-        console.log(data_url, divname, startdate, enddate, user);
+        var select = $('#tree_div').jstree(true).get_selected()[0];
+        console.log(data_url, divname, startdate, enddate, select);
         $.ajax({
             url: data_url, 
-            data: {'csrfmiddlewaretoken': '{{csrf_token}}', 'startdate':startdate, 'enddate':enddate, 'user':user},
+            data: {'csrfmiddlewaretoken': '{{csrf_token}}', 'startdate':startdate, 'enddate':enddate, 'user':select},
             success: function( returned_data ) {
                 console.log("Ok");
                 console.log(document.getElementById(divname));
@@ -79,12 +62,11 @@ $(function() {
         .on('ready.jstree', function (e) {
             $('#tree_div').jstree('open_all');
             $('#tree_div').jstree('select_node', {{user}});
-            draw_charts();
+            update_div();
         })
         // when selection changes
         .on('changed.jstree', function (e, data) {
-            console.log(data.selected);
-            draw_charts();
+            update_div();
         })
         // create the instance
         .jstree({

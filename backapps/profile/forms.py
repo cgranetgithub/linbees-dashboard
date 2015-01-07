@@ -4,6 +4,8 @@ from django.contrib.auth.forms import UserCreationForm
 from django.utils.translation import ugettext, ugettext_lazy as _
 from backapps.profile.models import Profile
 from libs.messages import public_email_not_allowed, existing_email
+from django.forms import ModelForm
+
 
 EMAIL_PROVIDER_BLACKLIST = (
 
@@ -80,12 +82,19 @@ class RegistrationForm(UserCreationForm):
         if commit:
             user.save()
         return user
-
-class ProfileListForm(forms.Form):
-    plist = forms.MultipleChoiceField(label=_('Users')
-                                    , widget=forms.CheckboxSelectMultiple)
-    def __init__(self, ws, *args, **kwargs):
-        super(ProfileListForm, self).__init__(*args, **kwargs)
-        pl = Profile.objects.by_workspace(ws).filter()
-        self.fields['plist'].choices = ( (p.user.id, p.user.email) for p in pl )
-        self.fields['plist'].initial = [ p.user.id for p in pl ]
+    
+class ProfileForm(ModelForm):
+    class Meta:
+        model = Profile
+        #fields = ['start_date', 'end_date', 'daily_wage']
+        exclude = ('workspace', 'user', 'has_accepted_terms', 'power_transfer',
+                   'is_primary', 'department')
+        
+#class ProfileListForm(forms.Form):
+    #plist = forms.MultipleChoiceField(label=_('Users')
+                                    #, widget=forms.CheckboxSelectMultiple)
+    #def __init__(self, ws, *args, **kwargs):
+        #super(ProfileListForm, self).__init__(*args, **kwargs)
+        #pl = Profile.objects.by_workspace(ws).filter()
+        #self.fields['plist'].choices = ( (p.user.id, p.user.email) for p in pl )
+        #self.fields['plist'].initial = [ p.user.id for p in pl ]

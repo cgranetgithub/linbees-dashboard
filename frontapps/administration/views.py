@@ -7,14 +7,12 @@ from django.core.urlresolvers import reverse, reverse_lazy
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.decorators import login_required, user_passes_test
 from backapps.workspace.forms import WorkspaceChangeForm
-from backapps.salary.models import DailySalary
-from backapps.salary.forms import SalaryFormSet
 from frontapps.checks import has_paid, has_access
 
 @login_required
 @user_passes_test(has_paid, login_url=reverse_lazy('dashboard:latePayment'))
 @user_passes_test(has_access,
-                  login_url=reverse_lazy('dashboard:noDashboardAccess'))
+                  login_url=reverse_lazy('dashboard:noAccess'))
 def accountAdmin(request):
     user = request.user
     if request.method == 'POST':
@@ -31,7 +29,7 @@ def accountAdmin(request):
 @login_required
 @user_passes_test(has_paid, login_url=reverse_lazy('dashboard:latePayment'))
 @user_passes_test(has_access,
-                  login_url=reverse_lazy('dashboard:noDashboardAccess'))
+                  login_url=reverse_lazy('dashboard:noAccess'))
 def workspaceAdmin(request):
     workspace = request.user.profile.workspace
     if request.method == 'POST':
@@ -48,32 +46,7 @@ def workspaceAdmin(request):
 @login_required
 @user_passes_test(has_paid, login_url=reverse_lazy('dashboard:latePayment'))
 @user_passes_test(has_access,
-                  login_url=reverse_lazy('dashboard:noDashboardAccess'))
-def salaryAdmin(request, profile_id=None):
-    workspace = request.user.profile.workspace
-    choices = Profile.objects.by_workspace(workspace).all()
-    if profile_id is not None:
-        inst = Profile.objects.by_workspace(workspace).get(user__id=profile_id)
-    else:
-        inst = choices.first()
-    if request.method == 'POST':
-        formset = SalaryFormSet(request.POST, request.FILES,
-                            queryset=DailySalary.objects.filter(profile=inst))
-        if formset.is_valid():
-            formset.save()
-            return redirect(reverse('administration:salaryEdit',
-                                    args=[profile_id]))
-    else: # == 'GET'
-        formset = SalaryFormSet(queryset=DailySalary.objects.filter(
-                                                            profile=inst))
-    return render(request,
-                  'administration/salary_admin.html',
-                  {'formset':formset, 'choices':choices,})
-
-@login_required
-@user_passes_test(has_paid, login_url=reverse_lazy('dashboard:latePayment'))
-@user_passes_test(has_access,
-                  login_url=reverse_lazy('dashboard:noDashboardAccess'))
+                  login_url=reverse_lazy('dashboard:noAccess'))
 def taskAdmin(request, task_id=None):
     workspace = request.user.profile.workspace
     #no_task =    (Task.objects.by_workspace(workspace).count() == 0)

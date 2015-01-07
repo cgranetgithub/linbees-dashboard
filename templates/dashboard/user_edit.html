@@ -1,0 +1,37 @@
+{% load i18n %}
+{% load bootstrap3 %}
+
+<form action="{{ form_action }}" method="post" role="form" id="ajaxform">{% csrf_token %}
+    {% if is_formset %}
+        {% bootstrap_formset formset %}
+    {% else %}
+        {% bootstrap_form form %}
+    {% endif %}
+    {% buttons %}
+    <button type="submit" class="btn btn-sm btn-primary" id="creation">
+        {% trans "Apply" %}
+    </button>
+    {% endbuttons %}
+</form>
+
+<script>
+$('#ajaxform').on('submit', function(event){
+    event.preventDefault();
+//     var select = $('#tree_div').jstree(true).get_selected()[0];
+//     var post_data = {'form_data': $(this).serialize(),
+//                     'selection':select,
+//                     'csrfmiddlewaretoken': '{{csrf_token}}'};
+//     console.log($(this).attr('method'));
+    var form = $('#ajaxform');
+    $.ajax({
+        url: $(form).attr('action'), 
+        type: $(form).attr('method'),
+        data: $(form).serialize(),
+        success: function( response ) {
+            console.log(response)
+            $('#ajaxform').html(response);
+            }
+    });
+    return false;
+});
+</script>

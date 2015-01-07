@@ -10,4 +10,4 @@ class SalaryForm(ModelForm):
 SalaryFormSet = modelformset_factory(
                         DailySalary,
                         fields=('start_date', 'end_date', 'daily_wage'),
-                        extra=0)
+                        extra=1)

@@ -4,8 +4,6 @@ from frontapps.checks import noAccess,latePayment
 
 urlpatterns = patterns('',
     url(r'^account/', views.accountAdmin, name='accountAdmin'),
-    url(r'^salary/None/', views.salaryAdmin, name='salaryNone'),
-    url(r'^salary/(?P<profile_id>\d+)/$', views.salaryAdmin, name='salaryEdit'),
     url(r'^task/new/', views.taskAdmin, name='taskNew'),
     url(r'^task/(?P<task_id>\d+)/$', views.taskAdmin, name='taskEdit'),
     url(r'^workspace/', views.workspaceAdmin, name='workspaceAdmin'),
