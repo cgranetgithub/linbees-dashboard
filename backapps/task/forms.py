@@ -11,7 +11,7 @@ class TaskForm(forms.ModelForm):
         exclude = ('is_active', 'monitored', 'primary',
                    'p_group', 'p_type')
         widgets = {
-            'description': forms.Textarea(),
+            'description': forms.Textarea(attrs={'rows': '2'}),
         }
 
 class TaskListForm(forms.Form):

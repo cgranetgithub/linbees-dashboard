@@ -6,11 +6,11 @@ $(function() {
             draw_time_per_user();
         } else if ( '{{ topic }}' == 'info' ) {
             var select = $('#tree_div').jstree(true).get_selected()[0];
-            var data_url = "{% url 'dashboard:edit_info' 0 %}".replace('/0/', '/'+select.toString()+'/');
+            var data_url = "{% url 'dashboard:user_info_edit' 0 %}".replace('/0/', '/'+select.toString()+'/');
             update_form(data_url);
         } else if ( '{{ topic }}' == 'salary' ) {
             var select = $('#tree_div').jstree(true).get_selected()[0];
-            var data_url = "{% url 'dashboard:edit_salary' 0 %}".replace('/0/', '/'+select.toString()+'/');
+            var data_url = "{% url 'dashboard:user_salary_edit' 0 %}".replace('/0/', '/'+select.toString()+'/');
             update_form(data_url);
         }
     };
@@ -61,7 +61,7 @@ $(function() {
         // once ready, draw chart
         .on('ready.jstree', function (e) {
             $('#tree_div').jstree('open_all');
-            $('#tree_div').jstree('select_node', {{user}});
+            $('#tree_div').jstree('select_node', {{selection}});
             update_div();
         })
         // when selection changes

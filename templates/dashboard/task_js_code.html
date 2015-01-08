@@ -5,19 +5,29 @@ $(function() {
         .button()
         .click(function(event){
             event.defaultPrevented;
-            draw_charts();
+            update_div();
     });
 
-    function draw_charts() {
+    function update_div() {
         if ( '{{ topic }}' == 'time' ) {
             draw_time_per_project();
             draw_cumulated_time_per_project();
         } else if ( '{{ topic }}' == 'cost' ) {
             draw_cost_per_project();
             draw_cumulated_cost_per_project();
+        } else if ( '{{ topic }}' == 'info' ) {
+            var select = $('#single_tree_div').jstree(true).get_selected()[0];
+            var data_url = "{% url 'dashboard:task_info_edit' 0 %}".replace('/0/', '/'+select.toString()+'/');
+            update_form(data_url);
         }
     };
     
+    function update_form(data_url) {
+        $.get( data_url, function( data ) {
+            $( "#form_div" ).html( data );
+        });
+    };
+
     function draw_time_per_project() {
         var data_url = "{% url 'dashboard:time_per_project_query' %}";
         var divname = "chart1div";
@@ -75,16 +85,40 @@ $(function() {
         $('#tree_div')
         // once ready, select tasks and draw charts
         .on('ready.jstree', function (e) {
-            $('#tree_div').jstree('select_node', {{tasks}});
-            draw_charts();
+            $('#tree_div').jstree('select_node', {{selection}});
+            update_div();
         })
         // create the instance
         .jstree({
             'core' : {
                 'data' : {
                     'url':"{% url 'dashboard:tasks_query' %}", 
-                'dataType':'json',
+                    'dataType':'json',
                 }
+            },
+        });
+    });
+    
+    $(function () {
+        $('#single_tree_div')
+        // once ready, draw chart
+        .on('ready.jstree', function (e) {
+            $('#single_tree_div').jstree('open_all');
+            $('#single_tree_div').jstree('select_node', {{selection}});
+            update_div();
+        })
+        // when selection changes
+        .on('changed.jstree', function (e, data) {
+            update_div();
+        })
+        // create the instance
+        .jstree({
+            'core' : {
+                'data' : {
+                    'url':"{% url 'dashboard:tasks_query' %}", 
+                    'dataType':'json',
+                },
+                'multiple' : false,
             },
         });
     });

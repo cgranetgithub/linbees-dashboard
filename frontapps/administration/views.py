@@ -63,7 +63,7 @@ def taskAdmin(request, task_id=None):
             new_task = editform.save(commit=False)
             new_task.workspace = workspace ###maybe something to improve here
             p = Profile.objects.by_workspace(workspace).get(user=request.user)
-            new_task.owner = p
+            new_task.owner = p #wrong! what about updates?!
             new_task.save()
             return redirect(reverse('administration:taskNew'))
     #GET
