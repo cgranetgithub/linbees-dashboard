@@ -75,7 +75,7 @@ class Task(MPTTModel, TenantModel):
         verbose_name = "Task"
         verbose_name_plural = "Tasks"
         unique_together = (('workspace', 'name', 'parent'),)
-    class MPTTMeta:
-        order_insertion_by = ['name']        
+    #class MPTTMeta:
+        #order_insertion_by = ['name']        
     def __unicode__(self):
         return u'%s'%(self.name)

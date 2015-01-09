@@ -60,7 +60,7 @@ def info_edit(request, user_id):
         #for i,j in qs.iteritems():
             #form_data[i] = j[0]
         #form = ProfileForm(form_data, instance=user)
-        form = ProfileForm(request.POST, instance=user)
+        form = ProfileForm(workspace, request.user, request.POST, instance=user)
         if form.is_valid():
             form.save()
             #if request.is_ajax():
@@ -71,7 +71,7 @@ def info_edit(request, user_id):
     else:
         #user = Profile.objects.by_workspace(workspace
                                             #).get(user=request.GET['selection'])
-        form = ProfileForm(instance=user)
+        form = ProfileForm(workspace, request.user, instance=user)
     return render( request,
                    'dashboard/ajax_form.html',
                    {'form':form,

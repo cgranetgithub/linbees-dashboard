@@ -16,17 +16,18 @@ from libs.chart.calculus import queryset_filter
 @user_passes_test(has_access,
                   login_url=reverse_lazy('dashboard:noAccess'))
 def users(request):
-    workspace = request.user.profile.workspace
-    users = Profile.objects.by_workspace(workspace)
+    profile = request.user.profile
+    ws = profile.workspace
+    users = profile.get_descendants(include_self=True)
     data = []
     for i in users:
-        if i.parent is None:
+        if i.parent is None or i == profile:
             parent = '#'
         else:
             parent = i.parent.user.id
         data.append({'id':str(i.user.id),
-                             'parent':str(parent),
-                             'text':str(i.name)})
+                     'parent':str(parent),
+                     'text':str(i.name)})
     return HttpResponse(json.dumps(data), content_type="application/json")
 
 @login_required
@@ -34,11 +35,20 @@ def users(request):
 @user_passes_test(has_access,
                   login_url=reverse_lazy('dashboard:noAccess'))
 def tasks(request):
-    workspace = request.user.profile.workspace
-    tasks = Task.objects.by_workspace(workspace).filter(monitored=True)
+    profile = request.user.profile
+    ws = profile.workspace
+    # me and my descendant tasks
+    my_descendants = profile.get_descendants(include_self=True)
+    my_tasks = Task.objects.by_workspace(ws).filter(owner__in=my_descendants)
+    # my ancestors and their tasks
+    ancestors = profile.get_ancestors()
+    ancestors_tasks = Task.objects.by_workspace(ws
+                                            ).filter(owner__in=ancestors)
+    #tasks = my_tasks | descendants_tasks
+    #tasks = Task.objects.by_workspace(workspace).filter(monitored=True)
     data = []
-    for i in tasks:
-        if i.parent is None:
+    for i in my_tasks:
+        if i.parent is None or i.parent in ancestors_tasks:
             parent = '#'
         else:
             parent = i.parent.id

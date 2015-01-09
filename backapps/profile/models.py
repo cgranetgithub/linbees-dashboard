@@ -37,8 +37,8 @@ transfer from'''))
     @property
     def name(self):
         return self.user.get_full_name()
-    class MPTTMeta:
-        order_insertion_by = ['user']    
+    #class MPTTMeta:
+        #order_insertion_by = ['user']    
     def __unicode__(self):
         return u'%s'%self.user.email
 

@@ -4,7 +4,8 @@ from django.contrib.auth.forms import UserCreationForm
 from django.utils.translation import ugettext, ugettext_lazy as _
 from backapps.profile.models import Profile
 from libs.messages import public_email_not_allowed, existing_email
-from django.forms import ModelForm
+#from django.forms import ModelForm
+from mptt.forms import TreeNodeChoiceField
 
 
 EMAIL_PROVIDER_BLACKLIST = (
@@ -83,7 +84,24 @@ class RegistrationForm(UserCreationForm):
             user.save()
         return user
     
-class ProfileForm(ModelForm):
+class ProfileForm(forms.ModelForm):
+    def __init__(self, ws, admin, *args, **kwargs):
+        super(ProfileForm, self).__init__(*args, **kwargs)
+        # me and my descendant tasks
+        my_descendants = admin.profile.get_descendants(include_self=True)
+        # he and his descendant
+        his_descendants = []
+        if self.instance is not None:
+            his_descendants = self.instance.get_descendants(include_self=True)
+            desc_ids = [ i.user for i in his_descendants ]
+            my_descendants = my_descendants.exclude(user__in=desc_ids)
+        # all except descendants
+        #qs = Profile.objects.by_workspace(ws)
+        #if self.instance is not None:
+            #descendants = self.instance.get_descendants(include_self=True)
+            #desc_ids = [ i.user for i in descendants ]
+            #qs = qs.exclude(user__in=desc_ids)
+        self.fields['parent'] = TreeNodeChoiceField(queryset=my_descendants)
     class Meta:
         model = Profile
         #fields = ['start_date', 'end_date', 'daily_wage']

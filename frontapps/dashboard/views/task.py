@@ -78,11 +78,11 @@ def info_edit(request, task_id):
     workspace = request.user.profile.workspace
     task = Task.objects.by_workspace(workspace).get(id=task_id)
     if request.method == 'POST':
-        form = TaskForm(request.POST, instance=task)
+        form = TaskForm(workspace, request.user, request.POST, instance=task)
         if form.is_valid():
             form.save()
     else:
-        form = TaskForm(instance=task)
+        form = TaskForm(workspace, request.user, instance=task)
     return render( request,
                    'dashboard/ajax_form.html',
                    {'form':form,
