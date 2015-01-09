@@ -14,21 +14,10 @@ def time(request):
     (context, some_data) = data_existence(request)
     if some_data:
         workspace = request.user.profile.workspace
-        #startdate = DailyDurationPerTask.objects.by_workspace(workspace
-                                #).filter(task__monitored=True
-                                #).order_by('date'
-                                #).first().date.isoformat()
         startdate = STARTDATE.isoformat()
-        #enddate = DailyDurationPerTask.objects.by_workspace(workspace
-                                #).filter(task__monitored=True
-                                #).order_by('date'
-                                #).last().date.isoformat()
         enddate = TODAY.isoformat()
-        selection = Task.objects.by_workspace(workspace).filter(parent=None
-                                            ).values_list('id', flat=True)
         context = { 'startdate' : startdate,
                     'enddate' : enddate,
-                    'selection' : selection,
                     'topic' : 'time'}
     return render(request, 'dashboard/task_time.html', context)
 
@@ -40,21 +29,10 @@ def cost(request):
     (context, some_data) = data_existence(request)
     if some_data:
         workspace = request.user.profile.workspace
-        #startdate = DailyCostPerTask.objects.by_workspace(workspace
-                                #).filter(task__monitored=True
-                                #).order_by('date'
-                                #).first().date.isoformat()
         startdate = STARTDATE.isoformat()
-        #enddate = DailyCostPerTask.objects.by_workspace(workspace
-                                #).filter(task__monitored=True
-                                #).order_by('date'
-                                #).last().date.isoformat()
         enddate = TODAY.isoformat()
-        selection = Task.objects.by_workspace(workspace).filter(parent=None
-                                            ).values_list('id', flat=True)
         context = { 'startdate' : startdate,
                     'enddate' : enddate,
-                    'selection' : selection,
                     'topic' : 'cost'}
     return render(request, 'dashboard/task_cost.html', context)
 
@@ -64,10 +42,7 @@ def cost(request):
                 login_url=reverse_lazy('dashboard:noAccess'))
 def info(request):
     workspace = request.user.profile.workspace
-    selection = Task.objects.by_workspace(workspace).filter(parent=None
-                                        ).first().id
-    context = { 'selection' : selection,
-                'topic' : 'info'}
+    context = {'topic' : 'info'}
     return render(request, 'dashboard/task_info.html', context)
 
 @login_required

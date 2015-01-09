@@ -48,13 +48,13 @@ def tasks(request):
     #tasks = Task.objects.by_workspace(workspace).filter(monitored=True)
     data = []
     for i in my_tasks:
+        node = {'id'  : str(i.id),
+                'text': str(i.name)}
         if i.parent is None or i.parent in ancestors_tasks:
-            parent = '#'
+            node['parent'] = '#'
         else:
-            parent = i.parent.id
-        data.append({'id':str(i.id),
-                             'parent':str(parent),
-                             'text':str(i.name)})
+            node['parent'] = str(i.parent.id)
+        data.append(node)
     return HttpResponse(json.dumps(data), content_type="application/json")
 
 @login_required

@@ -85,7 +85,11 @@ $(function() {
         $('#tree_div')
         // once ready, select tasks and draw charts
         .on('ready.jstree', function (e) {
-            $('#tree_div').jstree('select_node', {{selection}});
+            // select root nodes
+            var nodes = $('#tree_div').jstree('get_json');
+            for (n in nodes) {
+                $('#tree_div').jstree('select_node', nodes[n]);
+            }
             update_div();
         })
         // create the instance
@@ -104,7 +108,12 @@ $(function() {
         // once ready, draw chart
         .on('ready.jstree', function (e) {
             $('#single_tree_div').jstree('open_all');
-            $('#single_tree_div').jstree('select_node', {{selection}});
+            // select 1st root nodes
+            var nodes = $('#single_tree_div').jstree('get_json');
+            for (n in nodes) {
+                $('#single_tree_div').jstree('select_node', nodes[n]);
+                break;
+            }
             update_div();
         })
         // when selection changes

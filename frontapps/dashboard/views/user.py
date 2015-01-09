@@ -19,15 +19,7 @@ def time(request):
     if some_data:
         user = request.user
         workspace = request.user.profile.workspace
-        #startdate = DailyDurationPerTaskPerUser.objects.by_workspace(workspace
-                                #).filter(task__monitored=True
-                                #).order_by('date'
-                                #).first().date.isoformat()
         startdate = STARTDATE.isoformat()
-        #enddate = DailyDurationPerTaskPerUser.objects.by_workspace(workspace
-                                #).filter(task__monitored=True
-                                #).order_by('date'
-                                #).last().date.isoformat()
         enddate = TODAY.isoformat()
         context = { 'startdate' : startdate,
                     'enddate' : enddate,
