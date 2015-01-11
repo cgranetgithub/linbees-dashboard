@@ -1,6 +1,7 @@
 {% load i18n %}
 {% load bootstrap3 %}
 
+<div id="ajaxform_div">
 <form action="{{ form_action }}" method="post" role="form" id="ajaxform">{% csrf_token %}
     {% if is_formset %}
         {% bootstrap_formset formset %}
@@ -28,10 +29,11 @@ $('#ajaxform').on('submit', function(event){
         type: $(form).attr('method'),
         data: $(form).serialize(),
         success: function( response ) {
-            console.log(response)
-            $('#ajaxform').html(response);
+            //console.log(response);
+            $('#ajaxform_div').html(response);
             }
     });
     return false;
 });
 </script>
+</div>
