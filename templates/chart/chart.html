@@ -5,6 +5,17 @@
     google.load("visualization", "1", {packages:["corechart"]});
 </script>
 
+<img id="wait_{{ divname }}" src="{% static 'dashboard/ajax-loader.gif' %}" style='display: block; margin: auto auto;' />
 <div id="{{ divname }}" class="chart">
-    <img src="{% static 'dashboard/ajax-loader.gif' %}" style='display: block; margin: auto auto;' />
 </div>
+
+<script>
+$("#{{ divname }}").ready(function(){
+  $("#{{ divname }}").ajaxStart(function(){
+    $("#wait_{{ divname }}").css("display","block");
+  });
+  $("#{{ divname }}").ajaxComplete(function(){
+    $("#wait_{{ divname }}").css("display","none");
+  });
+});
+</script>

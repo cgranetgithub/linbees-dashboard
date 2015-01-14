@@ -17,17 +17,18 @@ def over_time(workspace, queryset, field, queryclass):
     dates = queryset.values_list('date', flat=True
                                 ).order_by('date').distinct('date')
     # get tasks
-    id_list = queryset.order_by('task__name'
-                        ).values_list('task_id').distinct('task__name')
+    id_list = queryset.order_by('task_id'
+                        ).values_list('task_id').distinct('task_id')
+    print id_list
     tasks = Task.objects.by_workspace(workspace
                             ).filter(id__in=id_list).order_by('name')
     # build array
-    array = [['Dates'] + [ p.name.encode('latin1') for p in tasks] ]
+    array = [['Dates'] + [ unicode(t).encode('latin1') for t in tasks] ]
     for d in dates:
         tmp = [d.isoformat()]
-        for p in tasks:
+        for t in tasks:
             try:
-                duration = getattr(queryset.get(date=d, task=p), field)
+                duration = getattr(queryset.get(date=d, task=t), field)
             except queryclass.DoesNotExist:
                 tmp.append(0)
             else:

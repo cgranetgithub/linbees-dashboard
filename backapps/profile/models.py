@@ -8,6 +8,8 @@ from backapps.department.models import Department
 class Profile(MPTTModel, TenantModel):
     user = models.OneToOneField(settings.AUTH_USER_MODEL,
                                       primary_key=True)
+    title = models.CharField(max_length=255, blank=True,
+                             verbose_name=_('title'))
     parent = TreeForeignKey('self', blank=True, null=True,
                             verbose_name=_('manager'),
                             related_name='children')
@@ -40,7 +42,7 @@ transfer from'''))
     #class MPTTMeta:
         #order_insertion_by = ['user']    
     def __unicode__(self):
-        return u'%s'%self.user.email
+        return '%s (%s)'%(self.name, self.user.email)
 
 def createUserProfile(newuser, workspace):
     newuser.is_active = True

@@ -1,6 +1,13 @@
 <script>
 $(function() {
 
+    $('button')
+        .button()
+        .click(function(event){
+            event.defaultPrevented;
+            update_div();
+    });
+
     function update_div() {
         if ( '{{ topic }}' == 'time' ) {
             draw_time_per_user();
@@ -28,8 +35,8 @@ $(function() {
     };
 
     function draw_stacked_chart(data_url, divname) {
-        var startdate = $('#startdate').val();
-        var enddate = $('#enddate').val();
+        var startdate = $('#id_start_date').val();
+        var enddate = $('#id_end_date').val();
         var select = $('#tree_div').jstree(true).get_selected()[0];
         console.log(data_url, divname, startdate, enddate, select);
         $.ajax({
@@ -50,18 +57,17 @@ $(function() {
     };
     
     $(function() {
-        $( "#startdate" ).datepicker({ dateFormat: "yy-mm-dd" });
+        $( ".datepicker" ).datepicker({ dateFormat: "yy-mm-dd" });
     });
-    $(function() {
-        $( "#enddate" ).datepicker({ dateFormat: "yy-mm-dd" });
-    });
+
 
     $(function () {
         $('#tree_div')
         // once ready, draw chart
         .on('ready.jstree', function (e) {
-            $('#tree_div').jstree('open_all');
+//             $('#tree_div').jstree('open_all');
             $('#tree_div').jstree('select_node', {{selection}});
+            $('#tree_div').jstree('open_node', {{selection}});
             update_div();
         })
         // when selection changes

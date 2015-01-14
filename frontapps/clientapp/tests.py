@@ -64,9 +64,9 @@ class RegisterTest(WebTest):
         assert user.is_staff is False
         assert user.is_superuser is False
         p = Profile.objects.by_workspace(ws).get(user=user)
-        assert p.is_admin_workspace is False
-        assert p.is_admin_hr is False
-        assert p.is_admin_primary is False
+        assert p.has_dashboard_access is False
+        assert p.is_hr is False
+        assert p.is_primary is False
     def test_register_but_no_ws(self):
         form = self.app.get('/clientapp/register/').forms[0]
         #form['first_name'] = 'ch'

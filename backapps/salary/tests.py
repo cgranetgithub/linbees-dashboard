@@ -16,5 +16,5 @@ class SimpleTest(TestCase):
                                         profile=self.p,
                                         start_date=datetime.today(),
                                         end_date=datetime.today(),
-                                        monthly_wage=100)
+                                        daily_wage=100)
         assert fs is not None

@@ -101,7 +101,8 @@ class ProfileForm(forms.ModelForm):
             #descendants = self.instance.get_descendants(include_self=True)
             #desc_ids = [ i.user for i in descendants ]
             #qs = qs.exclude(user__in=desc_ids)
-        self.fields['parent'] = TreeNodeChoiceField(queryset=my_descendants)
+        self.fields['parent'] = TreeNodeChoiceField(label=_('Manager'),
+                                                    queryset=my_descendants)
     class Meta:
         model = Profile
         #fields = ['start_date', 'end_date', 'daily_wage']

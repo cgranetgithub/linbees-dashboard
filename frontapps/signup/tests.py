@@ -28,9 +28,9 @@ class SignupTest(WebTest):
         assert user.is_staff is False
         assert user.is_superuser is False
         p = Profile.objects.by_workspace(ws).get(user=user)
-        assert p.is_admin_workspace is True
-        assert p.is_admin_hr is False
-        assert p.is_admin_primary is False
+        assert p.has_dashboard_access is True
+        assert p.is_hr is True
+        assert p.is_primary is True
     def test_existing_ws_name(self):
         form = self.app.get('/website/').form
         form['language'] = 'en'

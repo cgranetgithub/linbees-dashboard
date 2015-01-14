@@ -1,6 +1,7 @@
 import random, datetime, math
 from django.utils.timezone import utc
 from django.contrib.auth.models import User
+from django.contrib.auth.hashers import make_password
 from backapps.profile.models import Profile, createUserProfile
 from backapps.record.models import Record, DailyDurationPerTaskPerUser
 from backapps.salary.models import DailySalary
@@ -19,9 +20,42 @@ def clean_users(workspace, user):
 user_ids = []
 def generate_users(workspace, start_date, end_date, nb=10):
     global user_ids
-    for i in range(nb):
-        email = 'user%i@%s'%(i, workspace.name.replace('-', '.'))
-        user = User.objects.create_user(username=email, password=email,
+    extension = workspace.name.replace('-', '.')
+    ceo_email = 'ceo@%s'%extension
+    (ceo, created) = User.objects.get_or_create(username=ceo_email)
+    ceo.email = ceo_email
+    ceo.first_name = 'CEO'
+    ceo.has_dashboard_access = True
+    ceo.is_hr = True
+    ceo.is_primary = True
+    if created:
+        ceo.password = make_password('test')
+        createUserProfile(ceo, workspace)
+    ceo.save()
+    ceo.profile.has_dashboard_access = True
+    ceo.profile.is_hr = True
+    ceo.profile.is_primary = True
+    ceo.profile.save()
+    DailySalary.objects.create(workspace=workspace, profile=ceo.profile,
+                               daily_wage=random.randint(1500, 2000),
+                               start_date=start_date, end_date=end_date)
+    for (i, j) in ( ('rd', 'R&D'),
+                    ('marketing', 'Marketing'),
+                    ('sales', 'Sales' ) ):
+        user = User.objects.create_user(username='%s@%s'%(i, extension),
+                                        password='test',
+                                        email='%s@%s'%(i, extension),
+                                        first_name=j)
+        profile = createUserProfile(user, workspace)
+        profile.parent = ceo.profile
+        profile.save()
+        user_ids.append(user.id)
+        DailySalary.objects.create(workspace=workspace, profile=profile,
+                                   daily_wage=random.randint(900, 1500),
+                                   start_date=start_date, end_date=end_date)
+    for i in range(nb-4):
+        email = 'user%i@%s'%(i, extension)
+        user = User.objects.create_user(username=email, password='test',
                                         email=email, first_name='user%i'%(i))
         profile = createUserProfile(user, workspace)
         if len(user_ids) > 0:
@@ -37,19 +71,66 @@ def clean_tasks(workspace):
     existing = Task.objects.by_workspace(workspace).all()
     existing.delete()
 
-task_ids = []
 def generate_tasks(workspace, user, nb=10):
-    global task_ids
-    owner = Profile.objects.by_workspace(workspace).get(user=user)
-    for n in range(nb):
-        name = "Task_%d"%n
-        if len(task_ids) > 5:
-            parent = Task.objects.get(id=random.choice(task_ids))
-        else:
-            parent=None
-        task = Task.objects.create(workspace=workspace, name=name,
-                                   owner=owner, parent=parent)
-        task_ids.append(task.id)
+    task_nb = 0
+    task_ids = []
+    n = 1
+    extension = workspace.name.replace('-', '.')
+    ceo = Profile.objects.by_workspace(workspace).get(
+                                        user__username='ceo@%s'%extension)
+    rd = Profile.objects.by_workspace(workspace).get(
+                                        user__username='rd@%s'%extension)
+    sales = Profile.objects.by_workspace(workspace).get(
+                                        user__username='sales@%s'%extension)
+    market = Profile.objects.by_workspace(workspace).get(
+                                    user__username='marketing@%s'%extension)
+    # main CEO tasks
+    for i in ['Customer 1', 'Product A', 'Customer 2', 'Product B']:
+        task = Task.objects.create(workspace=workspace, name=i,
+                                   owner=ceo)
+        task_nb += 1
+        for (owner, name) in ( (rd, 'R&D'),
+                               (market, 'Marketing'),
+                               (sales, 'Sales' ) ):
+            Task.objects.create(workspace=workspace, name=name,
+                                owner=owner, parent=task)
+            task_nb += 1
+    # main managers tasks
+    for i in (rd, market, sales):
+        #children = i.children()
+        tasks = Task.objects.by_workspace(workspace).filter(owner=i)
+        for c in i.get_children():
+            for y in range(5):
+                name = "Task_%d"%n
+                n += 1
+                task = Task.objects.create(workspace=workspace, name=name,
+                                        owner=c, parent=random.choice(tasks))
+                task_nb += 1
+                task_ids.append(task.id)
+    # other tasks
+    owners = Profile.objects.by_workspace(workspace).exclude(
+                        user__in=[ceo.user, rd.user, sales.user, market.user])
+    if nb < task_nb:
+        nb = task_nb
+    while (n <= nb):
+        owner = random.choice(owners)
+        parent_tasks = Task.objects.by_workspace(workspace
+                                                ).filter(owner=owner.parent)
+        if len(parent_tasks) > 0:
+            name = "Task_%d"%n
+            n += 1
+            task = Task.objects.create(workspace=workspace, name=name,
+                                       owner=owner,
+                                       parent=random.choice(parent_tasks))
+    #for n in range(nb):
+        #name = "Task_%d"%n
+        #if len(task_ids) > 5:
+            #parent = Task.objects.get(id=random.choice(task_ids))
+        #else:
+            #parent=None
+        #task = Task.objects.create(workspace=workspace, name=name,
+                                   #owner=owner, parent=parent)
+        #task_ids.append(task.id)
 
 def clean_records(workspace):
     existing = DailyDurationPerTaskPerUser.objects.by_workspace(workspace).all()

@@ -51,14 +51,13 @@ def taskAdmin(request, task_id=None):
     workspace = request.user.profile.workspace
     #no_task =    (Task.objects.by_workspace(workspace).count() == 0)
     #no_task = not(Task.objects.by_workspace(workspace).exists())
-    #taskTenantForm = tenant_modelform_factory(workspace, TaskForm)
-    taskTenantForm = TaskForm
+    #TaskForm = tenant_modelform_factory(workspace, TaskForm)
     choices = Task.objects.by_workspace(workspace).all()
     inst = None
     if task_id:
         inst = Task.objects.by_workspace(workspace).get(id=task_id)
     if request.method == 'POST':
-        editform = taskTenantForm(request.POST, instance=inst)
+        editform = TaskForm(workspace, request.user, request.POST, instance=inst)
         if editform.is_valid():
             new_task = editform.save(commit=False)
             new_task.workspace = workspace ###maybe something to improve here
@@ -68,7 +67,7 @@ def taskAdmin(request, task_id=None):
             return redirect(reverse('administration:taskNew'))
     #GET
     else:
-        editform = taskTenantForm(instance=inst)
+        editform = TaskForm(workspace, request.user, instance=inst)
     return render(request, 'administration/task_admin.html',
                 {'editform':editform,
                 'choices':choices,                

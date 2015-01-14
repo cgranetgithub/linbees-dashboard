@@ -14,8 +14,8 @@ class PagesAccessTest(WebTest):
     def test_pages_access(self):
         c = Client()
         c.login(username='charly@lagat.com', password='secret')
-        response = c.get('/administration/task/new/')
-        self.assertEqual(response.status_code, 200)
+        #response = c.get('/administration/task/new/')
+        #self.assertEqual(response.status_code, 200)
         response = c.get('/administration/workspace/')
         self.assertEqual(response.status_code, 200)
         response = c.get('/administration/account/')

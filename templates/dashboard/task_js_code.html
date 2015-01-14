@@ -1,6 +1,8 @@
 <script>
 $(function() {
 
+    $( ".datepicker" ).datepicker({ dateFormat: "yy-mm-dd" });
+
     $('button')
         .button()
         .click(function(event){
@@ -25,6 +27,7 @@ $(function() {
     function update_form(data_url) {
         $.get( data_url, function( data ) {
             $( "#form_div" ).html( data );
+            $( ".datepicker" ).datepicker({ dateFormat: "yy-mm-dd" });
         });
     };
 
@@ -53,8 +56,8 @@ $(function() {
     };
 
     function draw_line_chart(data_url, divname) {
-        var startdate = $('#startdate').val();
-        var enddate = $('#enddate').val();
+        var startdate = $('#id_start_date').val();
+        var enddate = $('#id_end_date').val();
         var tasks = $('#tree_div').jstree(true).get_selected();
         console.log(data_url, divname, startdate, enddate, tasks);
         $.ajax({
@@ -73,30 +76,23 @@ $(function() {
             }
         });
     };
-    
-    $(function() {
-        $( "#startdate" ).datepicker({ dateFormat: "yy-mm-dd" });
-    });
-    $(function() {
-        $( "#enddate" ).datepicker({ dateFormat: "yy-mm-dd" });
-    });
 
     $(function () {
         $('#tree_div')
         // once ready, select tasks and draw charts
         .on('ready.jstree', function (e) {
             // select root nodes
-            var nodes = $('#tree_div').jstree('get_json');
-            for (n in nodes) {
-                $('#tree_div').jstree('select_node', nodes[n]);
-            }
+//             var nodes = $('#tree_div').jstree('get_json');
+//             for (n in nodes) {
+//                 $('#tree_div').jstree('select_node', nodes[n]);
+//             }
             update_div();
         })
         // create the instance
         .jstree({
             'core' : {
                 'data' : {
-                    'url':"{% url 'dashboard:tasks_query' %}", 
+                    'url':"{% url 'dashboard:tasks_query' False %}", 
                     'dataType':'json',
                 }
             },
@@ -107,13 +103,14 @@ $(function() {
         $('#single_tree_div')
         // once ready, draw chart
         .on('ready.jstree', function (e) {
-            $('#single_tree_div').jstree('open_all');
+//             $('#single_tree_div').jstree('open_all');
             // select 1st root nodes
-            var nodes = $('#single_tree_div').jstree('get_json');
-            for (n in nodes) {
-                $('#single_tree_div').jstree('select_node', nodes[n]);
-                break;
-            }
+//             var nodes = $('#single_tree_div').jstree('get_json');
+//             for (n in nodes) {
+//                 $('#single_tree_div').jstree('select_node', nodes[n]);
+//                 break;
+//             }
+//             $('#single_tree_div').jstree('deselect_all');
             update_div();
         })
         // when selection changes
@@ -124,7 +121,7 @@ $(function() {
         .jstree({
             'core' : {
                 'data' : {
-                    'url':"{% url 'dashboard:tasks_query' %}", 
+                    'url':"{% url 'dashboard:tasks_query' True %}", 
                     'dataType':'json',
                 },
                 'multiple' : false,

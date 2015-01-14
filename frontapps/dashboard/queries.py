@@ -34,7 +34,17 @@ def users(request):
 @user_passes_test(has_paid, login_url=reverse_lazy('dashboard:latePayment'))
 @user_passes_test(has_access,
                   login_url=reverse_lazy('dashboard:noAccess'))
-def tasks(request):
+def tasks(request, single=False):
+    if single is not False:
+        try:
+            if single.strip() in ('False', 'false'):
+                single = False
+            elif single.strip() in ('True', 'true'):
+                single = True
+            else:
+                single = False
+        except:
+            single = False
     profile = request.user.profile
     ws = profile.workspace
     # me and my descendant tasks
@@ -47,13 +57,37 @@ def tasks(request):
     #tasks = my_tasks | descendants_tasks
     #tasks = Task.objects.by_workspace(workspace).filter(monitored=True)
     data = []
+    selected = False
     for i in my_tasks:
         node = {'id'  : str(i.id),
                 'text': str(i.name)}
-        if i.parent is None or i.parent in ancestors_tasks:
-            node['parent'] = '#'
+        if i.parent is None:
+            node['parent'] = '#',
+            if single:
+                if not selected:
+                    node['state'] = {'selected': 'true',
+                                    'opened'  : 'true'}
+                    selected = True
+            else:
+                node['state'] = {'selected': 'true',
+                                'opened'  : 'true'}
         else:
             node['parent'] = str(i.parent.id)
+            if i.parent in ancestors_tasks:
+                if single:
+                    if not selected:
+                        node['state'] = {'selected': 'true',
+                                        'opened'  : 'true'}
+                        selected = True
+                else:
+                    node['state'] = {'selected': 'true',
+                                    'opened'  : 'true'}
+                root_node = {'id'  : str(i.parent.id),
+                             'text': str(i.parent.name),
+                             'parent': '#',
+                             'state': {'disabled': 'true',
+                                       'opened': 'true'}}
+                data.append(root_node)
         data.append(node)
     return HttpResponse(json.dumps(data), content_type="application/json")
 

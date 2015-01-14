@@ -48,6 +48,8 @@ class Task(MPTTModel, TenantModel):
                                       verbose_name=_('monitored'))
     primary     = models.BooleanField(default=False,
                                       verbose_name=_('primary'))
+    personal    = models.BooleanField(default=False,
+                                      verbose_name=_('personal'))
     name        = models.CharField(max_length=255,
                                    verbose_name=_('name'))
     description = models.CharField(max_length=255, blank=True,
@@ -58,12 +60,13 @@ class Task(MPTTModel, TenantModel):
                                     verbose_name=_('type'))
     parent      = TreeForeignKey('self', blank=True, null=True,
                                  verbose_name=_('parent task'),
+                                 help_text=_('parent task'),
                                  related_name='children task')
     owner       = models.ForeignKey(Profile, verbose_name=_('owned by'))
-    start_date  = models.DateTimeField(blank=True, null=True,
-                                    verbose_name=_('start date estimate'))
-    end_date    = models.DateTimeField(blank=True, null=True,
-                                    verbose_name=_('end date estimate'))
+    start_date  = models.DateField(blank=True, null=True,
+                                   verbose_name=_('start date estimate'))
+    end_date    = models.DateField(blank=True, null=True,
+                                   verbose_name=_('end date estimate'))
     additional_cost = models.IntegerField(blank=True, null=True,
                                     verbose_name=_('additional cost'))
     cost_estimate = models.IntegerField(blank=True, null=True,
@@ -76,6 +79,9 @@ class Task(MPTTModel, TenantModel):
         verbose_name_plural = "Tasks"
         unique_together = (('workspace', 'name', 'parent'),)
     #class MPTTMeta:
-        #order_insertion_by = ['name']        
+        #order_insertion_by = ['name']
     def __unicode__(self):
-        return u'%s'%(self.name)
+        if self.parent is not None:
+            return u'%s/%s'%(self.parent, self.name)
+        else:
+            return u'%s'%(self.name)

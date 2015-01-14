@@ -9,6 +9,7 @@ from django.shortcuts import render
 from django.core import serializers
 import json
 from frontapps.dashboard.views import STARTDATE, TODAY
+from frontapps.dashboard.forms import DateRangeForm
 
 @login_required
 @user_passes_test(has_paid, login_url=reverse_lazy('dashboard:latePayment'))
@@ -21,8 +22,9 @@ def time(request):
         workspace = request.user.profile.workspace
         startdate = STARTDATE.isoformat()
         enddate = TODAY.isoformat()
-        context = { 'startdate' : startdate,
-                    'enddate' : enddate,
+        form = DateRangeForm(initial={'start_date' : startdate,
+                                      'end_date'   : enddate})
+        context = { 'form' : form,
                     'selection' : user.id,
                     'topic' : 'time'}
     return render(request, 'dashboard/user_time.html', context)
@@ -101,51 +103,16 @@ def salary_edit(request, user_id):
     else:
         template = 'dashboard/user_info.html'    
     if request.method == 'POST':
-        #user = Profile.objects.by_workspace(workspace
-                                    #).get(user=request.POST.get('selection'))
-        #qs = urlparse.parse_qs(request.POST.get('form_data'))
-        #form_data = {}
-        #for i,j in qs.iteritems():
-            #form_data[i] = j[0]
         formset = SalaryFormSet(request.POST,
                                 queryset=DailySalary.objects.by_workspace(
                                             workspace).filter(profile=user))
         if formset.is_valid():
-            fs = formset.save()
-            #print fs
-            #data = formset.cleaned_data
-            #print data
-            data = serializers.serialize('json', fs)
-            print data
-            if request.is_ajax():
-                print "valid, ajax"
-                #return HttpResponse(data)
-                #from django.http import JsonResponse
-                #data = {
-                #'pk': self.object.pk,
-                #}
-                #return JsonResponse(data)
-                #return redirect(reverse_lazy('dashboard:edit_salary',
-                                               #kwargs={'user_id': user_id}))
-            else:
-                print "valid, no ajax"
-                #return redirect(reverse_lazy('dashboard:user_salary'))
-                                               #kwargs={'user_id': user_id}))
-        #else:
-            #if request.is_ajax():
-                #print "invalid, ajax"
-                #print formset.errors
-                #ret = {'data':[]}
-                #for e in formset.errors:
-                    #data = errors_to_json(e)
-                    #ret['data'].append(data)
-                #print ret
-                #return HttpResponse(json.dumps(ret))
-            #else:
-                #print "invalid, no ajax"
+            fs = formset.save(commit=False)
+            for i in fs:
+                i.workspace = workspace
+                i.profile = user
+                i.save()
     else:
-        #user = Profile.objects.by_workspace(workspace
-                                            #).get(user=request.GET['selection'])
         formset = SalaryFormSet(queryset=DailySalary.objects.by_workspace(
                                             workspace).filter(profile=user))
     return render( request,

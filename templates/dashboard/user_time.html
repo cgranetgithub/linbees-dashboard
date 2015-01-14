@@ -1,11 +1,16 @@
 {% extends "dashboard/user.html" %}
 {% load i18n %}
+{% load bootstrap3 %}
 
 {% block col1 %}
     <div class="panel panel-default">
         <div class="panel-body">
-            <p>{% trans 'Start date' %}<input type="text" id="startdate" value="{{ startdate }}"></p>
-            <p>{% trans 'End date' %}<input type="text" id="enddate" value="{{ enddate }}"></p>
+            {% bootstrap_form form %}
+            {% buttons %}
+                <button type="submit" class="btn btn-sm btn-primary">
+                {% trans "Update" %}
+                </button>
+            {% endbuttons %}
             <div id="tree_div"></div>
         </div>
     </div>

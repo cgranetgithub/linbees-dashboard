@@ -5,6 +5,7 @@ from backapps.task.models import Task
 from backapps.task.forms import TaskForm
 from frontapps.checks import has_paid, has_access, data_existence
 from frontapps.dashboard.views import STARTDATE, TODAY
+from frontapps.dashboard.forms import DateRangeForm
 
 @login_required
 @user_passes_test(has_paid, login_url=reverse_lazy('dashboard:latePayment'))
@@ -16,8 +17,9 @@ def time(request):
         workspace = request.user.profile.workspace
         startdate = STARTDATE.isoformat()
         enddate = TODAY.isoformat()
-        context = { 'startdate' : startdate,
-                    'enddate' : enddate,
+        form = DateRangeForm(initial={'start_date' : startdate,
+                                      'end_date'   : enddate})
+        context = { 'form' : form,
                     'topic' : 'time'}
     return render(request, 'dashboard/task_time.html', context)
 
@@ -31,8 +33,9 @@ def cost(request):
         workspace = request.user.profile.workspace
         startdate = STARTDATE.isoformat()
         enddate = TODAY.isoformat()
-        context = { 'startdate' : startdate,
-                    'enddate' : enddate,
+        form = DateRangeForm(initial={'start_date' : startdate,
+                                      'end_date'   : enddate})
+        context = { 'form' : form,
                     'topic' : 'cost'}
     return render(request, 'dashboard/task_cost.html', context)
 
