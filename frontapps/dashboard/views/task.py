@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.core.urlresolvers import reverse_lazy
 from backapps.task.models import Task
@@ -66,3 +66,23 @@ def info_edit(request, task_id):
                    {'form':form,
                     'form_action':reverse_lazy('dashboard:task_info_edit',
                                                kwargs={'task_id': task_id})})
+
+@login_required
+@user_passes_test(has_paid, login_url=reverse_lazy('dashboard:latePayment'))
+@user_passes_test(has_access,
+                login_url=reverse_lazy('dashboard:noAccess'))
+def new(request):
+    workspace = request.user.profile.workspace
+    if request.method == 'POST':
+        form = TaskForm(workspace, request.user, request.POST)
+        if form.is_valid():
+            new_task = form.save(commit=False)
+            new_task.workspace = workspace
+            new_task.save()
+            return redirect(reverse_lazy('dashboard:task_new'))
+    else:
+        form = TaskForm(workspace, request.user)
+    return render( request,
+                   'dashboard/task_new.html',
+                   {'form':form,
+                    'form_action':reverse_lazy('dashboard:task_new')})

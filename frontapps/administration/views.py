@@ -49,9 +49,6 @@ def workspaceAdmin(request):
                   login_url=reverse_lazy('dashboard:noAccess'))
 def taskAdmin(request, task_id=None):
     workspace = request.user.profile.workspace
-    #no_task =    (Task.objects.by_workspace(workspace).count() == 0)
-    #no_task = not(Task.objects.by_workspace(workspace).exists())
-    #TaskForm = tenant_modelform_factory(workspace, TaskForm)
     choices = Task.objects.by_workspace(workspace).all()
     inst = None
     if task_id:

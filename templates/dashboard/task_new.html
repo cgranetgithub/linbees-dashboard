@@ -1,0 +1,20 @@
+{% extends "dashboard/task.html" %}
+{% load i18n %}
+{% load bootstrap3 %}
+
+{% block col2 %}
+    <div class="col-md-8 col-md-offset-4">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <form action="{{ form_action }}" method="post" role="form" id="ajaxform">{% csrf_token %}
+                    {% bootstrap_form form %}
+                    {% buttons %}
+                    <button type="submit" class="btn btn-sm btn-primary" id="creation">
+                        {% trans "Create" %}
+                    </button>
+                    {% endbuttons %}
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock col2 %}

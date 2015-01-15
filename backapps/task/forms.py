@@ -46,7 +46,7 @@ class TaskForm(forms.ModelForm):
                                                     required=False)
         self.fields['owner'] = TreeNodeChoiceField(label=_('Project owner'),
                                                    queryset=my_descendants,
-                                                   required=False)
+                                                   required=True)
     class Meta:
         model = Task
         fields  = ('name', 'description', 'parent', 'owner',
