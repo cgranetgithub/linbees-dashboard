@@ -4,26 +4,16 @@
 
 {% block home %}
     <div class="row">
-        {% if tasks_number == 0 %}
-            {% include 'dashboard/no_task_message.html' %}
-        {% elif nodata == True %}
-            {% include 'dashboard/no_data_message.html' %}
-        {% else %}
-            <div class="col-sm-2 col-md-1 sidebar no_bkgd">
-                <ul class="nav nav-sidebar">
-                    <li><a href="{% url 'dashboard:task_time' %}">{% trans "Time" %}</a></li>
-                    <li><a href="{% url 'dashboard:task_cost' %}">{% trans 'Cost' %}</a></li>
-                    <li><a href="{% url 'dashboard:task_info' %}">{% trans 'Modification' %}</a></li>
-                    <li><a href="{% url 'dashboard:task_new'  %}">{% trans 'New project' %}</a></li>
-                </ul>
-            </div>
-            <div class="col-sm-4 col-sm-offset-2 col-md-3 col-md-offset-1 sidebar">
-                {% block col1 %}
-                {% endblock col1 %}
-            </div>
-            {% block col2 %}
-            {% endblock col2 %}
-        {% endif %}
+        <div class="col-sm-2 col-md-1 sidebar no_bkgd">
+            <ul class="nav nav-sidebar">
+                <li><a href="{% url 'dashboard:task_time' %}">{% trans "Time" %}</a></li>
+                <li><a href="{% url 'dashboard:task_cost' %}">{% trans 'Cost' %}</a></li>
+                <li><a href="{% url 'dashboard:task_info' %}">{% trans 'Modification' %}</a></li>
+                <li><a href="{% url 'dashboard:task_new'  %}">{% trans 'New project' %}</a></li>
+            </ul>
+        </div>
+        {% block main %}
+        {% endblock main %}
     </div><!-- /.row -->
 
     <!-- Linbees js stuff -->

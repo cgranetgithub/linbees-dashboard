@@ -2,8 +2,8 @@
 {% load i18n %}
 {% load bootstrap3 %}
 
-{% block col2 %}
-    <div class="col-md-8 col-md-offset-4">
+{% block main %}
+    <div class="col-md-6 col-md-offset-1">
         <div class="panel panel-default">
             <div class="panel-body">
                 <form action="{{ form_action }}" method="post" role="form" id="ajaxform">{% csrf_token %}
@@ -17,4 +17,4 @@
             </div>
         </div>
     </div>
-{% endblock col2 %}
+{% endblock main %}

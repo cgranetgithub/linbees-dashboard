@@ -17,16 +17,16 @@ from frontapps.dashboard.forms import DateRangeForm
                 login_url=reverse_lazy('dashboard:noAccess'))
 def time(request):
     (context, some_data) = data_existence(request)
+    workspace = request.user.profile.workspace
     if some_data:
         user = request.user
-        workspace = request.user.profile.workspace
         startdate = STARTDATE.isoformat()
         enddate = TODAY.isoformat()
         form = DateRangeForm(initial={'start_date' : startdate,
                                       'end_date'   : enddate})
-        context = { 'form' : form,
-                    'selection' : user.id,
-                    'topic' : 'time'}
+        context.update({'form' : form,
+                        'selection' : user.id,
+                        'topic' : 'time'})
     return render(request, 'dashboard/user_time.html', context)
 
 @login_required
@@ -34,9 +34,12 @@ def time(request):
 @user_passes_test(has_access,
                 login_url=reverse_lazy('dashboard:noAccess'))
 def info(request):
+    (context, some_data) = data_existence(request)
     user = request.user
-    context = { 'selection' : user.id,
-                'topic' : 'info'}
+    workspace = request.user.profile.workspace
+    context.update({'selection' : user.id,
+                    'workspace' : workspace,
+                    'topic' : 'info'})
     return render(request, 'dashboard/user_info.html', context)
 
 @login_required
@@ -47,24 +50,10 @@ def info_edit(request, user_id):
     workspace = request.user.profile.workspace
     user = Profile.objects.by_workspace(workspace).get(user=user_id)
     if request.method == 'POST':
-        #user = Profile.objects.by_workspace(workspace
-                                    #).get(user=request.POST.get('selection'))
-        #qs = urlparse.parse_qs(request.POST.get('form_data'))
-        #form_data = {}
-        #for i,j in qs.iteritems():
-            #form_data[i] = j[0]
-        #form = ProfileForm(form_data, instance=user)
         form = ProfileForm(workspace, request.user, request.POST, instance=user)
         if form.is_valid():
             form.save()
-            #if request.is_ajax():
-                #return HttpResponse('OK')
-            #else:
-                #return redirect(reverse_lazy('dashboard:edit_info') +
-                                    #'?user=%s'%request.POST.get('selection'))
     else:
-        #user = Profile.objects.by_workspace(workspace
-                                            #).get(user=request.GET['selection'])
         form = ProfileForm(workspace, request.user, instance=user)
     return render( request,
                    'dashboard/ajax_form.html',
@@ -77,19 +66,12 @@ def info_edit(request, user_id):
 @user_passes_test(has_access,
                 login_url=reverse_lazy('dashboard:noAccess'))
 def salary(request):
+    (context, some_data) = data_existence(request)
     user = request.user
-    context = { 'selection' : user.id,
-                'topic' : 'salary'}
+    workspace = request.user.profile.workspace
+    context.update({'selection' : user.id,
+                    'topic' : 'salary'})
     return render(request, 'dashboard/user_info.html', context)
-
-def errors_to_json(errors):
-    """
-    Convert a Form error list to JSON::
-    """
-    return dict(
-            (k, map(unicode, v))
-            for (k,v) in errors.iteritems()
-        )
 
 @login_required
 @user_passes_test(has_paid, login_url=reverse_lazy('dashboard:latePayment'))

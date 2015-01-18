@@ -41,7 +41,7 @@ class DailyDurationPerTaskPerUser(TenantModel):
     """
     duration per day per task per user
     Inherits TenantModel => tenant specific class
-    automatically created/updated when Record changes,\
+    automatically created/updated when Record changes,
     by update_DailyDurationPerTaskPerUser, on post_save signal
     """
     date     = models.DateField()
@@ -59,8 +59,9 @@ class DailyCostPerTaskPerUser(TenantModel):
     """
     cost per day per task per user
     Inherits TenantModel => tenant specific class
-    automatically created/updated when Record changes,\
-    by update_DailyCostPerTaskPerUser, on post_save signal
+    automatically created/updated when DailyDurationPerTaskPerUser or
+    DailySalary change, by update_DailyCostPerTaskPerUser, 
+    on post_save signal
     """
     ddtu  = models.OneToOneField(DailyDurationPerTaskPerUser)
     time_percent = models.DecimalField(default=0, max_digits=3,
@@ -79,7 +80,7 @@ class DailyDurationPerTask(TenantModel):
     """
     duration per day per task
     Inherits TenantModel => tenant specific class
-    automatically created/updated when Record changes,\
+    automatically created/updated when DailyDurationPerTaskPerUser changes,
     by update_DailyDurationPerTask, on post_save signal
     """
     date     = models.DateField()
@@ -95,17 +96,33 @@ class DailyCostPerTask(TenantModel):
     """
     cost per day per task
     Inherits TenantModel => tenant specific class
-    automatically created/updated when Record changes,\
+    automatically created/updated when DailyCostPerTaskPerUser changes,
     by update_DailyCostPerTask, on post_save signal
     """
-    date     = models.DateField()
-    task     = models.ForeignKey(Task)
+    date = models.DateField()
+    task = models.ForeignKey(Task)
     cost = models.DecimalField(default=0, max_digits=10,
                                decimal_places=2)
     class Meta:
         unique_together = (("workspace", "date", "task"),)
     def __unicode__(self):
         return u'%s | %s | %s'%(self.task, self.date, self.cost)
+
+#class DailyCostPerHierarchy(TenantModel):
+    #"""
+    #cost per day per task, including its sub-tasks
+    #Inherits TenantModel => tenant specific class
+    #automatically created/updated when DailyCostPerTask changes,\
+    #by update_DailyCostPerHierarchy, on post_save signal
+    #"""
+    #date = models.DateField()
+    #task = models.ForeignKey(Task)
+    #cost = models.DecimalField(default=0, max_digits=10,
+                                   #decimal_places=2)
+    #class Meta:
+        #unique_together = (("workspace", "date", "task"),)
+    #def __unicode__(self):
+        #return u'%s | %s | %s'%(self.task, self.date, self.cost)
 
 
 def update_DailyDurationPerTaskPerUser(sender, instance, *args, **kwargs):
@@ -217,6 +234,22 @@ def update_DailyCostPerTask(sender, instance, *args, **kwargs):
 
 post_save.connect(update_DailyCostPerTask,
                   sender=DailyCostPerTaskPerUser)
+
+#def update_DailyCostPerHierarchy(sender, instance, *args, **kwargs):
+    #workspace = instance.workspace
+    #task      = instance.task
+    #date      = instance.date
+    #cost_sum = DailyCostPerTaskPerUser.objects.filter(
+                            #ddtu__task=task, ddtu__date=date
+                            #).aggregate(Sum('cost'))['cost__sum']
+    #(dct, created) = DailyCostPerHierarchy.objects.get_or_create(
+                                #workspace=workspace,
+                                #task=task, date=date)
+    #dct.cost = cost_sum
+    #dct.save()
+
+#post_save.connect(update_DailyCostPerHierarchy,
+                  #sender=DailyCostPerTask)
 
 
 def get_ongoing_task(profile):

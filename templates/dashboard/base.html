@@ -58,13 +58,13 @@
     </div>
     <div class="navbar-collapse collapse">
         <ul class="nav navbar-nav">
-        <li><a href="{% url 'dashboard:overview' %}">{% trans "Overview" %}</a></li>
+        <li><a href="{% url 'dashboard:overview' %}"><strong>{{ workspace.company_name }}</strong></a></li>
         <li><a href="{% url 'dashboard:task_time' %}">{% trans "Projects" %}</a></li>
         <li><a href="{% url 'dashboard:user_time' %}">{% trans "Users" %}</a></li>
-        <li><a href="{% url 'administration:taskNew' %}">{% trans "Administration" %}</a></li>
+        <li><a href="{% url 'administration:accountAdmin' %}">{% trans "Administration" %}</a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">	  
-        <li><a href="{% url 'dashboard:logout_view' %}">{% trans "Log out" %}</a></li>
+        <li><a href="{% url 'dashboard:logout_view' %}">{% trans "Log out" %} ({{ user.username }})</a></li>
         <li><a class="navbar-brand" href="{% url 'website:home' %}">Linbees</a></li>
         </ul>
     </div>

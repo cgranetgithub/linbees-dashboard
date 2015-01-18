@@ -19,3 +19,6 @@ class DailySalary(TenantModel):
                                       verbose_name=_('daily wage'),
                                       help_text=_("this represents the "
 "cost of the employee per day"))
+    def __unicode__(self):
+        return u'%s %s %s %s'%(self.profile, self.daily_wage,
+                               self.start_date, self.end_date)

@@ -2,13 +2,14 @@ from django.core.management.base import BaseCommand, CommandError
 from django.contrib.auth.models import User
 from backapps.workspace.models import Workspace
 import libs.chart.generate_data as gen
-import dateutil.parser
+import dateutil.parser, datetime
 
 class Command(BaseCommand):
     args = u"""<workspace_name username number_of_users number_of_tasks 
 start_date end_date keep_existing>"""
     help = u'Populate the workspace with fake generated data'
     def handle(self, * args, ** options):
+        s = datetime.datetime.now()
         self.stdout.write(u'Analyze arguments')
         (ws_name, username, users_nb, tasks_nb, start, end, keep) = args
 
@@ -32,4 +33,4 @@ start_date end_date keep_existing>"""
             gen.generate_tasks(ws, user, tasks_nb)
         self.stdout.write(u'Generate records')
         gen.generate_records(ws, start, end)
-        self.stdout.write(u'done')
+        self.stdout.write(u'done in %s'%(datetime.datetime.now() - s))

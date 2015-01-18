@@ -11,15 +11,15 @@ def fn(x, length):
     return 3.0*math.cos((x+length)/(length/3.0))+4.0
 
 def clean_users(workspace, user):
-    existing = Profile.objects.by_workspace(workspace).exclude(user=user)
-    user_list = [i.user for i in existing]
-    existing.delete()
+    profiles = Profile.objects.by_workspace(workspace).exclude(user=user)
+    user_list = [i.user for i in profiles]
+    DailySalary.objects.by_workspace(workspace).delete()
+    profiles.delete()
     for i in user_list:
         i.delete()
 
-user_ids = []
 def generate_users(workspace, start_date, end_date, nb=10):
-    global user_ids
+    parent_ids = []
     extension = workspace.name.replace('-', '.')
     ceo_email = 'ceo@%s'%extension
     (ceo, created) = User.objects.get_or_create(username=ceo_email)
@@ -49,23 +49,23 @@ def generate_users(workspace, start_date, end_date, nb=10):
         profile = createUserProfile(user, workspace)
         profile.parent = ceo.profile
         profile.save()
-        user_ids.append(user.id)
+        parent_ids.append(user.id)
         DailySalary.objects.create(workspace=workspace, profile=profile,
                                    daily_wage=random.randint(900, 1500),
                                    start_date=start_date, end_date=end_date)
-    for i in range(nb-4):
-        email = 'user%i@%s'%(i, extension)
-        user = User.objects.create_user(username=email, password='test',
-                                        email=email, first_name='user%i'%(i))
-        profile = createUserProfile(user, workspace)
-        if len(user_ids) > 0:
+    if nb > 4:
+        for i in range(nb-4):
+            email = 'user%i@%s'%(i, extension)
+            user = User.objects.create_user(username=email, password='test',
+                                            email=email, first_name='user%i'%(i))
+            profile = createUserProfile(user, workspace)
             profile.parent = Profile.objects.get(
-                                        user__id=random.choice(user_ids))
+                                        user__id=random.choice(parent_ids))
             profile.save()
-        user_ids.append(user.id)
-        DailySalary.objects.create(workspace=workspace, profile=profile,
-                                   daily_wage=random.randint(500, 1000),
-                                   start_date=start_date, end_date=end_date)
+            parent_ids.append(user.id)
+            DailySalary.objects.create(workspace=workspace, profile=profile,
+                                    daily_wage=random.randint(500, 1000),
+                                    start_date=start_date, end_date=end_date)
 
 def clean_tasks(workspace):
     existing = Task.objects.by_workspace(workspace).all()

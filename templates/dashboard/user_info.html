@@ -1,17 +1,18 @@
 {% extends "dashboard/user.html" %}
 
-{% block col1 %}
-    <div class="panel panel-default">
-        <div class="panel-body">
-            <div id="tree_div"></div>
+{% block main %}
+    <div class="col-sm-4 col-sm-offset-2 col-md-3 col-md-offset-1 sidebar">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div id="tree_div"></div>
+            </div>
         </div>
     </div>
-{% endblock col1 %}
-
-{% block col2 %}
-    <div class="panel panel-default">
-        <div class="panel-body">
-            <div id="form_div">
+    <div class="col-sm-6 col-sm-offset-6 col-md-8 col-md-offset-4">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div id="form_div">
+            </div>
         </div>
     </div>
-{% endblock col2 %}
+{% endblock main %}

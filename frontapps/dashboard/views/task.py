@@ -19,8 +19,8 @@ def time(request):
         enddate = TODAY.isoformat()
         form = DateRangeForm(initial={'start_date' : startdate,
                                       'end_date'   : enddate})
-        context = { 'form' : form,
-                    'topic' : 'time'}
+        context.update({'form' : form,
+                        'topic' : 'time'})
     return render(request, 'dashboard/task_time.html', context)
 
 @login_required
@@ -35,8 +35,8 @@ def cost(request):
         enddate = TODAY.isoformat()
         form = DateRangeForm(initial={'start_date' : startdate,
                                       'end_date'   : enddate})
-        context = { 'form' : form,
-                    'topic' : 'cost'}
+        context.update({'form' : form,
+                        'topic' : 'cost'})
     return render(request, 'dashboard/task_cost.html', context)
 
 @login_required
@@ -44,8 +44,8 @@ def cost(request):
 @user_passes_test(has_access,
                 login_url=reverse_lazy('dashboard:noAccess'))
 def info(request):
-    workspace = request.user.profile.workspace
-    context = {'topic' : 'info'}
+    (context, some_data) = data_existence(request)
+    context.update({'topic' : 'info'})
     return render(request, 'dashboard/task_info.html', context)
 
 @login_required
@@ -61,17 +61,17 @@ def info_edit(request, task_id):
             form.save()
     else:
         form = TaskForm(workspace, request.user, instance=task)
-    return render( request,
-                   'dashboard/ajax_form.html',
-                   {'form':form,
-                    'form_action':reverse_lazy('dashboard:task_info_edit',
-                                               kwargs={'task_id': task_id})})
+    context = {'form':form,
+               'form_action':reverse_lazy('dashboard:task_info_edit',
+                                               kwargs={'task_id': task_id})}
+    return render( request, 'dashboard/ajax_form.html', context)
 
 @login_required
 @user_passes_test(has_paid, login_url=reverse_lazy('dashboard:latePayment'))
 @user_passes_test(has_access,
                 login_url=reverse_lazy('dashboard:noAccess'))
 def new(request):
+    (context, some_data) = data_existence(request)
     workspace = request.user.profile.workspace
     if request.method == 'POST':
         form = TaskForm(workspace, request.user, request.POST)
@@ -82,7 +82,6 @@ def new(request):
             return redirect(reverse_lazy('dashboard:task_new'))
     else:
         form = TaskForm(workspace, request.user)
-    return render( request,
-                   'dashboard/task_new.html',
-                   {'form':form,
+    context.update({'form':form,
                     'form_action':reverse_lazy('dashboard:task_new')})
+    return render(request, 'dashboard/task_new.html', context)

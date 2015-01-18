@@ -54,9 +54,9 @@ class IsolationTest(WebTest):
         form['username'] = 'user1@lagat.com'
         form['password'] = 'user1@lagat.com'
         form.submit()
-        form = self.app.get('/administration/task/new/').form
-        form['name'] = 'lagat-project'
-        form.submit()
+        #form = self.app.get('/administration/task/new/').form
+        #form['name'] = 'lagat-project'
+        #form.submit()
         ws = Workspace.objects.get(name='lagat-com')
         gen.generate_records(ws)
         response = self.app.get('/dashboard/data/time_per_project/None/None/')
@@ -72,9 +72,9 @@ class IsolationTest(WebTest):
         form['username'] = 'user1@tagal.com'
         form['password'] = 'user1@tagal.com'
         form.submit()
-        form = self.app.get('/administration/task/new/').form
-        form['name'] = 'tagal-project'
-        form.submit()
+        #form = self.app.get('/administration/task/new/').form
+        #form['name'] = 'tagal-project'
+        #form.submit()
         ws = Workspace.objects.get(name='tagal-com')
         gen.generate_records(ws)
         response = self.app.get('/dashboard/data/time_per_project/None/None/')
