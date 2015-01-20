@@ -1,7 +1,6 @@
 import datetime
 from django.db.models import Sum
 from libs.chart.calculus import sum_and_sort_time, queryset_filter
-from backapps.record.models import DailyDurationPerTaskPerUser
 from backapps.task.models import Task
 
 def pie_total_time(queryset):

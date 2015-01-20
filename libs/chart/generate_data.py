@@ -3,7 +3,7 @@ from django.utils.timezone import utc
 from django.contrib.auth.models import User
 from django.contrib.auth.hashers import make_password
 from backapps.profile.models import Profile, createUserProfile
-from backapps.record.models import Record, DailyDurationPerTaskPerUser
+from backapps.record.models import Record, DailyDataPerTaskPerUser
 from backapps.salary.models import DailySalary
 from backapps.task.models import Task
 
@@ -133,7 +133,7 @@ def generate_tasks(workspace, user, nb=10):
         #task_ids.append(task.id)
 
 def clean_records(workspace):
-    existing = DailyDurationPerTaskPerUser.objects.by_workspace(workspace).all()
+    existing = DailyDataPerTaskPerUser.objects.by_workspace(workspace).all()
     existing.delete()
     existing = Record.objects.by_workspace(workspace).all()
     existing.delete()
@@ -168,8 +168,7 @@ def generate_records(workspace, begin_date=None, end_date=None):
                 delta = datetime.timedelta(hours=int(d), minutes=int(d%1*60))
                 end = start + delta
                 Record.objects.create(workspace=workspace, profile=profile,
-                                      task=p,
-                                      start_override=start, end_original=end)
+                                      task=p, start=start, end=end)
                 d = (random.uniform(7, 8) - cum)/(working_on)
                 cum +=d
             cur += datetime.timedelta(1)

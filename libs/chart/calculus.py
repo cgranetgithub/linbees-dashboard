@@ -4,18 +4,19 @@ from operator import itemgetter
 from django.db.models import Sum, Count
 from collections import defaultdict, OrderedDict
 
+#def record2daily(record):
 def record2daily(queryset):
     one_day = datetime.timedelta(1)
     date_dict = defaultdict(datetime.timedelta)
     for record in queryset:
-        if record.end() is not None:
-            start_date = record.start().date()
-            end_date = record.end().date()
+        if record.end is not None:
+            start_date = record.start.date()
+            end_date = record.end.date()
             if start_date > end_date:
                     raise Exception("error start_date > end_date")
             #same day
             elif start_date == end_date:
-                duration = record.end() - record.start()
+                duration = record.end - record.start
                 date_dict[start_date] += duration
             #several days
             else: # start < end
@@ -23,8 +24,8 @@ def record2daily(queryset):
                 #first day
                 duration = datetime.datetime(
                                 iter_date.year, iter_date.month, iter_date.day
-                            , tzinfo=record.start().tzinfo
-                        ) + one_day - record.start()
+                            , tzinfo=record.start.tzinfo
+                        ) + one_day - record.start
                 date_dict[iter_date] += duration
                 iter_date += one_day
                 #days in the middle
@@ -32,9 +33,9 @@ def record2daily(queryset):
                     date_dict[iter_date] += one_day
                     iter_date += one_day
                 #last day
-                duration = record.end() - datetime.datetime(
-                                    iter_date.year, iter_date.month
-                                , iter_date.day, tzinfo=record.end().tzinfo)
+                duration = record.end - datetime.datetime(
+                                    iter_date.year, iter_date.month,
+                                    iter_date.day, tzinfo=record.end.tzinfo)
                 date_dict[iter_date] += duration
     data_dict = OrderedDict(sorted(date_dict.items(), key=lambda t: t[0]))
     return data_dict

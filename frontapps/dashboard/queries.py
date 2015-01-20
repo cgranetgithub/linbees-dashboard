@@ -2,9 +2,8 @@ import json
 from django.contrib.auth.decorators import login_required, user_passes_test
 from backapps.task.models import Task
 from backapps.profile.models import Profile
-from backapps.record.models import (DailyDurationPerTaskPerUser,
-                                    DailyDurationPerTask,
-                                    DailyCostPerTask )
+from backapps.record.models import (DailyDataPerTaskPerUser,
+                                    DailyDataPerTask)
 from frontapps.checks import has_paid, has_access, data_existence
 from django.core.urlresolvers import reverse_lazy
 from django.http import Http404, HttpResponse
@@ -104,11 +103,11 @@ def time_per_user(request):
         raise Http404
     data = {}
     workspace = request.user.profile.workspace
-    queryset = DailyDurationPerTaskPerUser.objects.by_workspace(workspace
+    queryset = DailyDataPerTaskPerUser.objects.by_workspace(workspace
                         ).filter(profile__user=user, task__monitored=True)
     queryset = queryset_filter(queryset, None, startdate, enddate)
     (array, line_options) = over_time(workspace, queryset, 'duration',
-                                            DailyDurationPerTaskPerUser)
+                                            DailyDataPerTaskPerUser)
     line_options['isStacked'] = 'true'
     data['data'] = array
     data['options'] = line_options
@@ -131,11 +130,11 @@ def time_per_project(request):
         raise Http404
     data = {}
     workspace = request.user.profile.workspace
-    queryset = DailyDurationPerTask.objects.by_workspace(workspace
+    queryset = DailyDataPerTask.objects.by_workspace(workspace
                                 ).filter(task__monitored=True)
     queryset = queryset_filter(queryset, tasks, startdate, enddate)
     (array, line_options) = over_time(workspace, queryset, 'duration',
-                                            DailyDurationPerTask)
+                                            DailyDataPerTask)
     data['data'] = array
     data['options'] = line_options
     return HttpResponse(json.dumps(data), content_type="application/json")
@@ -157,13 +156,13 @@ def cumulated_time_per_project(request):
         raise Http404
     data = {}
     workspace = request.user.profile.workspace
-    queryset = DailyDurationPerTask.objects.by_workspace(workspace
+    queryset = DailyDataPerTask.objects.by_workspace(workspace
                                 ).filter(task__monitored=True)
     if tasks is not None:
         queryset = queryset.filter(task__in=tasks)
     #tasks evolution over time
     (array, line_options) = over_time(workspace, queryset, 'duration',
-                                            DailyDurationPerTask)
+                                            DailyDataPerTask)
     (line_data, line_options) = cumulative_over_time(array,
                                                           startdate,
                                                           enddate)
@@ -187,11 +186,11 @@ def cost_per_project(request):
         raise Http404
     data = {}
     workspace = request.user.profile.workspace
-    queryset = DailyCostPerTask.objects.by_workspace(workspace
+    queryset = DailyDataPerTask.objects.by_workspace(workspace
                                 ).filter(task__monitored=True)
     queryset = queryset_filter(queryset, tasks, startdate, enddate)
     (array, line_options) = over_time(workspace, queryset, 'cost',
-                                            DailyCostPerTask)
+                                            DailyDataPerTask)
     data['data'] = array
     data['options'] = line_options
     return HttpResponse(json.dumps(data), content_type="application/json")
@@ -213,13 +212,13 @@ def cumulated_cost_per_project(request):
         raise Http404
     data = {}
     workspace = request.user.profile.workspace
-    queryset = DailyCostPerTask.objects.by_workspace(workspace
+    queryset = DailyDataPerTask.objects.by_workspace(workspace
                                 ).filter(task__monitored=True)
     if tasks is not None:
         queryset = queryset.filter(task__in=tasks)
     #tasks evolution over time
     (array, line_options) = over_time(workspace, queryset, 'cost',
-                                            DailyCostPerTask)
+                                            DailyDataPerTask)
     (line_data, line_options) = cumulative_over_time(array,
                                                           startdate,
                                                           enddate)

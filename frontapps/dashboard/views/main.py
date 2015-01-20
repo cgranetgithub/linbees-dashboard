@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.core.urlresolvers import reverse_lazy
-from backapps.record.models import DailyDurationPerTaskPerUser
+from backapps.record.models import DailyDataPerTaskPerUser
 from backapps.profile.models import Profile
 from libs.chart.chart import pie_total_time
 from libs.chart.calculus import (sum_and_sort_time, resources_involved,
@@ -26,7 +26,7 @@ def overview(request):
     context['users_number'] = Profile.objects.by_workspace(workspace
                                         ).filter(user__is_active=True).count()
     if some_data:
-        queryset = DailyDurationPerTaskPerUser.objects.by_workspace(workspace
+        queryset = DailyDataPerTaskPerUser.objects.by_workspace(workspace
                         ).filter(task__monitored=True)
         #context['period'] = 90
         #startd = datetime.datetime.today() - datetime.timedelta(

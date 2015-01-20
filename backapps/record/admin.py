@@ -1,8 +1,5 @@
 from django.contrib import admin
-from models import ( DailyCostPerTask, DailyCostPerTaskPerUser,
-                    DailyDurationPerTask, DailyDurationPerTaskPerUser )
+from models import DailyDataPerTaskPerUser, DailyDataPerTask
 
-admin.site.register(DailyDurationPerTaskPerUser)
-admin.site.register(DailyDurationPerTask)
-admin.site.register(DailyCostPerTaskPerUser)
-admin.site.register(DailyCostPerTask)
+admin.site.register(DailyDataPerTaskPerUser)
+admin.site.register(DailyDataPerTask)

@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
-from backapps.record.models import DailyDurationPerTaskPerUser
+from backapps.record.models import DailyDataPerTaskPerUser
 from backapps.task.models import Task
 
 def has_paid(user):
@@ -23,7 +23,7 @@ def data_existence(request):
     workspace = request.user.profile.workspace
     context = {'tasks_number': Task.objects.by_workspace(workspace
                                     ).filter(monitored=True).count(),
-               'nodata':not(DailyDurationPerTaskPerUser.objects.by_workspace(
+               'nodata':not(DailyDataPerTaskPerUser.objects.by_workspace(
                                                         workspace).exists()),
                'workspace':workspace
             }
