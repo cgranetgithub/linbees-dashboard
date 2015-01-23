@@ -48,11 +48,10 @@ def tasks(request, single=False):
     ws = profile.workspace
     # me and my descendant tasks
     my_descendants = profile.get_descendants(include_self=True)
-    my_tasks = Task.objects.by_workspace(ws).filter(owner__in=my_descendants)
+    my_tasks = Task.objects.filter(workspace=ws, owner__in=my_descendants)
     # my ancestors and their tasks
     ancestors = profile.get_ancestors()
-    ancestors_tasks = Task.objects.by_workspace(ws
-                                            ).filter(owner__in=ancestors)
+    ancestors_tasks = Task.objects.filter(workspace=ws, owner__in=ancestors)
     #tasks = my_tasks | descendants_tasks
     #tasks = Task.objects.by_workspace(workspace).filter(monitored=True)
     data = []
@@ -103,8 +102,9 @@ def time_per_user(request):
         raise Http404
     data = {}
     workspace = request.user.profile.workspace
-    queryset = DailyDataPerTaskPerUser.objects.by_workspace(workspace
-                        ).filter(profile__user=user, task__monitored=True)
+    queryset = DailyDataPerTaskPerUser.objects.filter(workspace=workspace,
+                                                      profile__user=user,
+                                                      task__monitored=True)
     queryset = queryset_filter(queryset, None, startdate, enddate)
     (array, line_options) = over_time(workspace, queryset, 'duration',
                                             DailyDataPerTaskPerUser)
@@ -130,8 +130,8 @@ def time_per_project(request):
         raise Http404
     data = {}
     workspace = request.user.profile.workspace
-    queryset = DailyDataPerTask.objects.by_workspace(workspace
-                                ).filter(task__monitored=True)
+    queryset = DailyDataPerTask.objects.filter(workspace=workspace,
+                                               task__monitored=True)
     queryset = queryset_filter(queryset, tasks, startdate, enddate)
     (array, line_options) = over_time(workspace, queryset, 'duration',
                                             DailyDataPerTask)
@@ -156,8 +156,8 @@ def cumulated_time_per_project(request):
         raise Http404
     data = {}
     workspace = request.user.profile.workspace
-    queryset = DailyDataPerTask.objects.by_workspace(workspace
-                                ).filter(task__monitored=True)
+    queryset = DailyDataPerTask.objects.filter(workspace=workspace,
+                                               task__monitored=True)
     if tasks is not None:
         queryset = queryset.filter(task__in=tasks)
     #tasks evolution over time
@@ -186,8 +186,8 @@ def cost_per_project(request):
         raise Http404
     data = {}
     workspace = request.user.profile.workspace
-    queryset = DailyDataPerTask.objects.by_workspace(workspace
-                                ).filter(task__monitored=True)
+    queryset = DailyDataPerTask.objects.filter(workspace=workspace,
+                                               task__monitored=True)
     queryset = queryset_filter(queryset, tasks, startdate, enddate)
     (array, line_options) = over_time(workspace, queryset, 'cost',
                                             DailyDataPerTask)
@@ -212,8 +212,8 @@ def cumulated_cost_per_project(request):
         raise Http404
     data = {}
     workspace = request.user.profile.workspace
-    queryset = DailyDataPerTask.objects.by_workspace(workspace
-                                ).filter(task__monitored=True)
+    queryset = DailyDataPerTask.objects.filter(workspace=workspace,
+                                               task__monitored=True)
     if tasks is not None:
         queryset = queryset.filter(task__in=tasks)
     #tasks evolution over time

@@ -7,7 +7,7 @@ from django.core.urlresolvers import reverse, reverse_lazy
 from frontapps.clientapp.forms import TaskForm, ClientUserForm
 from backapps.profile.models import Profile
 from backapps.workspace.models import Workspace
-from backapps.record.models import Record, get_ongoing_task, new_task
+from backapps.record.models import AutoRecord, get_ongoing_task, new_task
 from backapps.task.models import Task
 
 def client_login(request):
@@ -32,7 +32,7 @@ def client_register(request):
 @login_required(login_url=reverse_lazy('clientapp:login'))
 def client_home(request):
     workspace = request.user.profile.workspace
-    profile = Profile.objects.by_workspace(workspace).get(user=request.user)
+    profile = Profile.objects.get(workspace=workspace, user=request.user)
     last_task = False
     if request.method == 'POST':
         form = TaskForm(request)
@@ -41,7 +41,7 @@ def client_home(request):
                 task = None
             else:
                 pid = form.cleaned_data['tasks']
-                task = Task.objects.by_workspace(workspace).get(pk=pid)
+                task = Task.objects.get(workspace=workspace, pk=pid)
             new_task(profile, task)
             return redirect(reverse('clientapp:home'))
     else:
@@ -51,9 +51,8 @@ def client_home(request):
         else:
             init = {'tasks' : ''}
         form = TaskForm(request, initial=init)
-    records = Record.objects.by_workspace(workspace
-                                    ).filter(profile=profile
-                                    ).order_by('start_original').reverse()[:5]
+    records = AutoRecord.objects.filter(workspace=workspace, profile=profile
+                                    ).order_by('start').reverse()[:5]
     return render(request, 'clientapp/home.html',{'form':form
                                                 ,'form_action':"/clientapp/"
                                                 ,'records':records
@@ -64,7 +63,7 @@ def client_home(request):
 @login_required(login_url=reverse_lazy('clientapp:login'))
 def client_logout(request):
     workspace = request.user.profile.workspace
-    profile = Profile.objects.by_workspace(workspace).get(user=request.user)
+    profile = Profile.objects.get(workspace=workspace, user=request.user)
     new_task(profile, None)
     auth.logout(request)
     return redirect(reverse('clientapp:home'))

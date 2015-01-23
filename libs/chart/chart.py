@@ -18,9 +18,8 @@ def over_time(workspace, queryset, field, queryclass):
     # get tasks
     id_list = queryset.order_by('task_id'
                         ).values_list('task_id').distinct('task_id')
-    print id_list
-    tasks = Task.objects.by_workspace(workspace
-                            ).filter(id__in=id_list).order_by('name')
+    tasks = Task.objects.filter(id__in=id_list, workspace=workspace
+                                ).order_by('name')
     # build array
     array = [['Dates'] + [ unicode(t).encode('latin1') for t in tasks] ]
     for d in dates:

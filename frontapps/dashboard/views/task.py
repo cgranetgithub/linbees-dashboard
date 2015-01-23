@@ -54,7 +54,7 @@ def info(request):
                 login_url=reverse_lazy('dashboard:noAccess'))
 def info_edit(request, task_id):
     workspace = request.user.profile.workspace
-    task = Task.objects.by_workspace(workspace).get(id=task_id)
+    task = Task.objects.get(id=task_id, workspace=workspace)
     if request.method == 'POST':
         form = TaskForm(workspace, request.user, request.POST, instance=task)
         if form.is_valid():

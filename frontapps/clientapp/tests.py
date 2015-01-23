@@ -63,7 +63,7 @@ class RegisterTest(WebTest):
         user = User.objects.get(email='charlot@lagat.com')
         assert user.is_staff is False
         assert user.is_superuser is False
-        p = Profile.objects.by_workspace(ws).get(user=user)
+        p = Profile.objects.get(user=user, workspace=ws)
         assert p.has_dashboard_access is False
         assert p.is_hr is False
         assert p.is_primary is False
@@ -146,6 +146,7 @@ class ChangeProjectTest(WebTest):
         form.select("tasks", self.t1.id)
         form.submit()
         self.assertEqual(get_ongoing_task(self.p).task.name, 'task1')
+        
         response = self.app.get('/clientapp/')
         form = response.forms[0]
         form.select("tasks", self.t2.id)

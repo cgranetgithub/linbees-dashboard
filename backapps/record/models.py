@@ -3,10 +3,9 @@ from libs.tenant import TenantModel
 from backapps.profile.models import Profile
 from backapps.task.models import Task
 from django.utils.timezone import now
+from django.core.exceptions import ValidationError
 
-#record_closed = django.dispatch.Signal(providing_args=["duration",])
-
-class Record(TenantModel):
+class AutoRecord(TenantModel):
     """
     Inherits TenantModel => tenant specific class
     Record is the most basic but important class as it stores the user
@@ -17,159 +16,91 @@ class Record(TenantModel):
     """
     is_active  = models.BooleanField(default=True)
     task       = models.ForeignKey(Task)
+    start      = models.DateTimeField()
+    end        = models.DateTimeField(blank=True, null=True)
+    profile    = models.ForeignKey(Profile)
+    updated_at = models.DateTimeField(auto_now=True)
+    user_agent = models.CharField(max_length=255)
+    def __unicode__(self):
+        return u'%s | %s | %s | %s'%(self.task, self.profile,
+                                          self.start, self.end)
+    def save(self, *args, **kw):
+        if self.pk is not None:
+            msg = u"Field %s changed in AutoRecord, that's forbiden"
+            orig = AutoRecord.objects.get(pk=self.pk)
+            if orig.start != self.start:
+                raise ValidationError(msg%'start')
+            if (orig.end is not None) and (orig.end != self.end):
+                raise ValidationError(msg%'end')
+            if orig.task != self.task:
+                raise ValidationError(msg%'task')
+        super(AutoRecord, self).save(*args, **kw)
+        
+class ManualRecord(TenantModel):
+    """
+    Used to manually declare or override record
+    """
+    is_active  = models.BooleanField(default=True)
+    task       = models.ForeignKey(Task)
     start      = models.DateTimeField(blank=True, null=True)
     end        = models.DateTimeField(blank=True, null=True)
     profile    = models.ForeignKey(Profile)
     updated_at = models.DateTimeField(auto_now=True)
     user_agent = models.CharField(max_length=255)
-
-    #def save(self, *args, **kwargs):
-        #print self.start, self.end, self.task
-        #super(Record, self).save(*args, **kwargs)
-
-    #def set_end(self, value):
-        #self.end = value
-        #record_closed.send(sender=self.__class__,
-                           #duration=end-start)
         
 class DailyDataPerTaskPerUser(TenantModel):
     """
-    duration&cost per day per task per user
+    duration & cost per day per task per user
     Inherits TenantModel => tenant specific class
     automatically created/updated when Record changes,
-    by update_DailyDurationPerTaskPerUser, on post_save signal
+    by on_record_change, on post_save signal
     """
-    date     = models.DateField()
-    task     = models.ForeignKey(Task)
-    profile  = models.ForeignKey(Profile)
+    date = models.DateField()
+    task = models.ForeignKey(Task)
+    wage = models.DecimalField(default=0, max_digits=10, decimal_places=2)
+    cost = models.DecimalField(default=0, max_digits=10, decimal_places=2)
+    profile = models.ForeignKey(Profile)
     duration = models.DecimalField(default=0, max_digits=10,
-                                   decimal_places=2) # hours
-    ratio    = models.DecimalField(default=0, max_digits=3,
-                                       decimal_places=2)
-    wage     = models.DecimalField(default=0, max_digits=10,
-                                   decimal_places=2)
-    cost     = models.DecimalField(default=0, max_digits=10,
-                                   decimal_places=2)
+                                                decimal_places=2) # hours
+    time_ratio = models.DecimalField(default=0, max_digits=3,
+                                                decimal_places=2)
     class Meta:
         unique_together = (("workspace", "date", "task", "profile"),)
     def __unicode__(self):
-        return u'%s | %s | %s | %s | %s'%(self.date, self.task,
+        return u'%s | %s | %s | %d | %d'%(self.date, self.task,
                                           self.profile, self.duration,
                                           self.cost)
 
 class DailyDataPerTask(TenantModel):
     """
-    duration&cost per day per task, including descendants
+    duration & cost per day per task, including descendants
     Inherits TenantModel => tenant specific class
     automatically created/updated when Record changes,
     by on_record_change, on post_save signal
     """
-    date     = models.DateField()
-    task     = models.ForeignKey(Task)
+    date = models.DateField()
+    task = models.ForeignKey(Task)
     duration = models.DecimalField(default=0, max_digits=10,
                                    decimal_places=2) # hours
     cost     = models.DecimalField(default=0, max_digits=10,
                                    decimal_places=2)
+    children_duration = models.DecimalField(default=0, max_digits=10,
+                                            decimal_places=2)
+    children_cost     = models.DecimalField(default=0, max_digits=10,
+                                            decimal_places=2)
     class Meta:
         unique_together = (("workspace", "date", "task"),)
     def __unicode__(self):
-        return u'%s | %s | %s | %s | %s'%(self.date, self.task,
-                                          self.duration, self.cost)
-
-#class DailyDurationPerTaskPerUser(TenantModel):
-    #"""
-    #duration per day per task per user
-    #Inherits TenantModel => tenant specific class
-    #automatically created/updated when Record changes,
-    #by update_DailyDurationPerTaskPerUser, on post_save signal
-    #"""
-    #date     = models.DateField()
-    #task     = models.ForeignKey(Task)
-    #profile  = models.ForeignKey(Profile)
-    #duration = models.DecimalField(default=0, max_digits=10,
-                                   #decimal_places=2) # hours
-    #class Meta:
-        #unique_together = (("workspace", "date", "task", "profile"),)
-    #def __unicode__(self):
-        #return u'%s | %s | %s | %s'%(self.profile, self.task, self.date,
-                                     #self.duration)
-
-#class DailyCostPerTaskPerUser(TenantModel):
-    #"""
-    #cost per day per task per user
-    #Inherits TenantModel => tenant specific class
-    #automatically created/updated when DailyDurationPerTaskPerUser or
-    #DailySalary change, by update_DailyCostPerTaskPerUser, 
-    #on post_save signal
-    #"""
-    #ddtu  = models.OneToOneField(DailyDurationPerTaskPerUser)
-    #time_percent = models.DecimalField(default=0, max_digits=3,
-                                       #decimal_places=2)
-    #wage     = models.DecimalField(default=0, max_digits=10,
-                                   #decimal_places=2)
-    #cost     = models.DecimalField(default=0, max_digits=10,
-                                   #decimal_places=2)
-    #class Meta:
-        #unique_together = (("workspace", "ddtu"),)
-    #def __unicode__(self):
-        #return u'%s | %s | %s | %s'%(self.ddtu.profile, self.ddtu.task,
-                                     #self.ddtu.date, self.cost)
-
-#class DailyDurationPerTask(TenantModel):
-    #"""
-    #duration per day per task
-    #Inherits TenantModel => tenant specific class
-    #automatically created/updated when DailyDurationPerTaskPerUser changes,
-    #by update_DailyDurationPerTask, on post_save signal
-    #"""
-    #date     = models.DateField()
-    #task     = models.ForeignKey(Task)
-    #duration = models.DecimalField(default=0, max_digits=10,
-                                   #decimal_places=2) # hours
-    #class Meta:
-        #unique_together = (("workspace", "date", "task"),)
-    #def __unicode__(self):
-        #return u'%s | %s | %s'%(self.task, self.date, self.duration)
-
-#class DailyCostPerTask(TenantModel):
-    #"""
-    #cost per day per task
-    #Inherits TenantModel => tenant specific class
-    #automatically created/updated when DailyCostPerTaskPerUser changes,
-    #by update_DailyCostPerTask, on post_save signal
-    #"""
-    #date = models.DateField()
-    #task = models.ForeignKey(Task)
-    #cost = models.DecimalField(default=0, max_digits=10,
-                               #decimal_places=2)
-    #class Meta:
-        #unique_together = (("workspace", "date", "task"),)
-    #def __unicode__(self):
-        #return u'%s | %s | %s'%(self.task, self.date, self.cost)
-
-#class DailyCostPerHierarchy(TenantModel):
-    #"""
-    #cost per day per task, including its sub-tasks
-    #Inherits TenantModel => tenant specific class
-    #automatically created/updated when DailyCostPerTask changes,\
-    #by update_DailyCostPerHierarchy, on post_save signal
-    #"""
-    #date = models.DateField()
-    #task = models.ForeignKey(Task)
-    #cost = models.DecimalField(default=0, max_digits=10,
-                                   #decimal_places=2)
-    #class Meta:
-        #unique_together = (("workspace", "date", "task"),)
-    #def __unicode__(self):
-        #return u'%s | %s | %s'%(self.task, self.date, self.cost)
+        return u'%s | %s | %d | %d'%(self.date, self.task,
+                                     self.duration, self.cost)
 
 def get_ongoing_task(profile):
     """
     get the current "opened" (ongoing) record of the given user, if any
     """
     workspace = profile.workspace
-    qs = Record.objects.by_workspace(workspace).filter(
-                                profile=profile).order_by('start')
+    qs = AutoRecord.objects.filter(workspace=workspace,
+                                   profile=profile).order_by('start')
     ret = None
     if qs.count() > 0:
         last_record = qs[qs.count()-1]
@@ -192,6 +123,6 @@ def new_task(profile, task):
     #create new entry
     cur_record = None
     if task is not None:
-        cur_record = Record.objects.create(workspace=workspace,
-                                           profile=profile, task=task)
+        cur_record = AutoRecord.objects.create(workspace=workspace,start=now(),
+                                               profile=profile, task=task)
     return (last_record, cur_record)

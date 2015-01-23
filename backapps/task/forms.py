@@ -27,12 +27,11 @@ class TaskForm(forms.ModelForm):
         profile = user.profile
         # me and my descendant tasks
         my_descendants = profile.get_descendants(include_self=True)
-        my_tasks = Task.objects.by_workspace(ws).filter(owner__in=my_descendants)
+        my_tasks = Task.objects.filter(workspace=ws, owner__in=my_descendants)
         # my manager tasks
         manager_tasks = QuerySet(Task)
         if profile.parent:
-            manager_tasks = Task.objects.by_workspace(ws
-                                            ).filter(owner=profile.parent)
+            manager_tasks = Task.objects.filter(workspace=ws, owner=profile.parent)
         # exclusions (the task & its descendants)
         if self.instance is not None:
             manager_tasks = manager_tasks.exclude(id=self.instance.id)
@@ -65,6 +64,6 @@ class TaskListForm(forms.Form):
                                     , widget=forms.CheckboxSelectMultiple)
     def __init__(self, ws, *args, **kwargs):
         super(TaskListForm, self).__init__(*args, **kwargs)
-        pl = Task.objects.by_workspace(ws).filter(monitored=True)
+        pl = Task.objects.filter(workspace=ws, monitored=True)
         self.fields['plist'].choices = ( (p.id, p.name) for p in pl )
         self.fields['plist'].initial = [ p.id for p in pl ]

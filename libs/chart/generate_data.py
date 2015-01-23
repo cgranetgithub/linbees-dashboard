@@ -3,7 +3,8 @@ from django.utils.timezone import utc
 from django.contrib.auth.models import User
 from django.contrib.auth.hashers import make_password
 from backapps.profile.models import Profile, createUserProfile
-from backapps.record.models import Record, DailyDataPerTaskPerUser
+from backapps.record.models import (AutoRecord, DailyDataPerTaskPerUser,
+                                    DailyDataPerTask)
 from backapps.salary.models import DailySalary
 from backapps.task.models import Task
 
@@ -11,9 +12,9 @@ def fn(x, length):
     return 3.0*math.cos((x+length)/(length/3.0))+4.0
 
 def clean_users(workspace, user):
-    profiles = Profile.objects.by_workspace(workspace).exclude(user=user)
+    profiles = Profile.objects.exclude(user=user, workspace=workspace)
     user_list = [i.user for i in profiles]
-    DailySalary.objects.by_workspace(workspace).delete()
+    DailySalary.objects.filter(workspace=workspace).delete()
     profiles.delete()
     for i in user_list:
         i.delete()
@@ -68,7 +69,7 @@ def generate_users(workspace, start_date, end_date, nb=10):
                                     start_date=start_date, end_date=end_date)
 
 def clean_tasks(workspace):
-    existing = Task.objects.by_workspace(workspace).all()
+    existing = Task.objects.filter(workspace=workspace)
     existing.delete()
 
 def generate_tasks(workspace, user, nb=10):
@@ -76,13 +77,13 @@ def generate_tasks(workspace, user, nb=10):
     task_ids = []
     n = 1
     extension = workspace.name.replace('-', '.')
-    ceo = Profile.objects.by_workspace(workspace).get(
+    ceo = Profile.objects.get(workspace=workspace, 
                                         user__username='ceo@%s'%extension)
-    rd = Profile.objects.by_workspace(workspace).get(
+    rd = Profile.objects.get(workspace=workspace, 
                                         user__username='rd@%s'%extension)
-    sales = Profile.objects.by_workspace(workspace).get(
+    sales = Profile.objects.get(workspace=workspace, 
                                         user__username='sales@%s'%extension)
-    market = Profile.objects.by_workspace(workspace).get(
+    market = Profile.objects.get(workspace=workspace, 
                                     user__username='marketing@%s'%extension)
     # main CEO tasks
     for i in ['Customer 1', 'Product A', 'Customer 2', 'Product B']:
@@ -98,7 +99,7 @@ def generate_tasks(workspace, user, nb=10):
     # main managers tasks
     for i in (rd, market, sales):
         #children = i.children()
-        tasks = Task.objects.by_workspace(workspace).filter(owner=i)
+        tasks = Task.objects.filter(workspace=workspace, owner=i)
         for c in i.get_children():
             for y in range(5):
                 name = "Task_%d"%n
@@ -108,14 +109,14 @@ def generate_tasks(workspace, user, nb=10):
                 task_nb += 1
                 task_ids.append(task.id)
     # other tasks
-    owners = Profile.objects.by_workspace(workspace).exclude(
-                        user__in=[ceo.user, rd.user, sales.user, market.user])
+    owners = Profile.objects.exclude(workspace=workspace,
+                                     user__in=[ceo.user, rd.user,
+                                               sales.user, market.user])
     if nb < task_nb:
         nb = task_nb
     while (n <= nb):
         owner = random.choice(owners)
-        parent_tasks = Task.objects.by_workspace(workspace
-                                                ).filter(owner=owner.parent)
+        parent_tasks = Task.objects.filter(workspace=workspace, owner=owner.parent)
         if len(parent_tasks) > 0:
             name = "Task_%d"%n
             n += 1
@@ -133,13 +134,15 @@ def generate_tasks(workspace, user, nb=10):
         #task_ids.append(task.id)
 
 def clean_records(workspace):
-    existing = DailyDataPerTaskPerUser.objects.by_workspace(workspace).all()
+    existing = DailyDataPerTaskPerUser.objects.filter(workspace=workspace)
     existing.delete()
-    existing = Record.objects.by_workspace(workspace).all()
+    existing = DailyDataPerTask.objects.filter(workspace=workspace)
+    existing.delete()
+    existing = AutoRecord.objects.filter(workspace=workspace)
     existing.delete()
 
 def generate_records(workspace, begin_date=None, end_date=None):
-    tasks = Task.objects.by_workspace(workspace).all()
+    tasks = Task.objects.filter(workspace=workspace)
     if tasks.count() < 1:
         return
     if end_date is None:
@@ -147,7 +150,7 @@ def generate_records(workspace, begin_date=None, end_date=None):
     if begin_date is None:
         begin_date = end_date - datetime.timedelta(10)
     nb_days = (end_date - begin_date).days
-    profiles = Profile.objects.by_workspace(workspace).all()
+    profiles = Profile.objects.filter(workspace=workspace)
     cur = begin_date
     dailyrecord_list = []
     for profile in profiles:
@@ -167,7 +170,7 @@ def generate_records(workspace, begin_date=None, end_date=None):
             for p in plist:
                 delta = datetime.timedelta(hours=int(d), minutes=int(d%1*60))
                 end = start + delta
-                Record.objects.create(workspace=workspace, profile=profile,
+                AutoRecord.objects.create(workspace=workspace, profile=profile,
                                       task=p, start=start, end=end)
                 d = (random.uniform(7, 8) - cum)/(working_on)
                 cum +=d

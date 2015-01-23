@@ -1,4 +1,6 @@
-import datetime
+import datetime as dt
+from decimal import Decimal
+from django.utils import timezone
 from django.test import TestCase
 from django.test.client import Client
 from django.utils.timezone import utc
@@ -6,165 +8,162 @@ from django.contrib.auth.models import User
 from backapps.workspace.models import Workspace
 from backapps.profile.models import createUserProfile
 from backapps.task.models import Task
-from backapps.record.models import Record, DailyDurationPerTaskPerUser
+from backapps.record.models import (AutoRecord, DailyDataPerTask,
+                                    DailyDataPerTaskPerUser)
 
 class DurationTest(TestCase):
-    def setUp(self):
-        self.workspace = Workspace.objects.create(name='testlagatdashboard')
-        auth = User.objects.create_user(username='charly@lagat.com'
-                                    , password='secret')
-        self.user = createUserProfile(auth, self.workspace)
-        self.task = Task.objects.create(workspace=self.workspace,
-                                        name='p0', owner=self.user)
-    def test_record_and_override(self):
-        record = Record.objects.create(workspace=self.workspace,
-                                       task=self.task,
-                                       profile=self.user)
-        record.end_original = ( record.start_original
-                            + datetime.timedelta(minutes=6) )
-        record.save()
-        dr = DailyDurationPerTaskPerUser.objects.by_workspace(self.workspace).get(
-                                        date=record.start_original.date(),
-                                        task=self.task,
-                                        profile=self.user)
-        self.assertEqual(float(dr.duration), 0.1)
-        record.start_override = ( record.start_original
-                            - datetime.timedelta(minutes=6) )
-        record.save()
-        dr = DailyDurationPerTaskPerUser.objects.by_workspace(self.workspace).get(
-                                        date=record.start_original.date(),
-                                        task=self.task,
-                                        profile=self.user)
-        self.assertEqual(float(dr.duration), 0.2)
-        record.end_override = ( record.start_original
-                            + datetime.timedelta(minutes=12) )
-        record.save()
-        dr = DailyDurationPerTaskPerUser.objects.by_workspace(self.workspace).get(
-                                        date=record.start_original.date(),
-                                        task=self.task,
-                                        profile=self.user)
-        self.assertEqual(float(dr.duration), 0.3)
-    def test_multiple_days(self):
-        record = Record.objects.create(workspace=self.workspace,
-                                       task=self.task,
-                                       profile=self.user)
-        record.end_original = ( record.start_original
-                            + datetime.timedelta(2) )
-        record.save()
-        today = record.start_original.date()
-        tomorrow = today + datetime.timedelta(1)
-        aftertomorrow = today + datetime.timedelta(2)
-        dr1 = DailyDurationPerTaskPerUser.objects.by_workspace(self.workspace).get(
-                                        date=today,
-                                        task=self.task,
-                                        profile=self.user).duration
-        dr2 = DailyDurationPerTaskPerUser.objects.by_workspace(self.workspace).get(
-                                        date=tomorrow,
-                                        task=self.task,
-                                        profile=self.user).duration
-        self.assertEqual(float(dr2), 24)
-        dr3 = DailyDurationPerTaskPerUser.objects.by_workspace(self.workspace).get(
-                                        date=aftertomorrow,
-                                        task=self.task,
-                                        profile=self.user).duration
-        self.assertEqual(float(dr1+dr2+dr3), 48)
-    def test_multiple_days_with_override(self):
-        record = Record.objects.create(workspace=self.workspace,
-                                       task=self.task, profile=self.user)
-        record.start_override = datetime.datetime(2012, 1, 1, 12, 0, tzinfo=utc)
-        record.end_override = ( record.start_override
-                            + datetime.timedelta(2) )
-        record.save()
-        today = record.start_override.date()
-        tomorrow = today + datetime.timedelta(1)
-        aftertomorrow = today + datetime.timedelta(2)
-        dr1 = DailyDurationPerTaskPerUser.objects.by_workspace(self.workspace).get(
-                                        date=today
-                                        , task=self.task
-                                        , profile=self.user).duration
-        self.assertEqual(float(dr1), 12)
-        dr2 = DailyDurationPerTaskPerUser.objects.by_workspace(self.workspace).get(
-                                        date=tomorrow
-                                        , task=self.task
-                                        , profile=self.user).duration
-        self.assertEqual(float(dr2), 24)
-        dr3 = DailyDurationPerTaskPerUser.objects.by_workspace(self.workspace).get(
-                                        date=aftertomorrow
-                                        , task=self.task
-                                        , profile=self.user).duration
-        self.assertEqual(float(dr3), 12)
+    def test_duration(self):
+        workspace = Workspace.objects.create(name='testlagatdashboard')
+        auth = User.objects.create_user(username='charly@lagat.com',
+                                        password='secret')
+        user1 = createUserProfile(auth, workspace)
+        # create 1 task & 1 record and check
+        task1 = Task.objects.create(workspace=workspace, name='T1',
+                                    owner=user1)
+        record1 = AutoRecord.objects.create(workspace=workspace, task=task1,
+                                        profile=user1, start=timezone.now())
+        record1.end = record1.start + dt.timedelta(minutes=6)
+        record1.save()
+        date = record1.start.date()
+        ddtu = DailyDataPerTaskPerUser.objects.get(workspace=workspace,
+                                                   date=date, task=task1,
+                                                   profile=user1)
+        self.assertEqual(ddtu.duration, Decimal('0.10'))
+        ddtu = DailyDataPerTask.objects.get(workspace=workspace, date=date,
+                                            task=task1)
+        self.assertEqual(ddtu.duration, Decimal('0.10'))
+        # create a sub-task with 1 record and check
+        task2 = Task.objects.create(workspace=workspace, name='T2',
+                                    owner=user1, parent=task1)
+        record2 = AutoRecord.objects.create(workspace=workspace, task=task2,
+                                      profile=user1, start=timezone.now())
+        record2.end = record2.start + dt.timedelta(minutes=12)
+        record2.save()
+        ddtu = DailyDataPerTaskPerUser.objects.get(workspace=workspace,
+                                                   date=date, task=task1,
+                                                   profile=user1)
+        self.assertEqual(ddtu.duration, Decimal('0.10'))
+        ddtu = DailyDataPerTaskPerUser.objects.get(workspace=workspace,
+                                                   date=date, task=task2,
+                                                   profile=user1)
+        self.assertEqual(ddtu.duration, Decimal('0.20'))
+        ddt = DailyDataPerTask.objects.get(workspace=workspace, date=date,
+                                           task=task1)
+        self.assertEqual(ddt.duration, Decimal('0.30'))
+        ddt = DailyDataPerTask.objects.get(workspace=workspace, date=date,
+                                           task=task2)
+        self.assertEqual(ddt.duration, Decimal('0.20'))
+        # add more records to the tasks
+        record3 = AutoRecord.objects.create(workspace=workspace, task=task1,
+                                            profile=user1,
+                                            start=timezone.now())
+        record3.end = record3.start + dt.timedelta(minutes=12)
+        record3.save()
+        record4 = AutoRecord.objects.create(workspace=workspace, task=task2,
+                                            profile=user1,
+                                            start=timezone.now())
+        record4.end = record4.start + dt.timedelta(minutes=12)
+        record4.save()
+        ddtu = DailyDataPerTaskPerUser.objects.get(workspace=workspace,
+                                                   date=date, task=task1,
+                                                   profile=user1)
+        self.assertEqual(ddtu.duration, Decimal('0.30'))
+        ddtu = DailyDataPerTaskPerUser.objects.get(workspace=workspace,
+                                                   date=date, task=task2,
+                                                   profile=user1)
+        self.assertEqual(ddtu.duration, Decimal('0.40'))
+        ddt = DailyDataPerTask.objects.get(workspace=workspace, date=date,
+                                           task=task1)
+        self.assertEqual(ddt.duration, Decimal('0.70'))
+        ddt = DailyDataPerTask.objects.get(workspace=workspace, date=date,
+                                           task=task2)
+        self.assertEqual(ddt.duration, Decimal('0.40'))
+        # add new users with records
+        auth = User.objects.create_user(username='john@lagat.com',
+                                        password='secret')
+        user2 = createUserProfile(auth, workspace)
+        auth = User.objects.create_user(username='jack@lagat.com',
+                                        password='secret')
+        user3 = createUserProfile(auth, workspace)
+        record5 = AutoRecord.objects.create(workspace=workspace, task=task1,
+                                            profile=user2, start=timezone.now())
+        record5.end = record5.start + dt.timedelta(minutes=12)
+        record5.save()
+        ddtu = DailyDataPerTaskPerUser.objects.get(workspace=workspace,
+                                                   date=date, task=task1,
+                                                   profile=user2)
+        self.assertEqual(ddtu.duration, Decimal('0.20'))
+        record6 = AutoRecord.objects.create(workspace=workspace, task=task2,
+                                            profile=user3, start=timezone.now())
+        record6.end = record6.start + dt.timedelta(minutes=6)
+        record6.save()
+        ddtu = DailyDataPerTaskPerUser.objects.get(workspace=workspace,
+                                                   date=date, task=task2,
+                                                   profile=user3)
+        self.assertEqual(ddtu.duration, Decimal('0.10'))
+        ddt = DailyDataPerTask.objects.get(workspace=workspace, date=date,
+                                           task=task1)
+        self.assertEqual(ddt.duration, Decimal('1.00'))
+        ddt = DailyDataPerTask.objects.get(workspace=workspace, date=date,
+                                           task=task2)
+        self.assertEqual(ddt.duration, Decimal('0.50'))
 
-class MultipleRecordADayTest(TestCase):
-    def setUp(self):
-        self.workspace = Workspace.objects.create(name='testlagatdashboard')
+
+
+
+    #def test_multiple_days(self):
+        #record = AutoRecord.objects.create(workspace=workspace,
+                                       #task=task1,
+                                       #profile=user1,
+                                       #start=timezone.now())
+        #record.end = ( record.start
+                            #+ dt.timedelta(2) )
+        #record.save()
+        #today = record.start.date()
+        #tomorrow = today + dt.timedelta(1)
+        #aftertomorrow = today + dt.timedelta(2)
+        #ddtu1 = DailyDataPerTaskPerUser.objects.get(workspace=workspace, 
+                                        #date=today,
+                                        #task=task1,
+                                        #profile=user1).duration
+        #ddtu2 = DailyDataPerTaskPerUser.objects.get(workspace=workspace, 
+                                        #date=tomorrow,
+                                        #task=task1,
+                                        #profile=user1).duration
+        #self.assertEqual(ddtu2, Decimal('24'))
+        #ddtu3 = DailyDataPerTaskPerUser.objects.get(workspace=workspace, 
+                                        #date=aftertomorrow,
+                                        #task=task1,
+                                        #profile=user1).duration
+        #self.assertEqual(ddtu1+ddtu2+ddtu3, Decimal('48'))
+
+class MultipleAutoRecordADayTest(TestCase):
+    def test_duration(self):
+        workspace = Workspace.objects.create(name='testlagatdashboard')
         auth = User.objects.create_user(username='charly@lagat.com'
                                     , password='secret')
-        self.user = createUserProfile(auth, self.workspace)
-        self.task = Task.objects.create(workspace=self.workspace,
-                                        name='p0', owner=self.user)
+        user1 = createUserProfile(auth, workspace)
+        task1 = Task.objects.create(workspace=workspace,
+                                        name='p0', owner=user1)
         for i in range(2):
-            record = Record.objects.create(workspace=self.workspace,
-                                           task=self.task, profile=self.user)
-            record.end_original = ( record.start_original
-                                + datetime.timedelta(minutes=6) )
+            record = AutoRecord.objects.create(workspace=workspace,
+                                           task=task1, profile=user1,
+                                           start=timezone.now())
+            record.end = ( record.start
+                                + dt.timedelta(minutes=6) )
             record.save()
-    def test_no_override(self):
         for i in range(2):
-            record = Record.objects.create(workspace=self.workspace,
-                                           task=self.task, profile=self.user)
-            record.end_original = ( record.start_original
-                                + datetime.timedelta(minutes=6) )
+            record = AutoRecord.objects.create(workspace=workspace,
+                                           task=task1, profile=user1,
+                                           start=timezone.now())
+            record.end = ( record.start
+                                + dt.timedelta(minutes=6) )
             record.save()
-        dr = DailyDurationPerTaskPerUser.objects.by_workspace(self.workspace).get(
-                                        date=record.start_original.date()
-                                        , task=self.task
-                                        , profile=self.user)
-        self.assertEqual(float(dr.duration), 0.4)
-    def test_start_override(self):
-        for i in range(2):
-            record = Record.objects.create(workspace=self.workspace,
-                                           task=self.task,
-                                           profile=self.user)
-            record.start_override = ( record.start_original
-                                - datetime.timedelta(minutes=6) )
-            record.end_original = ( record.start_original
-                                + datetime.timedelta(minutes=6) )
-            record.save()
-        dr = DailyDurationPerTaskPerUser.objects.by_workspace(self.workspace).get(
-                                        date=record.start_original.date()
-                                        , task=self.task
-                                        , profile=self.user)
-        self.assertEqual(float(dr.duration), 0.6)
-    def test_end_override(self):
-        for i in range(2):
-            record = Record.objects.create(workspace=self.workspace,
-                                           task=self.task, profile=self.user)
-            record.end_original = ( record.start_original
-                                + datetime.timedelta(minutes=3) )
-            record.end_override = ( record.start_original
-                                + datetime.timedelta(minutes=6) )
-            record.save()
-        dr = DailyDurationPerTaskPerUser.objects.by_workspace(self.workspace).get(
-                                        date=record.start_original.date()
-                                        , task=self.task
-                                        , profile=self.user)
-        self.assertEqual(float(dr.duration), 0.4)
-    def test_both_override(self):
-        for i in range(2):
-            record = Record.objects.create(workspace=self.workspace,
-                                           task=self.task, profile=self.user)
-            record.start_override = ( record.start_original
-                                - datetime.timedelta(minutes=3) )
-            record.end_original = ( record.start_original
-                                + datetime.timedelta(minutes=6) )
-            record.end_override = ( record.start_original
-                                + datetime.timedelta(minutes=3) )
-            record.save()
-        dr = DailyDurationPerTaskPerUser.objects.by_workspace(self.workspace).get(
-                                        date=record.start_original.date()
-                                        , task=self.task
-                                        , profile=self.user)
-        self.assertEqual(float(dr.duration), 0.4)
+        ddtu = DailyDataPerTaskPerUser.objects.get(workspace=workspace, 
+                                        date=record.start.date()
+                                        , task=task1
+                                        , profile=user1)
+        self.assertEqual(ddtu.duration, Decimal('0.4'))
 
 class ApiTest(TestCase):
     def setUp(self):
@@ -173,7 +172,8 @@ class ApiTest(TestCase):
                                      password='secret')
         ud = createUserProfile(u, workspace)
         p = Task.objects.create(workspace=workspace, name='p1', owner=ud)
-        self.r = Record.objects.create(workspace=workspace, task=p, profile=ud)
+        self.r = AutoRecord.objects.create(workspace=workspace, task=p,
+                                           profile=ud, start=timezone.now())
     def test_get_list(self):
         c = Client()
         c.login(username='charly@lagat.com', password='secret')

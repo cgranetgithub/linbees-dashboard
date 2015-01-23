@@ -3,6 +3,9 @@ from libs.tenant import TenantModel
 from mptt.models import MPTTModel, TreeForeignKey
 from backapps.profile.models import Profile
 from django.utils.translation import ugettext_lazy as _
+import django.dispatch
+
+parent_changed = django.dispatch.Signal(providing_args=["previous", "new"])
 
 class TaskGroup(TenantModel):
     """
@@ -85,3 +88,12 @@ class Task(MPTTModel, TenantModel):
             return u'%s/%s'%(self.parent, self.name)
         else:
             return u'%s'%(self.name)
+    def save(self, *args, **kw):
+        if self.pk is not None:
+            orig = Task.objects.get(pk=self.pk)
+            if orig.parent != self.parent:
+                parent_changed.send_robust(sender=self.__class__,
+                                           instance=self,
+                                           prev_parent=orig.parent,
+                                           new_parent=self.parent)
+        super(Task, self).save(*args, **kw)

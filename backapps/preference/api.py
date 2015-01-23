@@ -16,7 +16,6 @@ class PreferenceResource(ModelResource):
         allowed_methods = ['get']
     def get_object_list(self, request):
         profile = request.user.profile
-        tenant = profile.workspace
-        results = Preference.objects.by_workspace(tenant
-                                                  ).filter(profile=profile)
+        results = Preference.objects.filter(profile=profile,
+                                            workspace=profile.workspace)
         return results

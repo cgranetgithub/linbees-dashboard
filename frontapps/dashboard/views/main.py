@@ -23,11 +23,11 @@ def overview(request):
     (context, some_data) = data_existence(request)
     workspace = request.user.profile.workspace
     context['workspace'] = workspace
-    context['users_number'] = Profile.objects.by_workspace(workspace
-                                        ).filter(user__is_active=True).count()
+    context['users_number'] = Profile.objects.filter(user__is_active=True,
+                                                    workspace=workspace).count()
     if some_data:
-        queryset = DailyDataPerTaskPerUser.objects.by_workspace(workspace
-                        ).filter(task__monitored=True)
+        queryset = DailyDataPerTaskPerUser.objects.filter(task__monitored=True,
+                                                          workspace=workspace)
         #context['period'] = 90
         #startd = datetime.datetime.today() - datetime.timedelta(
                                                 #context['period'])

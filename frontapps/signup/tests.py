@@ -27,7 +27,7 @@ class SignupTest(WebTest):
         user = User.objects.get(email='password1@password1.com')
         assert user.is_staff is False
         assert user.is_superuser is False
-        p = Profile.objects.by_workspace(ws).get(user=user)
+        p = Profile.objects.get(user=user)
         assert p.has_dashboard_access is True
         assert p.is_hr is True
         assert p.is_primary is True

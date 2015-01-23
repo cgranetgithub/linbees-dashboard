@@ -16,6 +16,5 @@ class TaskResource(ModelResource):
         authorization = DjangoAuthorization()
         allowed_methods = ['get']
     def get_object_list(self, request):
-        tenant = request.user.profile.workspace
-        results = Task.objects.by_workspace(tenant).all()
+        results = Task.objects.filter(workspace=request.user.profile.workspace)
         return results

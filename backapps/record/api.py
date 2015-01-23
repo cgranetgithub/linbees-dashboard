@@ -7,23 +7,23 @@ from tastypie.resources import Resource, ModelResource
 from tastypie.authorization import DjangoAuthorization
 from tastypie.authentication import SessionAuthentication
 from backapps.profile.models import Profile
-from backapps.record.models import Record, new_task
+from backapps.record.models import AutoRecord, new_task
 
 class RecordResource(ModelResource):
     id = fields.IntegerField(attribute='id')
     task = fields.CharField(attribute='task')
-    start = fields.CharField(attribute='start_original')
-    end = fields.CharField(attribute='end_original', null=True)
+    start = fields.CharField(attribute='start')
+    end = fields.CharField(attribute='end', null=True)
     class Meta:
         resource_name = 'record'
-        queryset = Record.objects.all()
+        queryset = AutoRecord.objects.all()
         authentication = SessionAuthentication()
         authorization = DjangoAuthorization()
         allowed_methods = ['get']
     def get_object_list(self, request):
         profile = request.user.profile
-        tenant = profile.workspace
-        results = Record.objects.by_workspace(tenant).filter(profile=profile)
+        results = AutoRecord.objects.filter(workspace=profile.workspace,
+                                            profile=profile)
         return results
     def prepend_urls(self):
         return [

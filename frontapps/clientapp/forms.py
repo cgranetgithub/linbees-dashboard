@@ -14,11 +14,11 @@ class TaskForm(forms.Form):
             super(TaskForm, self).__init__(*args, **kwargs)
         workspace = request.user.profile.workspace
         self.fields['tasks'] = forms.ChoiceField(
-                    widget=forms.RadioSelect(attrs={
-                                        'onchange': 'this.form.submit()'})
-                , choices = [ (p.id, p.name) for p in Task.objects.by_workspace(
-                                                    workspace).all()]
-                , label = ' ')
+                widget=forms.RadioSelect(
+                                attrs={'onchange': 'this.form.submit()'}),
+                choices = [ (p.id, p.name) for p in Task.objects.filter(
+                                                        workspace=workspace)],
+                label = ' ')
 
 class ClientUserForm(RegistrationForm):
     def clean(self):

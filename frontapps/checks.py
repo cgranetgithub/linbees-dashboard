@@ -21,10 +21,12 @@ def noAccess(request):
 
 def data_existence(request):
     workspace = request.user.profile.workspace
-    context = {'tasks_number': Task.objects.by_workspace(workspace
-                                    ).filter(monitored=True).count(),
-               'nodata':not(DailyDataPerTaskPerUser.objects.by_workspace(
-                                                        workspace).exists()),
+    context = {'tasks_number': Task.objects.filter(monitored=True,
+                                                   workspace=workspace
+                                                   ).count(),
+               'nodata':not(DailyDataPerTaskPerUser.objects.filter(
+                                                   workspace=workspace
+                                                   ).exists()),
                'workspace':workspace
             }
     some_data = context['tasks_number'] != 0 and not context['nodata']

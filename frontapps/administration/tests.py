@@ -7,16 +7,22 @@ import libs.chart.generate_data as gen
 
 class PagesAccessTest(WebTest):
     def setUp(self):
-        workspace = Workspace.objects.create(name='testlagatdashboard')
-        auth = User.objects.create_user(username='charly@lagat.com'
-                                    , password='secret')
-        createUserProfile(auth, workspace)
+        form = self.app.get('/signup/').forms[0] #form 1 is the language one
+        form['username'] = 'charly@lagat.com'
+        form['email'] = 'charly@lagat.com'
+        form['password1'] = 'secret'
+        form['password2'] = 'secret'
+        #form['full_name'] = 'ws1'
+        form.submit()
+        #workspace = Workspace.objects.create(name='testlagatdashboard')
+        #auth = User.objects.create_user(username='charly@lagat.com'
+                                    #, password='secret')
+        #createUserProfile(auth, workspace)
     def test_pages_access(self):
         c = Client()
         c.login(username='charly@lagat.com', password='secret')
-        #response = c.get('/administration/task/new/')
-        #self.assertEqual(response.status_code, 200)
         response = c.get('/administration/workspace/')
+        print response
         self.assertEqual(response.status_code, 200)
         response = c.get('/administration/account/')
         self.assertEqual(response.status_code, 200)
@@ -59,15 +65,15 @@ class IsolationTest(WebTest):
         #form.submit()
         ws = Workspace.objects.get(name='lagat-com')
         gen.generate_records(ws)
-        response = self.app.get('/dashboard/data/time_per_project/None/None/')
-        #self.assertContains(response, 'user1@lagat.com')
+        response = self.app.get('/dashboard/user/info/')
+        self.assertContains(response, '@lagat.com')
         #self.assertContains(response, 'user2@lagat.com')
         #self.assertContains(response, 'user3@lagat.com')
-        self.assertContains(response, 'lagat-project')
-        #self.assertNotContains(response, 'user1@tagal.com')
+        #self.assertContains(response, 'lagat-project')
+        self.assertNotContains(response, '@tagal.com')
         #self.assertNotContains(response, 'user2@tagal.com')
         #self.assertNotContains(response, 'user3@tagal.com')
-        self.assertNotContains(response, 'tagal-project')
+        #self.assertNotContains(response, 'tagal-project')
         form = self.app.get('/dashboard/login/').forms[0] #form 1 is the language one
         form['username'] = 'user1@tagal.com'
         form['password'] = 'user1@tagal.com'
@@ -77,13 +83,13 @@ class IsolationTest(WebTest):
         #form.submit()
         ws = Workspace.objects.get(name='tagal-com')
         gen.generate_records(ws)
-        response = self.app.get('/dashboard/data/time_per_project/None/None/')
-        #self.assertNotContains(response, 'user1@lagat.com')
+        response = self.app.get('/dashboard/user/salary/')
+        self.assertNotContains(response, '@lagat.com')
         #self.assertNotContains(response, 'user2@lagat.com')
         #self.assertNotContains(response, 'user3@lagat.com')
-        self.assertNotContains(response, 'lagat-project')
-        #self.assertContains(response, 'user1@tagal.com')
+        #self.assertNotContains(response, 'lagat-project')
+        self.assertContains(response, '@tagal.com')
         #self.assertContains(response, 'user2@tagal.com')
         #self.assertContains(response, 'user3@tagal.com')
-        self.assertContains(response, 'tagal-project')
+        #self.assertContains(response, 'tagal-project')
         
