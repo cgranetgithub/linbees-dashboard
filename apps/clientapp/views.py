@@ -1,6 +1,7 @@
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.views import login as login_view
+from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import render, redirect
-from django.contrib import auth
 from django.conf import settings
 #from django.utils.translation import ugettext, ugettext_lazy as _
 from django.core.urlresolvers import reverse, reverse_lazy
@@ -11,23 +12,23 @@ from apps.record.models import AutoRecord, get_ongoing_task, new_task
 from apps.task.models import Task
 
 def client_login(request):
-    return auth.views.login(request, template_name='clientapp/login.html'
-                , extra_context={'next':'/clientapp/'})
+    return login_view(request, template_name='clientapp/login.html',
+                      extra_context={'next':'/clientapp/'})
 
 def client_register(request):
     if request.method == 'POST':
         form = ClientUserForm(request.POST)
         if form.is_valid():
             newuser = form.save()
-            user = auth.authenticate( username=form.cleaned_data["username"]
-                                    , password=form.cleaned_data["password2"])
+            user = authenticate(username=form.cleaned_data["username"],
+                                password=form.cleaned_data["password2"])
             if user is not None and user.is_active:
-                auth.login(request, user)
+                login(request, user)
                 return redirect(reverse('clientapp:home'))
     else:
         form = ClientUserForm()
-    return render(request, 'clientapp/register.html', {'form': form
-                                        , 'form_action': "/clientapp/register/"})
+    return render(request, 'clientapp/register.html',
+                  {'form': form, 'form_action': "/clientapp/register/"})
     
 @login_required(login_url=reverse_lazy('clientapp:login'))
 def client_home(request):
@@ -65,7 +66,7 @@ def client_logout(request):
     workspace = request.user.profile.workspace
     profile = Profile.objects.get(workspace=workspace, user=request.user)
     new_task(profile, None)
-    auth.logout(request)
+    logout(request)
     return redirect(reverse('clientapp:home'))
 
 def client_tutorial(request):
