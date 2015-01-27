@@ -2,11 +2,11 @@ import random, datetime, math
 from django.utils.timezone import utc
 from django.contrib.auth.models import User
 from django.contrib.auth.hashers import make_password
-from backapps.profile.models import Profile, createUserProfile
-from backapps.record.models import (AutoRecord, DailyDataPerTaskPerUser,
+from apps.profile.models import Profile, createUserProfile
+from apps.record.models import (AutoRecord, DailyDataPerTaskPerUser,
                                     DailyDataPerTask)
-from backapps.salary.models import DailySalary
-from backapps.task.models import Task
+from apps.salary.models import DailySalary
+from apps.task.models import Task
 
 def fn(x, length):
     return 3.0*math.cos((x+length)/(length/3.0))+4.0

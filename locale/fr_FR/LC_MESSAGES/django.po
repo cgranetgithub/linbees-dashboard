@@ -17,212 +17,212 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: backapps/department/models.py:10 backapps/invoice/models.py:10
-#: backapps/payment/models.py:12 backapps/preference/models.py:19
-#: backapps/profile/models.py:12 backapps/profile/models.py:26
-#: backapps/salary/models.py:8 backapps/satisfaction/models.py:10
-#: backapps/satisfaction/models.py:25 backapps/task/models.py:11
-#: backapps/task/models.py:26 backapps/task/models.py:41
-#: backapps/workspace/models.py:44
+#: apps/department/models.py:10 apps/invoice/models.py:10
+#: apps/payment/models.py:12 apps/preference/models.py:19
+#: apps/profile/models.py:12 apps/profile/models.py:26
+#: apps/salary/models.py:8 apps/satisfaction/models.py:10
+#: apps/satisfaction/models.py:25 apps/task/models.py:11
+#: apps/task/models.py:26 apps/task/models.py:41
+#: apps/workspace/models.py:44
 msgid "active"
 msgstr "actif"
 
-#: backapps/department/models.py:12 backapps/invoice/models.py:12
-#: backapps/payment/models.py:14 backapps/preference/models.py:21
-#: backapps/profile/models.py:14 backapps/profile/models.py:38
-#: backapps/salary/models.py:10 backapps/satisfaction/models.py:12
-#: backapps/satisfaction/models.py:27 backapps/task/models.py:13
-#: backapps/task/models.py:28 backapps/task/models.py:43
-#: backapps/workspace/models.py:46
+#: apps/department/models.py:12 apps/invoice/models.py:12
+#: apps/payment/models.py:14 apps/preference/models.py:21
+#: apps/profile/models.py:14 apps/profile/models.py:38
+#: apps/salary/models.py:10 apps/satisfaction/models.py:12
+#: apps/satisfaction/models.py:27 apps/task/models.py:13
+#: apps/task/models.py:28 apps/task/models.py:43
+#: apps/workspace/models.py:46
 msgid "created at"
 msgstr "créé le"
 
-#: backapps/department/models.py:14 backapps/invoice/models.py:14
-#: backapps/payment/models.py:16 backapps/preference/models.py:23
-#: backapps/profile/models.py:16 backapps/profile/models.py:40
-#: backapps/salary/models.py:12 backapps/satisfaction/models.py:14
-#: backapps/task/models.py:15 backapps/task/models.py:30
-#: backapps/task/models.py:45 backapps/workspace/models.py:48
+#: apps/department/models.py:14 apps/invoice/models.py:14
+#: apps/payment/models.py:16 apps/preference/models.py:23
+#: apps/profile/models.py:16 apps/profile/models.py:40
+#: apps/salary/models.py:12 apps/satisfaction/models.py:14
+#: apps/task/models.py:15 apps/task/models.py:30
+#: apps/task/models.py:45 apps/workspace/models.py:48
 msgid "updated at"
 msgstr "mis à jour le"
 
-#: backapps/department/models.py:16 backapps/satisfaction/models.py:16
-#: backapps/task/models.py:17 backapps/task/models.py:32
-#: backapps/task/models.py:51
+#: apps/department/models.py:16 apps/satisfaction/models.py:16
+#: apps/task/models.py:17 apps/task/models.py:32
+#: apps/task/models.py:51
 msgid "name"
 msgstr "nom"
 
-#: backapps/department/models.py:18 backapps/satisfaction/models.py:18
-#: backapps/task/models.py:19 backapps/task/models.py:34
-#: backapps/task/models.py:53
+#: apps/department/models.py:18 apps/satisfaction/models.py:18
+#: apps/task/models.py:19 apps/task/models.py:34
+#: apps/task/models.py:53
 msgid "description"
 msgstr "description"
 
-#: backapps/invoice/models.py:16
+#: apps/invoice/models.py:16
 msgid "sent at"
 msgstr "envoyé le"
 
-#: backapps/invoice/models.py:17
+#: apps/invoice/models.py:17
 msgid "month"
 msgstr "mois"
 
-#: backapps/invoice/models.py:18
+#: apps/invoice/models.py:18
 msgid "year"
 msgstr "année"
 
-#: backapps/invoice/models.py:19
+#: apps/invoice/models.py:19
 msgid "amount"
 msgstr "montant"
 
-#: backapps/invoice/models.py:21
+#: apps/invoice/models.py:21
 msgid "comment"
 msgstr "commentaire"
 
-#: backapps/preference/models.py:8
+#: apps/preference/models.py:8
 msgid "Keep on top"
 msgstr "Toujours devant"
 
-#: backapps/profile/forms.py:84 templates/administration/user_admin.html:11
+#: apps/profile/forms.py:84 templates/administration/user_admin.html:11
 msgid "Users"
 msgstr "Utilisateurs"
 
-#: backapps/profile/models.py:22
+#: apps/profile/models.py:22
 msgid "depends on"
 msgstr "dépend de"
 
-#: backapps/profile/models.py:24
+#: apps/profile/models.py:24
 msgid "accepted terms"
 msgstr ""
 
-#: backapps/profile/models.py:28
+#: apps/profile/models.py:28
 msgid "workspace admin"
 msgstr "Admin du workspace"
 
-#: backapps/profile/models.py:30
+#: apps/profile/models.py:30
 msgid "HR admin"
 msgstr "Admin RH"
 
-#: backapps/profile/models.py:32
+#: apps/profile/models.py:32
 msgid "primary tasks admin"
 msgstr "Admin d'tâche mère"
 
-#: backapps/profile/models.py:35
+#: apps/profile/models.py:35
 msgid "has power transfer from"
 msgstr "délégation de"
 
-#: backapps/salary/models.py:14
+#: apps/salary/models.py:14
 msgid "user"
 msgstr "utilisateur"
 
-#: backapps/salary/models.py:15 frontapps/dashboard/forms.py:5
-#: frontapps/dashboard/forms.py:10
+#: apps/salary/models.py:15 apps/dashboard/forms.py:5
+#: apps/dashboard/forms.py:10
 msgid "start date"
 msgstr "date de début"
 
-#: backapps/salary/models.py:16 frontapps/dashboard/forms.py:6
-#: frontapps/dashboard/forms.py:11
+#: apps/salary/models.py:16 apps/dashboard/forms.py:6
+#: apps/dashboard/forms.py:11
 msgid "end date"
 msgstr "date de fin"
 
-#: backapps/salary/models.py:18
+#: apps/salary/models.py:18
 msgid "monthly wage"
 msgstr "salaire mensuel"
 
-#: backapps/salary/models.py:19
+#: apps/salary/models.py:19
 msgid "this reprensents the cost of the employee per month"
 msgstr "cette valeur représente le coût du salarié par mois"
 
-#: backapps/task/forms.py:15 templates/administration/user_admin.html:8
+#: apps/task/forms.py:15 templates/administration/user_admin.html:8
 #: templates/dashboard/base.html:57
 msgid "Projects"
 msgstr "Projets"
 
-#: backapps/task/models.py:47
+#: apps/task/models.py:47
 msgid "monitored"
 msgstr "suivi"
 
-#: backapps/task/models.py:49
+#: apps/task/models.py:49
 msgid "primary"
 msgstr "primaire"
 
-#: backapps/task/models.py:55
+#: apps/task/models.py:55
 msgid "group"
 msgstr "groupe"
 
-#: backapps/task/models.py:57
+#: apps/task/models.py:57
 msgid "type"
 msgstr "type"
 
-#: backapps/task/models.py:59
+#: apps/task/models.py:59
 msgid "sub-task of"
 msgstr "sous-tâche de"
 
-#: backapps/task/models.py:60
+#: apps/task/models.py:60
 msgid "owned by"
 msgstr "appartenant à"
 
-#: backapps/workspace/models.py:21
+#: apps/workspace/models.py:21
 msgid "in trial mode"
 msgstr "en période d'essai"
 
-#: backapps/workspace/models.py:22
+#: apps/workspace/models.py:22
 msgid ""
 "this field indicate that your are using your workspace for evaluation. "
 "Deactivate it once you are ready to go to production mode."
 msgstr ""
 "ce champ indique si vous utilisez linbees en mode évaluation ou production."
 
-#: backapps/workspace/models.py:26
+#: apps/workspace/models.py:26
 msgid "main contact name"
 msgstr "nom du contact principal"
 
-#: backapps/workspace/models.py:28
+#: apps/workspace/models.py:28
 msgid "main contact email address"
 msgstr "Email du contact principal"
 
-#: backapps/workspace/models.py:29
+#: apps/workspace/models.py:29
 msgid "Will be used to send out important message (for instance invoices)"
 msgstr ""
 
-#: backapps/workspace/models.py:32
+#: apps/workspace/models.py:32
 msgid "address (line1)"
 msgstr "adresse (ligne 1)"
 
-#: backapps/workspace/models.py:35
+#: apps/workspace/models.py:35
 msgid "zipcode"
 msgstr "code postal"
 
-#: backapps/workspace/models.py:37
+#: apps/workspace/models.py:37
 msgid "city"
 msgstr "ville"
 
-#: backapps/workspace/models.py:39
+#: apps/workspace/models.py:39
 msgid "country"
 msgstr "pays"
 
-#: backapps/workspace/models.py:41
+#: apps/workspace/models.py:41
 msgid "phone number"
 msgstr "numéro de téléphone"
 
-#: backapps/workspace/models.py:50
+#: apps/workspace/models.py:50
 msgid "dashboard name"
 msgstr "nom du tableau de bord"
 
-#: backapps/workspace/models.py:51
+#: apps/workspace/models.py:51
 msgid "by default, the dashboard name is your company email domain"
 msgstr ""
 "par défaut, le nom du tableau de bord est celui du nom de domaine de votre "
 "société"
 
-#: backapps/workspace/models.py:58
+#: apps/workspace/models.py:58
 msgid "next invoice date"
 msgstr "date de la prochaine facture"
 
-#: frontapps/dashboard/forms.py:7
+#: apps/dashboard/forms.py:7
 msgid "number of users"
 msgstr "nombre d'utilisateurs"
 
-#: frontapps/signup/views.py:19
+#: apps/signup/views.py:19
 #, python-format
 msgid ""
 "%(name)s, your account was successfully created. Welcome to %(ws)s dashboard!"
@@ -230,11 +230,11 @@ msgstr ""
 "%(name)s, votre compte a été créé avec succès. Bienvenue sur le tableau de "
 "bord de %(ws)s !"
 
-#: frontapps/website/forms.py:7
+#: apps/website/forms.py:7
 msgid "Your email address"
 msgstr "Votre adresse email"
 
-#: frontapps/website/forms.py:8
+#: apps/website/forms.py:8
 msgid "Your message"
 msgstr "Votre message"
 

@@ -1,7 +1,7 @@
 from django.db import models
 #from django.db.models.query import QuerySet
 #from model_utils.managers import PassThroughManager
-from backapps.workspace.models import Workspace
+from apps.workspace.models import Workspace
 from django.core.exceptions import ValidationError
 
 #class TenantQuerySet(QuerySet):

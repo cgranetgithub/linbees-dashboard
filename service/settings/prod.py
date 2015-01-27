@@ -46,19 +46,21 @@ INSTALLED_APPS = (
     'storages',   # for static files on S3
     'bootstrap3', # for a sexy website!
     'mptt',       # for trees management
-    'backapps.workspace',
-    'backapps.salary',
-    'backapps.task',
-    'backapps.profile',
-    'backapps.record',
-    'backapps.preference',
-    'backapps.department',
-    'backapps.invoice',
-    'frontapps.dashboard',
-    'frontapps.administration',
-    'frontapps.website',
-    'frontapps.signup',
-    'frontapps.clientapp',
+    'apps.workspace',
+    'apps.salary',
+    'apps.task',
+    'apps.profile',
+    'apps.record',
+    'apps.preference',
+    'apps.department',
+    'apps.invoice',
+    'apps.payment',
+    'apps.satisfaction',
+    'apps.dashboard',
+    'apps.administration',
+    'apps.website',
+    'apps.signup',
+    'apps.clientapp',
 )
 
 MIDDLEWARE_CLASSES = (
