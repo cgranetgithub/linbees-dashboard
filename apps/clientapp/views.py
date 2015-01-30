@@ -3,7 +3,6 @@ from django.contrib.auth.views import login as login_view
 from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import render, redirect
 from django.conf import settings
-#from django.utils.translation import ugettext, ugettext_lazy as _
 from django.core.urlresolvers import reverse, reverse_lazy
 from apps.clientapp.forms import TaskForm, ClientUserForm
 from apps.profile.models import Profile

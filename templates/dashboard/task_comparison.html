@@ -15,7 +15,6 @@
         <div class="col-sm-4 col-sm-offset-2 col-md-3 col-md-offset-1 sidebar">
             <div class="panel panel-default">
                 <div class="panel-body">
-                    {% bootstrap_form form %}
                     {% buttons %}
                         <button type="submit" class="btn btn-sm btn-primary">
                         {% trans "Update" %}
@@ -28,16 +27,7 @@
         <div class="col-md-8 col-md-offset-4">
             <div class="panel panel-default">
             <div class="panel-body">
-                <h3 class="text-primary">{% trans 'Time per project<br><small>(in hours)</small>' %}</h3>
-                    {% include "chart/chart.html" with divname='chart1div' %}
-            </div>
-            </div>
-        </div>
-        <div class="col-md-8 col-md-offset-4">
-            <div class="panel panel-default">
-            <div class="panel-body">
-                <h3 class="text-primary">{% trans 'Cumulated time per project<br><small>(in hours)</small>' %}</h3>
-                    {% include "chart/chart.html" with divname='chart2div' %}
+                <div id="table_div">
             </div>
             </div>
         </div>

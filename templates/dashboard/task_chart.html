@@ -28,16 +28,16 @@
         <div class="col-md-8 col-md-offset-4">
             <div class="panel panel-default">
             <div class="panel-body">
-                <h3 class="text-primary">{% trans 'Cost per project<br><small> </small>' %}</h3>
-                    {% include "chart/chart.html" with divname='chart1div' %}
+                <h3 class="text-primary">{{ legend1 }}</h3>
+                {% include "dashboard/chart.html" with divname='chart1div' %}
             </div>
             </div>
         </div>
         <div class="col-md-8 col-md-offset-4">
             <div class="panel panel-default">
             <div class="panel-body">
-                <h3 class="text-primary">{% trans 'Cumulated cost per project<br><small> </small>' %}</h3>
-                    {% include "chart/chart.html" with divname='chart2div' %}
+                <h3 class="text-primary">{{ legend2 }}</h3>
+                {% include "dashboard/chart.html" with divname='chart2div' %}
             </div>
             </div>
         </div>

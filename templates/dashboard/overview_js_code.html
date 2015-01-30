@@ -1,0 +1,71 @@
+<script>
+$(function() {
+
+    $('button')
+        .button()
+        .click(function(event){
+            event.defaultPrevented;
+            update_div();
+    });
+
+    function update_div() {
+        draw_time_repartition();
+        draw_cost_repartition();
+    };
+
+    function draw_time_repartition() {
+        var data_url = "{% url 'dashboard:time_repartition_query' %}";
+        var divname = "chart1div";
+        draw_pie_chart(data_url, divname);
+    };
+
+    function draw_cost_repartition() {
+        var data_url = "{% url 'dashboard:cost_repartition_query' %}";
+        var divname = "chart2div";
+        draw_pie_chart(data_url, divname);
+    };
+
+    function draw_pie_chart(data_url, divname) {
+        var tasks = $('#tree_div').jstree(true).get_selected();
+        $.ajax({
+            url: data_url, 
+            data: {'csrfmiddlewaretoken': '{{csrf_token}}', 'tasks':JSON.stringify(tasks)},
+            success: function( returned_data ) {
+            console.log(returned_data)
+                try {
+                    var data = google.visualization.arrayToDataTable(returned_data['data']);
+                    var chart = new google.visualization.PieChart(document.getElementById(divname));
+                    chart.draw(data, returned_data['options']);
+                } catch(err) {
+                    console.log("an error has occured : " + err);
+                }
+            }
+        });
+    };
+
+    $(function () {
+        $('#tree_div')
+        // once ready, select tasks and draw charts
+        .on('ready.jstree', function (e) {
+            update_div();
+        })
+        // when selection changes
+        .on('changed.jstree', function (e, data) {
+            update_div();
+        })
+        // create the instance
+        .jstree({
+            'core' : {
+                'data' : {
+                    'url':"{% url 'dashboard:tasks_query' False %}", 
+                    'dataType':'json',
+                }
+            },
+        });
+    });
+    
+});
+</script>
+
+<link href="http://static.jstree.com/3.0.8/assets/dist/themes/default/style.min.css" rel="stylesheet"></link>
+<script src="http://static.jstree.com/3.0.8/assets/dist/jstree.min.js"></script>

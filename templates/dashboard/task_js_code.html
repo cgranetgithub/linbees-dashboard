@@ -17,6 +17,8 @@ $(function() {
         } else if ( '{{ topic }}' == 'cost' ) {
             draw_cost_per_project();
             draw_cumulated_cost_per_project();
+        } else if ( '{{ topic }}' == 'control' ) {
+            update_table();
         } else if ( '{{ topic }}' == 'info' ) {
             var select = $('#single_tree_div').jstree(true).get_selected()[0];
             var data_url = "{% url 'dashboard:task_info_edit' 0 %}".replace('/0/', '/'+select.toString()+'/');
@@ -64,8 +66,6 @@ $(function() {
             url: data_url, 
             data: {'csrfmiddlewaretoken': '{{csrf_token}}', 'startdate':startdate, 'enddate':enddate, 'tasks':JSON.stringify(tasks)},
             success: function( returned_data ) {
-                console.log("Ok");
-                console.log(document.getElementById(divname));
                 try {
                     var data = google.visualization.arrayToDataTable(returned_data['data']);
                     var chart = new google.visualization.LineChart(document.getElementById(divname));
@@ -73,6 +73,20 @@ $(function() {
                 } catch(err) {
                     console.log("an error has occured : " + err);
                 }
+            }
+        });
+    };
+
+    function update_table() {
+//         var startdate = $('#id_start_date').val();
+//         var enddate = $('#id_end_date').val();
+        var tasks = $('#tree_div').jstree(true).get_selected();
+        var data_url = "{% url 'dashboard:task_table' %}";
+        $.ajax({
+            url: data_url,
+            data: {'csrfmiddlewaretoken': '{{csrf_token}}', 'tasks':JSON.stringify(tasks)},
+            success: function( returned_data ) {
+                $( "#table_div" ).html( returned_data );
             }
         });
     };

@@ -1,0 +1,68 @@
+{% load i18n %}
+
+<table class="table table-condensed table-hover">
+    <tr>
+    <td>{% trans 'Project' %}</td>
+    <td>{% trans 'Start (planned)' %}</td>
+    <td>{% trans 'Start (actual)' %}</td>
+    <td>{% trans 'End (planned)' %}</td>
+    <td>{% trans 'End (actual)' %}</td>
+    <td>{% trans 'Time (planned)' %}</td>
+    <td>{% trans 'Time (actual)' %}</td>
+    <td>{% trans 'Cost (planned)' %}</td>
+    <td>{% trans 'Cost (actual)' %}</td>
+    </tr>
+    {% for task in data|dictsort:"name" %}
+        <tr>
+        <td>{{task.name}}</td>
+        {% if task.start %}
+            {% if task.start > task.actual_start %}
+                <td class="text-danger"><strong>{{task.start}}</strong></td>
+                <td class="text-danger"><strong>{{task.actual_start}}</strong></td>
+            {% else %}
+                <td>{{task.start}}</td>
+                <td>{{task.actual_start}}</td>
+            {% endif %}
+        {% else %}
+            <td></td>
+            <td>{{task.actual_start}}</td>
+        {% endif %}
+        {% if task.end %}
+            {% if task.end > task.actual_end %}
+                <td class="text-danger"><strong>{{task.end}}</strong></td>
+                <td class="text-danger"><strong>{{task.actual_end}}</strong></td>
+            {% else %}
+                <td>{{task.end}}</td>
+                <td>{{task.actual_end}}</td>
+            {% endif %}
+        {% else %}
+            <td></td>
+            <td>{{task.actual_end}}</td>
+        {% endif %}
+        {% if task.time %}
+            {% if task.time > task.actual_time %}
+                <td class="text-danger"><strong>{{task.time}}</strong></td>
+                <td class="text-danger"><strong>{{task.actual_time}}</strong></td>
+            {% else %}
+                <td>{{task.time}}</td>
+                <td>{{task.actual_time}}</td>
+            {% endif %}
+        {% else %}
+            <td></td>
+            <td>{{task.actual_time}}</td>
+        {% endif %}
+        {% if task.cost %}
+            {% if task.cost > task.actual_cost %}
+                <td class="text-danger"><strong>{{task.cost}}</strong></td>
+                <td class="text-danger"><strong>{{task.actual_cost}}</strong></td>
+            {% else %}
+                <td>{{task.cost}}</td>
+                <td>{{task.actual_cost}}</td>
+            {% endif %}
+        {% else %}
+            <td></td>
+            <td>{{task.actual_cost}}</td>
+        {% endif %}
+        </tr>
+    {% endfor %}
+</table>

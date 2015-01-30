@@ -1,14 +1,15 @@
-import json
 from django.contrib.auth.decorators import login_required, user_passes_test
-from apps.task.models import Task
+from django.core.urlresolvers import reverse_lazy
+from libs.chart.calculus import queryset_filter
 from apps.profile.models import Profile
 from apps.record.models import (DailyDataPerTaskPerUser,
                                     DailyDataPerTask)
-from apps.checks import has_paid, has_access, data_existence
-from django.core.urlresolvers import reverse_lazy
-from django.http import HttpResponse
 from libs.chart.chart import over_time, cumulative_over_time
-from libs.chart.calculus import queryset_filter
+from apps.task.models import Task
+from django.db.models import Sum
+from apps.checks import has_paid, has_access, data_existence
+from django.http import HttpResponse
+import json
 
 @login_required
 @user_passes_test(has_paid, login_url=reverse_lazy('dashboard:latePayment'))
@@ -117,7 +118,7 @@ def time_per_user(request):
 @user_passes_test(has_paid, login_url=reverse_lazy('dashboard:latePayment'))
 @user_passes_test(has_access,
                   login_url=reverse_lazy('dashboard:noAccess'))
-def time_per_project(request):
+def time_per_project(request, topic='duration'):
     startdate = request.GET.get('startdate')
     enddate = request.GET.get('enddate')
     try:
@@ -131,39 +132,9 @@ def time_per_project(request):
         queryset = DailyDataPerTask.objects.filter(workspace=workspace,
                                                 task__monitored=True)
         queryset = queryset_filter(queryset, tasks, startdate, enddate)
-        (array, line_options) = over_time(workspace, queryset, 'duration',
+        (array, line_options) = over_time(workspace, queryset, topic,
                                                 DailyDataPerTask)
         data['data'] = array
-        data['options'] = line_options
-    return HttpResponse(json.dumps(data), content_type="application/json")
-
-
-@login_required
-@user_passes_test(has_paid, login_url=reverse_lazy('dashboard:latePayment'))
-@user_passes_test(has_access,
-                  login_url=reverse_lazy('dashboard:noAccess'))
-def cumulated_time_per_project(request):
-    startdate = request.GET.get('startdate')
-    enddate = request.GET.get('enddate')
-    try:
-        tasks = json.loads(request.GET.get('tasks'))
-    except:
-        tasks = None
-    (context, some_data) = data_existence(request)
-    data = {}
-    if some_data:
-        workspace = request.user.profile.workspace
-        queryset = DailyDataPerTask.objects.filter(workspace=workspace,
-                                                task__monitored=True)
-        if tasks is not None:
-            queryset = queryset.filter(task__in=tasks)
-        #tasks evolution over time
-        (array, line_options) = over_time(workspace, queryset, 'duration',
-                                                DailyDataPerTask)
-        (line_data, line_options) = cumulative_over_time(array,
-                                                            startdate,
-                                                            enddate)
-        data['data'] = line_data
         data['options'] = line_options
     return HttpResponse(json.dumps(data), content_type="application/json")
 
@@ -172,31 +143,33 @@ def cumulated_time_per_project(request):
 @user_passes_test(has_access,
                   login_url=reverse_lazy('dashboard:noAccess'))
 def cost_per_project(request):
-    startdate = request.GET.get('startdate')
-    enddate = request.GET.get('enddate')
-    try:
-        tasks = json.loads(request.GET.get('tasks'))
-    except:
-        tasks = None
-    (context, some_data) = data_existence(request)
-    data = {}
-    if some_data:
-        workspace = request.user.profile.workspace
-        queryset = DailyDataPerTask.objects.filter(workspace=workspace,
-                                                task__monitored=True)
-        queryset = queryset_filter(queryset, tasks, startdate, enddate)
-        (array, line_options) = over_time(workspace, queryset, 'cost',
-                                                DailyDataPerTask)
-        data['data'] = array
-        data['options'] = line_options
-    return HttpResponse(json.dumps(data), content_type="application/json")
+    return time_per_project(request, 'cost')
+    #startdate = request.GET.get('startdate')
+    #enddate = request.GET.get('enddate')
+    #try:
+        #tasks = json.loads(request.GET.get('tasks'))
+    #except:
+        #tasks = None
+    #(context, some_data) = data_existence(request)
+    #data = {}
+    #if some_data:
+        #workspace = request.user.profile.workspace
+        #queryset = DailyDataPerTask.objects.filter(workspace=workspace,
+                                                #task__monitored=True)
+        #queryset = queryset_filter(queryset, tasks, startdate, enddate)
+        #(array, line_options) = over_time(workspace, queryset, 'cost',
+                                                #DailyDataPerTask)
+        #data['data'] = array
+        #data['options'] = line_options
+    #return HttpResponse(json.dumps(data), content_type="application/json")
+
 
 
 @login_required
 @user_passes_test(has_paid, login_url=reverse_lazy('dashboard:latePayment'))
 @user_passes_test(has_access,
                   login_url=reverse_lazy('dashboard:noAccess'))
-def cumulated_cost_per_project(request):
+def cumulated_time_per_project(request, topic='duration'):
     startdate = request.GET.get('startdate')
     enddate = request.GET.get('enddate')
     try:
@@ -212,11 +185,72 @@ def cumulated_cost_per_project(request):
         if tasks is not None:
             queryset = queryset.filter(task__in=tasks)
         #tasks evolution over time
-        (array, line_options) = over_time(workspace, queryset, 'cost',
-                                                DailyDataPerTask)
+        (array, line_options) = over_time(workspace, queryset, topic,
+                                          DailyDataPerTask)
         (line_data, line_options) = cumulative_over_time(array,
-                                                            startdate,
-                                                            enddate)
+                                                         startdate, enddate)
         data['data'] = line_data
         data['options'] = line_options
     return HttpResponse(json.dumps(data), content_type="application/json")
+
+@login_required
+@user_passes_test(has_paid, login_url=reverse_lazy('dashboard:latePayment'))
+@user_passes_test(has_access,
+                  login_url=reverse_lazy('dashboard:noAccess'))
+def cumulated_cost_per_project(request):
+    return cumulated_time_per_project(request, 'cost')
+    #startdate = request.GET.get('startdate')
+    #enddate = request.GET.get('enddate')
+    #try:
+        #tasks = json.loads(request.GET.get('tasks'))
+    #except:
+        #tasks = None
+    #(context, some_data) = data_existence(request)
+    #data = {}
+    #if some_data:
+        #workspace = request.user.profile.workspace
+        #queryset = DailyDataPerTask.objects.filter(workspace=workspace,
+                                                #task__monitored=True)
+        #if tasks is not None:
+            #queryset = queryset.filter(task__in=tasks)
+        ##tasks evolution over time
+        #(array, line_options) = over_time(workspace, queryset, 'cost',
+                                                #DailyDataPerTask)
+        #(line_data, line_options) = cumulative_over_time(array,
+                                                            #startdate,
+                                                            #enddate)
+        #data['data'] = line_data
+        #data['options'] = line_options
+    #return HttpResponse(json.dumps(data), content_type="application/json")
+
+
+@login_required
+@user_passes_test(has_paid, login_url=reverse_lazy('dashboard:latePayment'))
+@user_passes_test(has_access,
+                  login_url=reverse_lazy('dashboard:noAccess'))
+def total_time_per_project(request, topic='duration'):
+    try:
+        tasks = json.loads(request.GET.get('tasks'))
+    except:
+        tasks = None
+    (context, some_data) = data_existence(request)
+    data = {'data':[['Task', 'total time (hours)'],]}
+    if some_data and tasks:
+        workspace = request.user.profile.workspace
+        task_list = Task.objects.filter(workspace=workspace, pk__in=tasks)
+        for i in task_list:
+            data_list = DailyDataPerTask.objects.filter(workspace=workspace,
+                                                        task=i)
+            if len(data_list) > 0:
+                tmp = [unicode(i),
+                       int(data_list.aggregate(Sum(topic))['%s__sum'%topic])]
+            data['data'].append(tmp)
+        data['options'] = {'is3D':'true', 'backgroundColor':'transparent'}
+    return HttpResponse(json.dumps(data), content_type="application/json")
+
+@login_required
+@user_passes_test(has_paid, login_url=reverse_lazy('dashboard:latePayment'))
+@user_passes_test(has_access,
+                  login_url=reverse_lazy('dashboard:noAccess'))
+def total_cost_per_project(request):
+    return total_time_per_project(request, 'cost')

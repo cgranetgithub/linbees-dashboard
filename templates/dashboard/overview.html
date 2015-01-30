@@ -6,18 +6,25 @@
 <div class="row">
     <div class="col-md-2 sidebar">
         <h3><a href="{% url 'dashboard:user_info' %}">{{ users_number }} {% trans "users" %}</a></h3>
-        <h3><a href="{% url 'dashboard:task_info' %}">{{ tasks_number }} {% trans "projects" %}</a></h3>
+        <h3><a href="{% url 'dashboard:task_info' %}">{{ tasks_number }} {% trans "projects (and sub-projects)" %}</a></h3>
+        <div id="tree_div"></div>
     </div>
-    <div class="col-md-4 col-md-offset-2 main">
-        {% bootstrap_messages %}
-        {% if tasks_number == 0 %}
+    <div>{% bootstrap_messages %}</div>
+    {% if tasks_number == 0 %}
+        <div class="col-md-5 col-md-offset-2">
             {% include 'dashboard/no_task_message.html' %}
-        {% elif nodata == True %}
+        </div>
+    {% elif nodata == True %}
+        <div class="col-md-5 col-md-offset-2">
             {% include 'dashboard/no_data_message.html' %}
-        {% else %}
+        </div>
+    {% else %}
+        <div class="col-md-5 col-md-offset-2">
             <div class="panel panel-default">
                 <div class="panel-body">
-                    <h3 class="text-primary">{% trans 'Most time consuming projects' %}</h3>
+                    <h3 class="text-primary">{{ legend1 }}</h3>
+                    {% include "dashboard/chart.html" with divname='chart1div' %}
+<!--                    <h3 class="text-primary">{% trans 'Most time consuming projects' %}</h3>
                     <ul>
                     {% for i in time_consumption %}
                         <li class="text-success"><p>{{ i.task__name }} ({{ i.duration__sum }} {% trans 'hours)' %}</p></li>
@@ -29,24 +36,22 @@
                         <li class="text-success"><p>{{ i.name }} ({{ j }} {% trans 'persons)' %}</p>
                     {% endfor %}
                     </ul>
-                    <h3 class="text-info">{{ active_users }} {% trans 'active users' %}</h3>
+                    <h3 class="text-info">{{ active_users }} {% trans 'active users' %}</h3>-->
                 </div>
             </div>
-    </div>
-    <div class="col-md-5">
-        <div class="panel panel-default">
-            <div class="panel-body">
-                <h3 class="text-primary">{% trans 'Time repartition per project' %}<br></h3>
-                <script type="text/javascript" src="https://www.google.com/jsapi"></script>
-                {% include "chart/piechart.html" with chart_data=chart1_data chart_options=chart1_options divname='chart1div' %}
+        </div>
+        <div class="col-md-5">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <h3 class="text-primary">{{ legend2 }}</h3>
+                    {% include "dashboard/chart.html" with divname='chart2div' %}
+                </div>
             </div>
         </div>
-    </div>
+    {% endif %}
 </div><!-- /.row -->
-<div class="row">
-    <div class="col-md-9 col-md-offset-2">
-        <p class="text-muted">{% trans '(*) over the last' %} {{ period }} {% trans 'days' %}</p>
-        {% endif %}
-    </div>
-</div><!-- /.row -->
+
+<!-- Linbees js stuff -->
+{% include "dashboard/overview_js_code.html" %}
+    
 {% endblock home %}
