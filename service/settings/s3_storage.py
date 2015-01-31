@@ -1,26 +1,17 @@
 import os
 
-# Use Amazon S3 for storage for uploaded media files.
-DEFAULT_FILE_STORAGE = "storages.backends.s3boto.S3BotoStorage"
+# Amazon S3 credentials
+AWS_ACCESS_KEY_ID       = os.environ['AWS_ACCESS_KEY_ID']
+AWS_SECRET_ACCESS_KEY   = os.environ['AWS_SECRET_ACCESS_KEY']
 
-# Use Amazon S3 for static files storage.
-#STATICFILES_STORAGE = "require_s3.storage.OptimizedCachedStaticFilesStorage"
-STATICFILES_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
-
-# Amazon S3 settings.
-AWS_ACCESS_KEY_ID = os.environ.get("AWS_ACCESS_KEY_ID")
-AWS_SECRET_ACCESS_KEY = os.environ.get("AWS_SECRET_ACCESS_KEY")
+# Amazon S3 URL
 AWS_STORAGE_BUCKET_NAME = os.environ.get("AWS_STORAGE_BUCKET_NAME")
-#AWS_AUTO_CREATE_BUCKET = False
-#AWS_HEADERS = {
-    #"Cache-Control": "public, max-age=86400",
-#}
-#AWS_S3_FILE_OVERWRITE = False
-#AWS_QUERYSTRING_AUTH = False
-#AWS_S3_SECURE_URLS = False
-#AWS_REDUCED_REDUNDANCY = False
-#AWS_IS_GZIPPED = False
+S3_URL = 'http://%s.s3-website-eu-central-1.amazonaws.com/' % AWS_STORAGE_BUCKET_NAME
 
-STATIC_URL = 'http://' + AWS_STORAGE_BUCKET_NAME + '.s3-website.eu-central-1.amazonaws.com'
+# Static files location
+STATICFILES_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
+STATIC_URL = S3_URL
 
-#ADMIN_MEDIA_PREFIX = STATIC_URL + 'admin/'
+# Default File storage
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
+MEDIA_URL = S3_URL
