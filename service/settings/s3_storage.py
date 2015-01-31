@@ -21,6 +21,6 @@ AWS_S3_SECURE_URLS = False
 AWS_REDUCED_REDUNDANCY = False
 AWS_IS_GZIPPED = False
 
-STATIC_URL = 'http://' + AWS_STORAGE_BUCKET_NAME + '.s3-website-eu-west-1.amazonaws.com/'
+STATIC_URL = 'http://' + AWS_STORAGE_BUCKET_NAME + '.s3-website.eu-central-1.amazonaws.com/'
 
 #ADMIN_MEDIA_PREFIX = STATIC_URL + 'admin/'
