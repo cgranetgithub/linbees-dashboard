@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-02-01 13:57+0000\n"
+"POT-Creation-Date: 2015-02-01 14:07+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -221,7 +221,7 @@ msgstr "Date de fin (prévisionnelle)"
 msgid "Additional cost"
 msgstr "Coût additionnel"
 
-#: apps/task/models.py:76 templates/dashboard/task_comparison_table.html:12
+#: apps/task/models.py:76
 msgid "Cost (planned)"
 msgstr "Coût (prévisionnel)"
 
@@ -547,36 +547,40 @@ msgid "Project"
 msgstr "Projet"
 
 #: templates/dashboard/task_comparison_table.html:6
-msgid "Start (planned)"
-msgstr "Début (prévisionnel)"
+msgid "Start<br>(planned)"
+msgstr "Début<br>(prévisionnel)"
 
 #: templates/dashboard/task_comparison_table.html:7
-msgid "Start (actual)"
-msgstr "Début (éel)"
+msgid "Start<br>(actual)"
+msgstr "Début<br>(réel)"
 
 #: templates/dashboard/task_comparison_table.html:8
-msgid "End (planned)"
-msgstr "Fin (prévisionnel)"
+msgid "End<br>(planned)"
+msgstr "Fin<br>(prévisionnel)"
 
 #: templates/dashboard/task_comparison_table.html:9
-msgid "End (actual)"
-msgstr "Fin (réel)"
+msgid "End<br>(actual)"
+msgstr "Fin<br>(réel)"
 
 #: templates/dashboard/task_comparison_table.html:10
-msgid "Time (planned)"
-msgstr "Temps (prévisionnel)"
+msgid "Time<br>(planned)"
+msgstr "Temps<br>(prévisionnel)"
 
 #: templates/dashboard/task_comparison_table.html:11
-msgid "Time (actual)"
-msgstr "Temps (réel)"
+msgid "Time<br>(actual)"
+msgstr "Temps<br>(réel)"
+
+#: templates/dashboard/task_comparison_table.html:12
+msgid "Cost<br>(planned)"
+msgstr "Coût<br>(prévisionnel)"
 
 #: templates/dashboard/task_comparison_table.html:13
-msgid "Cost (actual)"
-msgstr "Coût (réel)"
+msgid "Cost<br>(actual)"
+msgstr "Coût<br>(réel)"
 
 #: templates/dashboard/user.html:10
 msgid "Salary"
-msgstr "Dalaire"
+msgstr "Salaire"
 
 #: templates/dashboard/user.html:11
 msgid "Information"

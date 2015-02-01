@@ -3,14 +3,14 @@
 <table class="table table-condensed table-hover">
     <tr>
     <td>{% trans 'Project' %}</td>
-    <td>{% trans 'Start (planned)' %}</td>
-    <td>{% trans 'Start (actual)' %}</td>
-    <td>{% trans 'End (planned)' %}</td>
-    <td>{% trans 'End (actual)' %}</td>
-    <td>{% trans 'Time (planned)' %}</td>
-    <td>{% trans 'Time (actual)' %}</td>
-    <td>{% trans 'Cost (planned)' %}</td>
-    <td>{% trans 'Cost (actual)' %}</td>
+    <td>{% trans 'Start<br>(planned)' %}</td>
+    <td>{% trans 'Start<br>(actual)' %}</td>
+    <td>{% trans 'End<br>(planned)' %}</td>
+    <td>{% trans 'End<br>(actual)' %}</td>
+    <td>{% trans 'Time<br>(planned)' %}</td>
+    <td>{% trans 'Time<br>(actual)' %}</td>
+    <td>{% trans 'Cost<br>(planned)' %}</td>
+    <td>{% trans 'Cost<br>(actual)' %}</td>
     </tr>
     {% for task in data|dictsort:"name" %}
         <tr>
