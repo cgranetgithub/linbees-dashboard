@@ -6,9 +6,9 @@
     <div class="row">
         <div class="col-sm-2 col-md-1 sidebar">
             <ul class="nav nav-sidebar">
-                <li><a href="{% url 'dashboard:user_time'   %}">{% trans "Time" %}</a></li>
-                <li><a href="{% url 'dashboard:user_salary' %}">{% trans 'Salary' %}</a></li>
-                <li><a href="{% url 'dashboard:user_info'   %}">{% trans 'Information' %}</a></li>
+                <li><a href="{% url 'user_time'   %}">{% trans "Time" %}</a></li>
+                <li><a href="{% url 'user_salary' %}">{% trans 'Salary' %}</a></li>
+                <li><a href="{% url 'user_info'   %}">{% trans 'Information' %}</a></li>
             </ul>
         </div>
         {% block main %}

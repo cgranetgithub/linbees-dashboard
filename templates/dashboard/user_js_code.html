@@ -13,17 +13,17 @@ $(function() {
             draw_time_per_user();
         } else if ( '{{ topic }}' == 'info' ) {
             var select = $('#tree_div').jstree(true).get_selected()[0];
-            var data_url = "{% url 'dashboard:user_info_edit' 0 %}".replace('/0/', '/'+select.toString()+'/');
+            var data_url = "{% url 'user_info_edit' 0 %}".replace('/0/', '/'+select.toString()+'/');
             update_form(data_url);
         } else if ( '{{ topic }}' == 'salary' ) {
             var select = $('#tree_div').jstree(true).get_selected()[0];
-            var data_url = "{% url 'dashboard:user_salary_edit' 0 %}".replace('/0/', '/'+select.toString()+'/');
+            var data_url = "{% url 'user_salary_edit' 0 %}".replace('/0/', '/'+select.toString()+'/');
             update_form(data_url);
         }
     };
     
     function draw_time_per_user() {
-        var data_url = "{% url 'dashboard:time_per_user_query' %}";
+        var data_url = "{% url 'time_per_user_query' %}";
         var divname = "chartdiv";
         draw_stacked_chart(data_url, divname);
     };
@@ -78,7 +78,7 @@ $(function() {
         .jstree({
             'core' : {
                 'data' : {
-                    'url':"{% url 'dashboard:users_query' %}", 
+                    'url':"{% url 'users_query' %}", 
                     'dataType':'json',
                 },
                 'multiple' : false,

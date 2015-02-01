@@ -10,7 +10,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="">
 <meta name="author" content="linbees">
-<link rel="shortcut icon" href="{% static 'website/icon.png' %}">
+<link rel="shortcut icon" href="{% static 'dashboard/icon.png' %}">
 
 <title>{% block title %}Linbees dashboard{% endblock %}</title>
 
@@ -58,14 +58,14 @@
     </div>
     <div class="navbar-collapse collapse">
         <ul class="nav navbar-nav">
-        <li><a href="{% url 'dashboard:overview' %}"><strong>{{ workspace.company_name }}</strong></a></li>
-        <li><a href="{% url 'dashboard:task_time' %}">{% trans "Projects" %}</a></li>
-        <li><a href="{% url 'dashboard:user_time' %}">{% trans "Users" %}</a></li>
+        <li><a href="{% url 'overview' %}"><strong>{{ workspace.company_name }}</strong></a></li>
+        <li><a href="{% url 'task_time' %}">{% trans "Projects" %}</a></li>
+        <li><a href="{% url 'user_time' %}">{% trans "Users" %}</a></li>
         <li><a href="{% url 'administration:accountAdmin' %}">{% trans "Administration" %}</a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">	  
-        <li><a href="{% url 'dashboard:logout_view' %}">{% trans "Log out" %} ({{ user.username }})</a></li>
-        <li><a class="navbar-brand" href="{% url 'website:home' %}">Linbees</a></li>
+        <li><a href="{% url 'logout_view' %}">{% trans "Log out" %} ({{ user.username }})</a></li>
+        <li><a class="navbar-brand" href="http://www.linbees.com">Linbees</a></li>
         </ul>
     </div>
     </div>

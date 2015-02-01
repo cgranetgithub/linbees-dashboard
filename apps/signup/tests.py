@@ -30,16 +30,16 @@ class SignupTest(WebTest):
         assert p.is_hr is True
         assert p.is_primary is True
     def test_existing_ws_name(self):
-        form = self.app.get('/website/').form
-        form['language'] = 'en'
-        form.submit()
+        #form = self.app.get('/website/').form
+        #form['language'] = 'en'
+        #form.submit()
         (response, workspace, user) = dashboard_signup(self.app, 'toto@password1.com', 'toto')
         (response, workspace, user) = dashboard_signup(self.app, 'titi@password1.com', 'titi')
         self.assertContains(response, ws_already_exist)
     def test_public_email(self):
-        form = self.app.get('/website/').form
-        form['language'] = 'en'
-        form.submit()
+        #form = self.app.get('/website/').form
+        #form['language'] = 'en'
+        #form.submit()
         form = self.app.get('/signup/').forms[0]
         form['username'] = 'toto'
         form['email'] = 'toto@gmail.com'

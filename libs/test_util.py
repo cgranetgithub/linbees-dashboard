@@ -26,13 +26,13 @@ def client_signup(webtest_app, email, password, name=None):
     return signup(webtest_app, '/clientapp/register/', email, password, name)
 
 def dashboard_login(webtest_app, username, password):
-    form = webtest_app.get('/dashboard/login/').forms[0] #form 1 is the language one
+    form = webtest_app.get('/login/').forms[0] #form 1 is the language one
     form['username'] = username
     form['password'] = password
     return form.submit()
 
 def dashboard_create_task(webtest_app, name, owner, parent=None):
-    form = webtest_app.get('/dashboard/task/new/').form
+    form = webtest_app.get('/task/new/').form
     form['name'] = name
     form['owner'] = owner.user.id
     if parent:

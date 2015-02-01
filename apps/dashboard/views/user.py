@@ -12,9 +12,9 @@ from apps.dashboard.views import STARTDATE, TODAY
 from apps.dashboard.forms import DateRangeForm
 
 @login_required
-@user_passes_test(has_paid, login_url=reverse_lazy('dashboard:latePayment'))
+@user_passes_test(has_paid, login_url=reverse_lazy('latePayment'))
 @user_passes_test(has_access,
-                login_url=reverse_lazy('dashboard:noAccess'))
+                login_url=reverse_lazy('noAccess'))
 def time(request):
     (context, some_data) = data_existence(request)
     workspace = request.user.profile.workspace
@@ -30,9 +30,9 @@ def time(request):
     return render(request, 'dashboard/user_time.html', context)
 
 @login_required
-@user_passes_test(has_paid, login_url=reverse_lazy('dashboard:latePayment'))
+@user_passes_test(has_paid, login_url=reverse_lazy('latePayment'))
 @user_passes_test(has_access,
-                login_url=reverse_lazy('dashboard:noAccess'))
+                login_url=reverse_lazy('noAccess'))
 def info(request):
     (context, some_data) = data_existence(request)
     user = request.user
@@ -43,9 +43,9 @@ def info(request):
     return render(request, 'dashboard/user_info.html', context)
 
 @login_required
-@user_passes_test(has_paid, login_url=reverse_lazy('dashboard:latePayment'))
+@user_passes_test(has_paid, login_url=reverse_lazy('latePayment'))
 @user_passes_test(has_access,
-                login_url=reverse_lazy('dashboard:noAccess'))
+                login_url=reverse_lazy('noAccess'))
 def info_edit(request, user_id):
     workspace = request.user.profile.workspace
     user = Profile.objects.get(workspace=workspace, user=user_id)
@@ -58,13 +58,13 @@ def info_edit(request, user_id):
     return render( request,
                    'dashboard/ajax_form.html',
                    {'form':form,
-                    'form_action':reverse_lazy('dashboard:user_info_edit',
+                    'form_action':reverse_lazy('user_info_edit',
                                                kwargs={'user_id': user_id})})
 
 @login_required
-@user_passes_test(has_paid, login_url=reverse_lazy('dashboard:latePayment'))
+@user_passes_test(has_paid, login_url=reverse_lazy('latePayment'))
 @user_passes_test(has_access,
-                login_url=reverse_lazy('dashboard:noAccess'))
+                login_url=reverse_lazy('noAccess'))
 def salary(request):
     (context, some_data) = data_existence(request)
     user = request.user
@@ -74,9 +74,9 @@ def salary(request):
     return render(request, 'dashboard/user_info.html', context)
 
 @login_required
-@user_passes_test(has_paid, login_url=reverse_lazy('dashboard:latePayment'))
+@user_passes_test(has_paid, login_url=reverse_lazy('latePayment'))
 @user_passes_test(has_access,
-                login_url=reverse_lazy('dashboard:noAccess'))
+                login_url=reverse_lazy('noAccess'))
 def salary_edit(request, user_id):
     workspace = request.user.profile.workspace
     user = Profile.objects.get(workspace=workspace, user=user_id)
@@ -101,5 +101,5 @@ def salary_edit(request, user_id):
                    template,
                    {'formset':formset,
                     'is_formset':True,
-                    'form_action':reverse_lazy('dashboard:user_salary_edit',
+                    'form_action':reverse_lazy('user_salary_edit',
                                                kwargs={'user_id': user_id})})

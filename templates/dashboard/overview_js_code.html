@@ -14,13 +14,13 @@ $(function() {
     };
 
     function draw_time_repartition() {
-        var data_url = "{% url 'dashboard:time_repartition_query' %}";
+        var data_url = "{% url 'time_repartition_query' %}";
         var divname = "chart1div";
         draw_pie_chart(data_url, divname);
     };
 
     function draw_cost_repartition() {
-        var data_url = "{% url 'dashboard:cost_repartition_query' %}";
+        var data_url = "{% url 'cost_repartition_query' %}";
         var divname = "chart2div";
         draw_pie_chart(data_url, divname);
     };
@@ -57,7 +57,7 @@ $(function() {
         .jstree({
             'core' : {
                 'data' : {
-                    'url':"{% url 'dashboard:tasks_query' False %}", 
+                    'url':"{% url 'tasks_query' False %}", 
                     'dataType':'json',
                 }
             },

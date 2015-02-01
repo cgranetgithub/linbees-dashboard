@@ -4,7 +4,7 @@
 <div class="alert alert-info">
   <p><strong>{% trans 'We do not detect any data.</strong><br>Make sure you have done the following actions:' %}</p>
   <h3 class="text-success">{% bootstrap_icon "ok" %} {% trans 'Sign up' %}</h3>
-  <h2>{% bootstrap_icon "circle-arrow-right" %} <a href="{% url 'dashboard:task_new' %}" class="alert-link">{% trans 'Create projects' %}</a></h2>
+  <h2>{% bootstrap_icon "circle-arrow-right" %} <a href="{% url 'task_new' %}" class="alert-link">{% trans 'Create projects' %}</a></h2>
   <h3 class="text-danger">{% bootstrap_icon "remove" %} {% trans 'Share the app' %}</h3>
   <h3 class="text-danger">{% bootstrap_icon "remove" %} {% trans 'Collect data' %}</h3>
 </div>

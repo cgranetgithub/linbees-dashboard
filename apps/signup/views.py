@@ -20,7 +20,7 @@ def signup(request):
                 messages.warning(request, _("%(name)s, your account was "
 "successfully created. Welcome to %(ws)s dashboard!")%{'name':name
                                                     ,'ws':ws_name})
-                return redirect(reverse('dashboard:overview'))
+                return redirect(reverse('overview'))
     else:
         user_form = SignupForm()
     return render(request, 'signup/signup.html',

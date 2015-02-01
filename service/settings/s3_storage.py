@@ -4,11 +4,11 @@ MEDIA_ROOT = '/media/'
 STATIC_ROOT = '/static/'
 
 # Amazon S3 credentials
-AWS_ACCESS_KEY_ID       = os.environ['AWS_ACCESS_KEY_ID']
-AWS_SECRET_ACCESS_KEY   = os.environ['AWS_SECRET_ACCESS_KEY']
+AWS_ACCESS_KEY_ID       = os.environ.get('AWS_ACCESS_KEY_ID', '')
+AWS_SECRET_ACCESS_KEY   = os.environ.get('AWS_SECRET_ACCESS_KEY', '')
 
 # Amazon S3 URL
-AWS_STORAGE_BUCKET_NAME = os.environ.get("AWS_STORAGE_BUCKET_NAME")
+AWS_STORAGE_BUCKET_NAME = os.environ.get("AWS_STORAGE_BUCKET_NAME", '')
 S3_URL = 'http://%s.s3-website-eu-west-1.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
 
 # Static files location

@@ -18,31 +18,31 @@ class SimpleJourneyTest(WebTest):
         dashboard_create_task(self.app, 'p2', user)
     def test_overview(self):
         dashboard_login(self.app, 'password1@password1.com', 'password1')
-        response = self.app.get('/dashboard/')
+        response = self.app.get('/')
         self.assertContains(response, "password1")
         self.assertContains(response, "projects")
     def test_generate(self):
         dashboard_login(self.app, 'password1@password1.com', 'password1')
-        response = self.app.get('/dashboard/')
+        response = self.app.get('/')
         self.assertContains(response, "detect")
         #generate
         call_command('populate_workspace', 'password1-com',
                      'password1@password1.com', 10, 10,
                      '2015-01-01', '2015-01-02', 'False')
         #response.form.submit() #generate
-        response = self.app.get('/dashboard/')
+        response = self.app.get('/')
         self.assertContains(response, "projects")
         self.assertContains(response, "Task")
         #self.assertContains(response, "Task_2")
-        response = self.app.get('/dashboard/data/time_per_project/')
+        response = self.app.get('/data/time_per_project/')
         self.assertContains(response, "Task")
         #self.assertContains(response, "Task_1")
         #self.assertContains(response, "Task_2")
-        response = self.app.get('/dashboard/data/cumulated_time_per_project/')
+        response = self.app.get('/data/cumulated_time_per_project/')
         self.assertContains(response, "Task")
         #self.assertContains(response, "Task_1")
         #self.assertContains(response, "Task_2")
-        #response = self.app.get('/dashboard/').form
+        #response = self.app.get('/').form
         #response.submit() #generate
 
 class AccessTest(WebTest):
@@ -54,33 +54,33 @@ class AccessTest(WebTest):
                      'password1@password1.com', 10, 10,
                      '2015-01-01', '2015-01-02', 'False')
     def test_access(self):
-        response = self.app.get('/dashboard/')
+        response = self.app.get('/')
         self.assertEqual(response.status_code, 200)
-        response = self.app.get('/dashboard/task/time/')
+        response = self.app.get('/task/time/')
         self.assertEqual(response.status_code, 200)
-        response = self.app.get('/dashboard/task/cost/')
+        response = self.app.get('/task/cost/')
         self.assertEqual(response.status_code, 200)
-        response = self.app.get('/dashboard/task/info/')
+        response = self.app.get('/task/info/')
         self.assertEqual(response.status_code, 200)
-        response = self.app.get('/dashboard/task/new/')
+        response = self.app.get('/task/new/')
         self.assertEqual(response.status_code, 200)
-        response = self.app.get('/dashboard/user/time/')
+        response = self.app.get('/user/time/')
         self.assertEqual(response.status_code, 200)
-        response = self.app.get('/dashboard/user/info/')
+        response = self.app.get('/user/info/')
         self.assertEqual(response.status_code, 200)
-        response = self.app.get('/dashboard/user/salary/')
+        response = self.app.get('/user/salary/')
         self.assertEqual(response.status_code, 200)
-        response = self.app.get('/dashboard/data/users/')
+        response = self.app.get('/data/users/')
         self.assertEqual(response.status_code, 200)
-        response = self.app.get('/dashboard/data/time_per_user/')
+        response = self.app.get('/data/time_per_user/')
         self.assertEqual(response.status_code, 200)
-        response = self.app.get('/dashboard/data/time_per_project/')
+        response = self.app.get('/data/time_per_project/')
         self.assertEqual(response.status_code, 200)
-        response = self.app.get('/dashboard/data/cost_per_project/')
+        response = self.app.get('/data/cost_per_project/')
         self.assertEqual(response.status_code, 200)
-        response = self.app.get('/dashboard/data/cumulated_time_per_project/')
+        response = self.app.get('/data/cumulated_time_per_project/')
         self.assertEqual(response.status_code, 200)
-        response = self.app.get('/dashboard/data/cumulated_cost_per_project/')
+        response = self.app.get('/data/cumulated_cost_per_project/')
         self.assertEqual(response.status_code, 200)
 
 class QueriesTest(WebTest):
@@ -109,7 +109,7 @@ class QueriesTest(WebTest):
         jamy.parent = jack
         jamy.save()
         dashboard_login(self.app, 'charly@lagat.com', 'secret')
-        response = self.app.get('/dashboard/data/users/')
+        response = self.app.get('/data/users/')
         self.assertEqual(response.status_code, 200)
         self.assertEqual(sorted(json.loads(response.body)), sorted([
             {u'text': u''    , u'id': str(self.charly.user.id), u'parent': u'#'},
@@ -127,7 +127,7 @@ class QueriesTest(WebTest):
         (resp, task5) = dashboard_create_task(self.app, 'p5', self.charly, task3)
         (resp, task6) = dashboard_create_task(self.app, 'p6', self.charly, task4)
         dashboard_login(self.app, 'charly@lagat.com', 'secret')
-        response = self.app.get('/dashboard/data/tasks/False/')
+        response = self.app.get('/data/tasks/False/')
         self.assertEqual(response.status_code, 200)
         self.assertEqual(sorted(json.loads(response.body)), sorted([
             {u'text': u'p1', u'id': str(task1.id), u'parent': [u'#'], u'state': {u'selected': u'true', u'opened': u'true'}},

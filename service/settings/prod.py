@@ -58,7 +58,6 @@ INSTALLED_APPS = (
     'apps.satisfaction',
     'apps.dashboard',
     'apps.administration',
-    'apps.website',
     'apps.signup',
     'apps.clientapp',
 )
@@ -119,8 +118,8 @@ EMAIL_USE_TLS = False
 # linbees specific
 DEFAULT_PRICE = 5 #euros
 DEFAULT_FREE_PERIOD = 90 #days
-LOGIN_URL = '/dashboard/login/'
-LOGIN_REDIRECT_URL = '/dashboard/'
+LOGIN_URL = '/login/'
+LOGIN_REDIRECT_URL = '/'
 
 # Cache settings.
 CACHES = {

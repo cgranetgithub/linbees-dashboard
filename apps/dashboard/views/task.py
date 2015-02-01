@@ -12,9 +12,9 @@ from apps.checks import has_paid, has_access, data_existence
 import json
 
 @login_required
-@user_passes_test(has_paid, login_url=reverse_lazy('dashboard:latePayment'))
+@user_passes_test(has_paid, login_url=reverse_lazy('latePayment'))
 @user_passes_test(has_access,
-                login_url=reverse_lazy('dashboard:noAccess'))
+                login_url=reverse_lazy('noAccess'))
 def time(request):
     (context, some_data) = data_existence(request)
     if some_data:
@@ -30,9 +30,9 @@ def time(request):
     return render(request, 'dashboard/task_chart.html', context)
 
 @login_required
-@user_passes_test(has_paid, login_url=reverse_lazy('dashboard:latePayment'))
+@user_passes_test(has_paid, login_url=reverse_lazy('latePayment'))
 @user_passes_test(has_access,
-                login_url=reverse_lazy('dashboard:noAccess'))
+                login_url=reverse_lazy('noAccess'))
 def cost(request):
     (context, some_data) = data_existence(request)
     if some_data:
@@ -48,27 +48,27 @@ def cost(request):
     return render(request, 'dashboard/task_chart.html', context)
 
 @login_required
-@user_passes_test(has_paid, login_url=reverse_lazy('dashboard:latePayment'))
+@user_passes_test(has_paid, login_url=reverse_lazy('latePayment'))
 @user_passes_test(has_access,
-                login_url=reverse_lazy('dashboard:noAccess'))
+                login_url=reverse_lazy('noAccess'))
 def comparison(request):
     (context, some_data) = data_existence(request)
     context.update({'topic' : 'control'})
     return render(request, 'dashboard/task_comparison.html', context)
 
 @login_required
-@user_passes_test(has_paid, login_url=reverse_lazy('dashboard:latePayment'))
+@user_passes_test(has_paid, login_url=reverse_lazy('latePayment'))
 @user_passes_test(has_access,
-                login_url=reverse_lazy('dashboard:noAccess'))
+                login_url=reverse_lazy('noAccess'))
 def info(request):
     (context, some_data) = data_existence(request)
     context.update({'topic' : 'info'})
     return render(request, 'dashboard/task_info.html', context)
 
 @login_required
-@user_passes_test(has_paid, login_url=reverse_lazy('dashboard:latePayment'))
+@user_passes_test(has_paid, login_url=reverse_lazy('latePayment'))
 @user_passes_test(has_access,
-                login_url=reverse_lazy('dashboard:noAccess'))
+                login_url=reverse_lazy('noAccess'))
 def info_edit(request, task_id):
     workspace = request.user.profile.workspace
     task = Task.objects.get(id=task_id, workspace=workspace)
@@ -79,14 +79,14 @@ def info_edit(request, task_id):
     else:
         form = TaskForm(workspace, request.user, instance=task)
     context = {'form':form,
-               'form_action':reverse_lazy('dashboard:task_info_edit',
+               'form_action':reverse_lazy('task_info_edit',
                                                kwargs={'task_id': task_id})}
     return render( request, 'dashboard/ajax_form.html', context)
 
 @login_required
-@user_passes_test(has_paid, login_url=reverse_lazy('dashboard:latePayment'))
+@user_passes_test(has_paid, login_url=reverse_lazy('latePayment'))
 @user_passes_test(has_access,
-                login_url=reverse_lazy('dashboard:noAccess'))
+                login_url=reverse_lazy('noAccess'))
 def new(request):
     (context, some_data) = data_existence(request)
     workspace = request.user.profile.workspace
@@ -96,17 +96,17 @@ def new(request):
             new_task = form.save(commit=False)
             new_task.workspace = workspace
             new_task.save()
-            return redirect(reverse_lazy('dashboard:task_new'))
+            return redirect(reverse_lazy('task_new'))
     else:
         form = TaskForm(workspace, request.user)
     context.update({'form':form,
-                    'form_action':reverse_lazy('dashboard:task_new')})
+                    'form_action':reverse_lazy('task_new')})
     return render(request, 'dashboard/task_new.html', context)
 
 @login_required
-@user_passes_test(has_paid, login_url=reverse_lazy('dashboard:latePayment'))
+@user_passes_test(has_paid, login_url=reverse_lazy('latePayment'))
 @user_passes_test(has_access,
-                  login_url=reverse_lazy('dashboard:noAccess'))
+                  login_url=reverse_lazy('noAccess'))
 def comparison_table(request):
     try:
         tasks = json.loads(request.GET.get('tasks'))

@@ -5,8 +5,8 @@
 {% block home %}
 <div class="row">
     <div class="col-md-2 sidebar">
-        <h3><a href="{% url 'dashboard:user_info' %}">{{ users_number }} {% trans "users" %}</a></h3>
-        <h3><a href="{% url 'dashboard:task_info' %}">{{ tasks_number }} {% trans "projects (and sub-projects)" %}</a></h3>
+        <h3><a href="{% url 'user_info' %}">{{ users_number }} {% trans "users" %}</a></h3>
+        <h3><a href="{% url 'task_info' %}">{{ tasks_number }} {% trans "projects (and sub-projects)" %}</a></h3>
         <div id="tree_div"></div>
     </div>
     <div>{% bootstrap_messages %}</div>

@@ -21,7 +21,7 @@ $(function() {
             update_table();
         } else if ( '{{ topic }}' == 'info' ) {
             var select = $('#single_tree_div').jstree(true).get_selected()[0];
-            var data_url = "{% url 'dashboard:task_info_edit' 0 %}".replace('/0/', '/'+select.toString()+'/');
+            var data_url = "{% url 'task_info_edit' 0 %}".replace('/0/', '/'+select.toString()+'/');
             update_form(data_url);
         }
     };
@@ -34,25 +34,25 @@ $(function() {
     };
 
     function draw_time_per_project() {
-        var data_url = "{% url 'dashboard:time_per_project_query' %}";
+        var data_url = "{% url 'time_per_project_query' %}";
         var divname = "chart1div";
         draw_line_chart(data_url, divname);
     };
 
     function draw_cumulated_time_per_project() {
-        var data_url = "{% url 'dashboard:cumulated_time_per_project_query' %}";
+        var data_url = "{% url 'cumulated_time_per_project_query' %}";
         var divname = "chart2div";
         draw_line_chart(data_url, divname);
     };
 
     function draw_cost_per_project() {
-        var data_url = "{% url 'dashboard:cost_per_project_query' %}";
+        var data_url = "{% url 'cost_per_project_query' %}";
         var divname = "chart1div";
         draw_line_chart(data_url, divname);
     };
 
     function draw_cumulated_cost_per_project() {
-        var data_url = "{% url 'dashboard:cumulated_cost_per_project_query' %}";
+        var data_url = "{% url 'cumulated_cost_per_project_query' %}";
         var divname = "chart2div";
         draw_line_chart(data_url, divname);
     };
@@ -81,7 +81,7 @@ $(function() {
 //         var startdate = $('#id_start_date').val();
 //         var enddate = $('#id_end_date').val();
         var tasks = $('#tree_div').jstree(true).get_selected();
-        var data_url = "{% url 'dashboard:task_table' %}";
+        var data_url = "{% url 'task_table' %}";
         $.ajax({
             url: data_url,
             data: {'csrfmiddlewaretoken': '{{csrf_token}}', 'tasks':JSON.stringify(tasks)},
@@ -106,7 +106,7 @@ $(function() {
         .jstree({
             'core' : {
                 'data' : {
-                    'url':"{% url 'dashboard:tasks_query' False %}", 
+                    'url':"{% url 'tasks_query' False %}", 
                     'dataType':'json',
                 }
             },
@@ -135,7 +135,7 @@ $(function() {
         .jstree({
             'core' : {
                 'data' : {
-                    'url':"{% url 'dashboard:tasks_query' True %}", 
+                    'url':"{% url 'tasks_query' True %}", 
                     'dataType':'json',
                 },
                 'multiple' : false,
