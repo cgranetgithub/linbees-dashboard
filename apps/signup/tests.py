@@ -21,7 +21,7 @@ class SignupTest(WebTest):
                                                 'password1')
         assert response.status == '302 FOUND'
         assert 'signup' not in response.location
-        ws = Workspace.objects.get(name='password1-com')
+        ws = Workspace.objects.get(name='password1.com')
         user = User.objects.get(email='password1@password1.com')
         assert user.is_staff is False
         assert user.is_superuser is False

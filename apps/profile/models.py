@@ -9,29 +9,29 @@ class Profile(MPTTModel, TenantModel):
     user = models.OneToOneField(settings.AUTH_USER_MODEL,
                                       primary_key=True)
     title = models.CharField(max_length=255, blank=True,
-                             verbose_name=_('title'))
+                             verbose_name=_('Title'))
     parent = TreeForeignKey('self', blank=True, null=True,
-                            verbose_name=_('manager'),
+                            verbose_name=_('Manager'),
                             related_name='children')
     department = models.ForeignKey(Department, blank=True, null=True)
     has_accepted_terms = models.BooleanField(default=False,
-                                             verbose_name=_('accepted terms'))
+                                             verbose_name=_('Accepted terms'))
     has_dashboard_access = models.BooleanField(
                                         default=False,
-                                        verbose_name=_('dashboard acess'),
-                                        help_text=_('''Designates whether 
-the user can access the dashboard.'''))
+                                        verbose_name=_('Dashboard access'),
+                                        help_text=_(
+'''Designates whether the user can access the dashboard.'''))
     is_hr = models.BooleanField(default=False,
                                 verbose_name=_('HR status'),
-                                help_text=_('''Designates whether the user 
-has the HR permissions.'''))
+                                help_text=_(
+'''Designates whether the user has the HR permissions.'''))
     is_primary   = models.BooleanField(default=False,
-                                       verbose_name=_('primary status'),
-                                       help_text=_('''Designates whether the 
-user has the permissions to administrate primary tasks/projects.'''))
+                                       verbose_name=_('Primary status'),
+                                       help_text=_(
+'''Designates whether the user has the permissions to administrate primary tasks/projects.'''))
     power_transfer = models.ManyToManyField('self', blank=True,
-                                            verbose_name=_('''has power 
-transfer from'''))
+                                            verbose_name=_(
+'''has power transfer from'''))
     created_at = models.DateTimeField(auto_now_add=True,
                                       verbose_name=_('created at'))
     updated_at = models.DateTimeField(auto_now=True,

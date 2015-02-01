@@ -16,10 +16,10 @@ def signup(request):
             if user is not None and user.is_active:
                 login(request, user)
                 name = user.first_name or user.username
-                ws_name = user.profile.workspace.name
+                ws_name = user.profile.workspace.company_name()
                 messages.warning(request, _("%(name)s, your account was "
-"successfully created. Welcome to %(ws)s dashboard!")%{'name':name
-                                                    ,'ws':ws_name})
+"successfully created.<br>Welcome to %(ws)s dashboard!")%{'name':name,
+                                                          'ws':ws_name})
                 return redirect(reverse('overview'))
     else:
         user_form = SignupForm()

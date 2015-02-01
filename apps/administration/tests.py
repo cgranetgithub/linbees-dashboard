@@ -30,7 +30,7 @@ class IsolationTest(WebTest):
         #form = self.app.get('/administration/task/new/').form
         #form['name'] = 'lagat-project'
         #form.submit()
-        ws = Workspace.objects.get(name='lagat-com')
+        ws = Workspace.objects.get(name='lagat.com')
         gen.generate_records(ws)
         response = self.app.get('/user/info/')
         self.assertContains(response, '@lagat.com')
@@ -45,7 +45,7 @@ class IsolationTest(WebTest):
         #form = self.app.get('/administration/task/new/').form
         #form['name'] = 'tagal-project'
         #form.submit()
-        ws = Workspace.objects.get(name='tagal-com')
+        ws = Workspace.objects.get(name='tagal.com')
         gen.generate_records(ws)
         response = self.app.get('/user/salary/')
         self.assertNotContains(response, '@lagat.com')

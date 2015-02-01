@@ -10,7 +10,7 @@ from libs.messages import register_but_ws_does_not_exist, existing_email
 
 class PagesAccessTest(TestCase):
     def setUp(self):
-        workspace = Workspace.objects.create(name='testlagatclientapp')
+        workspace = Workspace.objects.create(name='lagat.com')
         u = User.objects.create_user(username='charly@lagat.com',
                                      password='secret')
         createUserProfile(u, workspace)	
@@ -46,7 +46,7 @@ class PagesAccessTest(TestCase):
 
 class RegisterTest(WebTest):
     def setUp(self):
-        workspace = Workspace.objects.create(name='lagat-com')
+        workspace = Workspace.objects.create(name='lagat.com')
         c = Client()
         c.post('/i18n/setlang/', {'language':'en'})
     def test_register(self):
@@ -59,7 +59,7 @@ class RegisterTest(WebTest):
         form['password2'] = 'secret'
         response = form.submit().follow()
         self.assertContains(response, "Select your current activity")
-        ws = Workspace.objects.get(name='lagat-com')
+        ws = Workspace.objects.get(name='lagat.com')
         user = User.objects.get(email='charlot@lagat.com')
         assert user.is_staff is False
         assert user.is_superuser is False
@@ -104,7 +104,7 @@ class RegisterTest(WebTest):
 
 class ChangeProjectTest(WebTest):
     def setUp(self):
-        workspace = Workspace.objects.create(name='testlagatclientapp')
+        workspace = Workspace.objects.create(name='lagat.com')
         u = User.objects.create_user(username='charly@lagat.com'
                                     , password='secret')
         self.p = createUserProfile(u, workspace)

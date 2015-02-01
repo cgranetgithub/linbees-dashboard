@@ -26,7 +26,7 @@ class SimpleJourneyTest(WebTest):
         response = self.app.get('/')
         self.assertContains(response, "detect")
         #generate
-        call_command('populate_workspace', 'password1-com',
+        call_command('populate_workspace', 'password1.com',
                      'password1@password1.com', 10, 10,
                      '2015-01-01', '2015-01-02', 'False')
         #response.form.submit() #generate
@@ -50,7 +50,7 @@ class AccessTest(WebTest):
         # register
         dashboard_signup(self.app, 'password1@password1.com', 'password1')
         # generate data
-        call_command('populate_workspace', 'password1-com',
+        call_command('populate_workspace', 'password1.com',
                      'password1@password1.com', 10, 10,
                      '2015-01-01', '2015-01-02', 'False')
     def test_access(self):
@@ -86,7 +86,7 @@ class AccessTest(WebTest):
 class QueriesTest(WebTest):
     def setUp(self):
         (response, workspace, self.charly) = dashboard_signup(self.app,
-                                                'charly@lagat.com', 'secret')
+                                            'charly@lagat.com', 'secret')
     def test_users(self):
         (response, workspace, john) = client_signup(self.app,
                                             'john@lagat.com', 'secret', 'john')

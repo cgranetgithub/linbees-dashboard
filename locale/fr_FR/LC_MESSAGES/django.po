@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-09-30 09:42+0000\n"
+"POT-Creation-Date: 2015-02-01 13:57+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,46 +17,72 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
+#: apps/dashboard/forms.py:6 apps/salary/models.py:15
+msgid "Start date"
+msgstr "Date de début"
+
+#: apps/dashboard/forms.py:9 apps/salary/models.py:16
+msgid "End date"
+msgstr "Date de fin"
+
+#: apps/dashboard/views/main.py:41
+msgid "Time repartition"
+msgstr "Répartition du temps"
+
+#: apps/dashboard/views/main.py:42
+msgid "Cost repartition"
+msgstr "Répartition des coûts"
+
+#: apps/dashboard/views/task.py:28
+msgid "Time per project (in hours)"
+msgstr "Temps par projet (en heures)"
+
+#: apps/dashboard/views/task.py:29
+msgid "Cumulated time per project (in hours)"
+msgstr "Temps cumulé par projet (en heures)"
+
+#: apps/dashboard/views/task.py:46
+msgid "Cost per project"
+msgstr "Coût par projet"
+
+#: apps/dashboard/views/task.py:47
+msgid "Cumulated cost per project"
+msgstr "Coût cumulé par projet"
+
 #: apps/department/models.py:10 apps/invoice/models.py:10
-#: apps/payment/models.py:12 apps/preference/models.py:19
-#: apps/profile/models.py:12 apps/profile/models.py:26
-#: apps/salary/models.py:8 apps/satisfaction/models.py:10
-#: apps/satisfaction/models.py:25 apps/task/models.py:11
-#: apps/task/models.py:26 apps/task/models.py:41
-#: apps/workspace/models.py:44
+#: apps/payment/models.py:13 apps/preference/models.py:19
+#: apps/salary/models.py:8 apps/satisfaction/models.py:11
+#: apps/satisfaction/models.py:26 apps/task/models.py:15
+#: apps/task/models.py:30 apps/task/models.py:45 apps/workspace/models.py:41
 msgid "active"
 msgstr "actif"
 
 #: apps/department/models.py:12 apps/invoice/models.py:12
-#: apps/payment/models.py:14 apps/preference/models.py:21
-#: apps/profile/models.py:14 apps/profile/models.py:38
-#: apps/salary/models.py:10 apps/satisfaction/models.py:12
-#: apps/satisfaction/models.py:27 apps/task/models.py:13
-#: apps/task/models.py:28 apps/task/models.py:43
-#: apps/workspace/models.py:46
+#: apps/payment/models.py:15 apps/preference/models.py:21
+#: apps/profile/models.py:36 apps/salary/models.py:10
+#: apps/satisfaction/models.py:13 apps/satisfaction/models.py:28
+#: apps/task/models.py:17 apps/task/models.py:32 apps/task/models.py:47
+#: apps/workspace/models.py:43
 msgid "created at"
 msgstr "créé le"
 
 #: apps/department/models.py:14 apps/invoice/models.py:14
-#: apps/payment/models.py:16 apps/preference/models.py:23
-#: apps/profile/models.py:16 apps/profile/models.py:40
-#: apps/salary/models.py:12 apps/satisfaction/models.py:14
-#: apps/task/models.py:15 apps/task/models.py:30
-#: apps/task/models.py:45 apps/workspace/models.py:48
+#: apps/payment/models.py:17 apps/preference/models.py:23
+#: apps/profile/models.py:38 apps/salary/models.py:12
+#: apps/satisfaction/models.py:15 apps/task/models.py:19
+#: apps/task/models.py:34 apps/task/models.py:49 apps/workspace/models.py:45
 msgid "updated at"
 msgstr "mis à jour le"
 
-#: apps/department/models.py:16 apps/satisfaction/models.py:16
-#: apps/task/models.py:17 apps/task/models.py:32
-#: apps/task/models.py:51
-msgid "name"
-msgstr "nom"
+#: apps/department/models.py:16 apps/satisfaction/models.py:17
+#: apps/task/models.py:21 apps/task/models.py:36 apps/task/models.py:57
+msgid "Name"
+msgstr "Nom"
 
-#: apps/department/models.py:18 apps/satisfaction/models.py:18
-#: apps/task/models.py:19 apps/task/models.py:34
-#: apps/task/models.py:53
-msgid "description"
-msgstr "description"
+#: apps/department/models.py:18 apps/satisfaction/models.py:19
+#: apps/task/models.py:23 apps/task/models.py:38 apps/task/models.py:59
+msgid "Description"
+msgstr "Description"
 
 #: apps/invoice/models.py:16
 msgid "sent at"
@@ -82,166 +108,221 @@ msgstr "commentaire"
 msgid "Keep on top"
 msgstr "Toujours devant"
 
-#: apps/profile/forms.py:84 templates/administration/user_admin.html:11
-msgid "Users"
-msgstr "Utilisateurs"
+#: apps/profile/forms.py:104 apps/profile/models.py:14
+msgid "Manager"
+msgstr "Manager"
 
-#: apps/profile/models.py:22
-msgid "depends on"
-msgstr "dépend de"
+#: apps/profile/models.py:12
+msgid "Title"
+msgstr "Titre"
 
-#: apps/profile/models.py:24
-msgid "accepted terms"
+#: apps/profile/models.py:18
+msgid "Accepted terms"
 msgstr ""
 
-#: apps/profile/models.py:28
-msgid "workspace admin"
-msgstr "Admin du workspace"
+#: apps/profile/models.py:21 templates/dashboard/no_access.html:5
+msgid "Dashboard access"
+msgstr "Accès au tableau de bord"
 
-#: apps/profile/models.py:30
-msgid "HR admin"
-msgstr "Admin RH"
+#: apps/profile/models.py:23
+msgid "Designates whether the user can access the dashboard."
+msgstr "Indique si l'utilisateur a accès à ce tableau de bord"
 
-#: apps/profile/models.py:32
-msgid "primary tasks admin"
-msgstr "Admin d'tâche mère"
+#: apps/profile/models.py:25
+msgid "HR status"
+msgstr "Status RH"
 
-#: apps/profile/models.py:35
+#: apps/profile/models.py:27
+msgid "Designates whether the user has the HR permissions."
+msgstr ""
+"Indique si l'utilisateur a accès aux données RH (comme les données "
+"salariales)"
+
+#: apps/profile/models.py:29
+msgid "Primary status"
+msgstr "Admininistrteur des tâches principales"
+
+#: apps/profile/models.py:31
+msgid ""
+"Designates whether the user has the permissions to administrate primary "
+"tasks/projects."
+msgstr "Indique si l'utilisateur a le contrôle des tâches principales."
+
+#: apps/profile/models.py:34
 msgid "has power transfer from"
 msgstr "délégation de"
 
 #: apps/salary/models.py:14
-msgid "user"
-msgstr "utilisateur"
-
-#: apps/salary/models.py:15 apps/dashboard/forms.py:5
-#: apps/dashboard/forms.py:10
-msgid "start date"
-msgstr "date de début"
-
-#: apps/salary/models.py:16 apps/dashboard/forms.py:6
-#: apps/dashboard/forms.py:11
-msgid "end date"
-msgstr "date de fin"
-
-#: apps/salary/models.py:18
-msgid "monthly wage"
-msgstr "salaire mensuel"
+msgid "User"
+msgstr "Utilisateur"
 
 #: apps/salary/models.py:19
-msgid "this reprensents the cost of the employee per month"
-msgstr "cette valeur représente le coût du salarié par mois"
+msgid "Daily wage"
+msgstr "Salaire journalier"
 
-#: apps/task/forms.py:15 templates/administration/user_admin.html:8
-#: templates/dashboard/base.html:57
+#: apps/salary/models.py:20
+msgid "This represents the cost of the employee per day"
+msgstr "Cette valeur représente le coût du salarié par jour."
+
+#: apps/signup/views.py:20
+#, python-format
+msgid ""
+"%(name)s, your account was successfully created.<br>Welcome to %(ws)s "
+"dashboard!"
+msgstr ""
+"%(name)s, votre compte a été créé avec succès.<br>Bienvenue sur le tableau "
+"de bord %(ws)s !"
+
+#: apps/task/forms.py:43 apps/task/models.py:65 apps/task/models.py:66
+msgid "Parent project"
+msgstr "Projet parent"
+
+#: apps/task/forms.py:46
+msgid "Project owner"
+msgstr "Propriétaire du projet"
+
+#: apps/task/forms.py:63 templates/dashboard/base.html:62
 msgid "Projects"
 msgstr "Projets"
 
-#: apps/task/models.py:47
-msgid "monitored"
-msgstr "suivi"
+#: apps/task/models.py:51
+msgid "Monitored"
+msgstr "Suivi"
 
-#: apps/task/models.py:49
-msgid "primary"
-msgstr "primaire"
+#: apps/task/models.py:53
+msgid "Primary"
+msgstr "Primaire"
 
 #: apps/task/models.py:55
-msgid "group"
-msgstr "groupe"
+msgid "Personal"
+msgstr "Personel"
 
-#: apps/task/models.py:57
-msgid "type"
-msgstr "type"
+#: apps/task/models.py:61
+msgid "Group"
+msgstr "Groupe"
 
-#: apps/task/models.py:59
-msgid "sub-task of"
-msgstr "sous-tâche de"
+#: apps/task/models.py:63
+msgid "Type"
+msgstr "Type"
 
-#: apps/task/models.py:60
-msgid "owned by"
-msgstr "appartenant à"
+#: apps/task/models.py:68
+msgid "Owned by"
+msgstr "Appartenant à"
+
+#: apps/task/models.py:70
+msgid "Start date (planned)"
+msgstr "Date de début (prévisionnelle)"
+
+#: apps/task/models.py:72
+msgid "End date (planned)"
+msgstr "Date de fin (prévisionnelle)"
+
+#: apps/task/models.py:74
+msgid "Additional cost"
+msgstr "Coût additionnel"
+
+#: apps/task/models.py:76 templates/dashboard/task_comparison_table.html:12
+msgid "Cost (planned)"
+msgstr "Coût (prévisionnel)"
+
+#: apps/task/models.py:78
+msgid "Time (planned, in hours)"
+msgstr "Temps (prévisionnel, en heures)"
+
+#: apps/workspace/models.py:19
+msgid "Trial mode"
+msgstr "Période d'évaluation"
 
 #: apps/workspace/models.py:21
-msgid "in trial mode"
-msgstr "en période d'essai"
-
-#: apps/workspace/models.py:22
 msgid ""
-"this field indicate that your are using your workspace for evaluation. "
+"This field indicate that your are using your workspace for evaluation. "
 "Deactivate it once you are ready to go to production mode."
 msgstr ""
-"ce champ indique si vous utilisez linbees en mode évaluation ou production."
+"Ce champ indique si vous utilisez linbees en mode évaluation ou production."
 
-#: apps/workspace/models.py:26
-msgid "main contact name"
-msgstr "nom du contact principal"
+#: apps/workspace/models.py:23
+msgid "Main contact name"
+msgstr "Nom du contact principal"
 
-#: apps/workspace/models.py:28
-msgid "main contact email address"
+#: apps/workspace/models.py:25
+msgid "Main contact email"
 msgstr "Email du contact principal"
 
-#: apps/workspace/models.py:29
+#: apps/workspace/models.py:27
 msgid "Will be used to send out important message (for instance invoices)"
-msgstr ""
+msgstr "Utilisé pour envoyer les messages importants (factures, etc...)"
+
+#: apps/workspace/models.py:29
+msgid "Address (line1)"
+msgstr "Adresse (ligne 1)"
 
 #: apps/workspace/models.py:32
-msgid "address (line1)"
-msgstr "adresse (ligne 1)"
-
-#: apps/workspace/models.py:35
-msgid "zipcode"
+msgid "Zipcode"
 msgstr "code postal"
 
-#: apps/workspace/models.py:37
-msgid "city"
-msgstr "ville"
+#: apps/workspace/models.py:34
+msgid "City"
+msgstr "Ville"
 
-#: apps/workspace/models.py:39
-msgid "country"
-msgstr "pays"
+#: apps/workspace/models.py:36
+msgid "Country"
+msgstr "Pays"
 
-#: apps/workspace/models.py:41
-msgid "phone number"
-msgstr "numéro de téléphone"
+#: apps/workspace/models.py:38
+msgid "Phone number"
+msgstr "Numéro de téléphone"
 
-#: apps/workspace/models.py:50
-msgid "dashboard name"
-msgstr "nom du tableau de bord"
+#: apps/workspace/models.py:47
+msgid "Dashboard name"
+msgstr "Nom du tableau de bord"
 
-#: apps/workspace/models.py:51
-msgid "by default, the dashboard name is your company email domain"
+#: apps/workspace/models.py:49
+msgid "By default, the dashboard name is your company email domain"
 msgstr ""
-"par défaut, le nom du tableau de bord est celui du nom de domaine de votre "
+"Par défaut, le nom du tableau de bord est celui du nom de domaine de votre "
 "société"
 
-#: apps/workspace/models.py:58
-msgid "next invoice date"
-msgstr "date de la prochaine facture"
+#: apps/workspace/models.py:55
+msgid "Next invoice date"
+msgstr "Date de la prochaine facture"
 
-#: apps/dashboard/forms.py:7
-msgid "number of users"
-msgstr "nombre d'utilisateurs"
-
-#: apps/signup/views.py:19
-#, python-format
+#: apps/workspace/models.py:57
 msgid ""
-"%(name)s, your account was successfully created. Welcome to %(ws)s dashboard!"
+"Date until when the oranization has paid its subscription. At creation time, "
+"paid_until is initiaized with now + the default trial period defined in the "
+"settings."
+msgstr "Date jusqu'à laquelle la souscription est payée."
+
+#: apps/workspace/models.py:62
+msgid "Monthly user fee"
+msgstr "Coût per mois et par utilisateur"
+
+#: apps/workspace/models.py:64
+msgid ""
+"Monthly rate applied to calculate the monthly fee. Monthly fee is number of "
+"active users x rate."
 msgstr ""
-"%(name)s, votre compte a été créé avec succès. Bienvenue sur le tableau de "
-"bord de %(ws)s !"
 
-#: apps/website/forms.py:7
-msgid "Your email address"
-msgstr "Votre adresse email"
+#: apps/workspace/models.py:69
+msgid "Monthly fixed fee"
+msgstr "Coût fixe mensuel"
 
-#: apps/website/forms.py:8
-msgid "Your message"
-msgstr "Votre message"
+#: apps/workspace/models.py:71
+msgid "Fee per month, independent of the number of users"
+msgstr "Coût mensuel, indépendant du nombre d'utilisateurs"
 
-#: libs/messages.py:3
+#: apps/workspace/models.py:76
+msgid "Yearly fixed fee"
+msgstr "Coût fixe annuel"
+
+#: apps/workspace/models.py:78
+msgid "Fee per year, independent of the number of users"
+msgstr "Coût annuel, indépendant du nombre d'utilisateurs"
+
+#: libs/messages.py:4
 #, python-format
 msgid ""
-"It seems that your company '%(workspace)s' has not registered yet. You will "
+"It seems that your company, %(workspace)s, has not registered yet. You will "
 "be able to create your an account once your company is registered."
 msgstr ""
 "Il semble que votre société '%(workspace)s' n'a pas encore été enregistrée. "
@@ -251,15 +332,15 @@ msgstr ""
 #, python-format
 msgid ""
 "We do not support email addresses from public email providers (such as "
-"'%(domain)s'). You need to have your own company email domain. If you do not "
+"%(domain)s). You need to have your own company email domain. If you do not "
 "have one, please contact us, we will find a solution!"
 msgstr ""
-"Nous ne pouvons enregistrer les adresses emails des fournisseurs d'accès "
-"publiques comme '%(domain)s'). Vous devez utilisez l'adresse email de votre "
-"société. Si vous n'en avez pas, contactez nous. Nous trouverons une "
-"solution !"
+"Vous ne pouvez pas créer un compte avec une adresse email chez un "
+"fournisseurs d'accès publiques comme '%(domain)s'). Vous devez utiliser une "
+"adresse email avec votre propre nom de société. Si vous n'en avez pas, "
+"contactez nous. Nous trouverons une solution !"
 
-#: libs/messages.py:12
+#: libs/messages.py:9
 msgid ""
 "There is already a dashboard with that name. Someone in your company has "
 "created it. Please contact that person."
@@ -267,7 +348,7 @@ msgstr ""
 "Il y a déja un tableau de bord avec ce nom. Quelqu'un dans votre société l'a "
 "déjà créé. Merci de le contacter."
 
-#: libs/messages.py:15
+#: libs/messages.py:11
 msgid "A user with that email already exists."
 msgstr "Un utilisateur avec cet email est déjà enregistré."
 
@@ -283,7 +364,7 @@ msgstr "Documentation"
 msgid "Change password"
 msgstr "Changer le mot de passe"
 
-#: templates/admin/base.html:38 templates/dashboard/base.html:61
+#: templates/admin/base.html:38 templates/dashboard/base.html:67
 msgid "Log out"
 msgstr "Déconnexion"
 
@@ -301,30 +382,17 @@ msgstr "Administration de linbees"
 
 #: templates/administration/account_admin.html:10
 #: templates/administration/workspace_admin.html:10
-#: templates/dashboard/task_admin.html:22
+#: templates/dashboard/ajax_form.html:13
 msgid "Apply"
 msgstr "Appliquer"
 
 #: templates/administration/admin.html:9
-msgid "Change my password"
-msgstr "Changer mon mot de passe"
-
-#: templates/administration/admin.html:10
 msgid "Company info"
 msgstr "Info société"
 
-#: templates/administration/user_admin.html:14
-msgid "Workspace"
-msgstr "Organisation"
-
-#: templates/administration/user_admin.html:17
-msgid "My password"
-msgstr "Mot de passe"
-
-#: templates/administration/user_admin.html:38
-#: templates/administration/user_admin.html:66
-msgid "Save"
-msgstr "Sauver"
+#: templates/administration/admin.html:10
+msgid "Change my password"
+msgstr "Changer mon mot de passe"
 
 #: templates/clientapp/home.html:9
 msgid "Select your current activity"
@@ -343,7 +411,6 @@ msgid "Please sign in"
 msgstr "Identifiez-vous"
 
 #: templates/clientapp/login.html:11 templates/registration/login.html:20
-#: templates/website/basewithnav.html:28
 msgid "Sign in"
 msgstr "S'identifier"
 
@@ -355,7 +422,7 @@ msgstr "Ou créez un compte"
 msgid "Create your account"
 msgstr "Créez votre compte"
 
-#: templates/clientapp/register.html:15
+#: templates/clientapp/register.html:15 templates/dashboard/task_new.html:13
 msgid "Create"
 msgstr "Créer"
 
@@ -367,17 +434,13 @@ msgstr "Annuler"
 msgid "back"
 msgstr "retour"
 
-#: templates/dashboard/base.html:55
-msgid "Overview"
-msgstr "Vue d'ensemble"
+#: templates/dashboard/base.html:63
+msgid "Users"
+msgstr "Utilisateurs"
 
-#: templates/dashboard/base.html:56
-msgid "Time"
-msgstr "Temps"
-
-#: templates/dashboard/base.html:60
-msgid "Settings"
-msgstr "Réglages"
+#: templates/dashboard/base.html:64
+msgid "Administration"
+msgstr "Administration"
 
 #: templates/dashboard/late_payment.html:5
 msgid "Payment"
@@ -387,6 +450,10 @@ msgstr "Paiement"
 msgid "There is an issue with your last invoice. Please contact us."
 msgstr ""
 "Il y a un problème avec votre dernière facture. Veuillez nous contacter."
+
+#: templates/dashboard/no_access.html:6
+msgid "You are not allowed to access the dashboard."
+msgstr "Vous n'êtes pas autorisé à accéder au tableau de bord."
 
 #: templates/dashboard/no_data_message.html:5
 #: templates/dashboard/no_task_message.html:5
@@ -398,8 +465,7 @@ msgstr ""
 "suivi les étapes suivantes:"
 
 #: templates/dashboard/no_data_message.html:6
-#: templates/dashboard/no_task_message.html:6 templates/signup/signup.html:20
-#: templates/website/home.html:44
+#: templates/dashboard/no_task_message.html:6 templates/signup/signup.html:58
 msgid "Sign up"
 msgstr "Inscription"
 
@@ -409,7 +475,7 @@ msgid "Create projects"
 msgstr "Définissez des projets"
 
 #: templates/dashboard/no_data_message.html:8
-#: templates/dashboard/no_task_message.html:8 templates/website/home.html:48
+#: templates/dashboard/no_task_message.html:8
 msgid "Share the app"
 msgstr "Partagez l'app"
 
@@ -422,241 +488,104 @@ msgstr "(cliquez ici pour aller dans la section des téléchargements)"
 msgid "Collect data"
 msgstr "Collectez les données"
 
-#: templates/dashboard/overview.html:10
+#: templates/dashboard/overview.html:8
 msgid "users"
 msgstr "utilisateurs"
 
-#: templates/dashboard/overview.html:11
+#: templates/dashboard/overview.html:9
 msgid "projects"
 msgstr "projets"
 
-#: templates/dashboard/overview.html:22
+#: templates/dashboard/overview.html:29
 msgid "Most time consuming projects"
 msgstr "Projets les plus consommateurs de temps"
 
-#: templates/dashboard/overview.html:25
+#: templates/dashboard/overview.html:32
 msgid "hours)"
 msgstr "heures)"
 
-#: templates/dashboard/overview.html:28
+#: templates/dashboard/overview.html:35
 msgid "Projects involving the highest number of resources"
 msgstr "Projets impliquant le plus grand nombre de personnes"
 
-#: templates/dashboard/overview.html:31
+#: templates/dashboard/overview.html:38
 msgid "persons)"
 msgstr "personnes)"
 
-#: templates/dashboard/overview.html:34
+#: templates/dashboard/overview.html:41
 msgid "active users"
 msgstr "utilisateurs actifs"
 
-#: templates/dashboard/overview.html:41
-msgid "Time repartition per project"
-msgstr "Répartition du temps par projet"
+#: templates/dashboard/task.html:9 templates/dashboard/user.html:9
+msgid "Time"
+msgstr "Temps"
 
-#: templates/dashboard/overview.html:50
-msgid "(*) over the last"
-msgstr "(*) les données de cette page sont calculées sur les"
+#: templates/dashboard/task.html:10
+msgid "Cost"
+msgstr "Coût"
 
-#: templates/dashboard/overview.html:50
-msgid "days"
-msgstr "derniers jours"
+#: templates/dashboard/task.html:11
+msgid "Planned/Actual"
+msgstr "Prévisionnel/Réel"
 
-#: templates/dashboard/task_admin.html:10
-msgid "Create a new project"
-msgstr "Créer un nouveau projet"
+#: templates/dashboard/task.html:12
+msgid "Modification"
+msgstr "Modification"
 
-#: templates/dashboard/time.html:39
+#: templates/dashboard/task.html:13
+msgid "New project"
+msgstr "Nouveau projet"
+
+#: templates/dashboard/task_chart.html:21
+#: templates/dashboard/task_comparison.html:20
+#: templates/dashboard/user_time.html:21
 msgid "Update"
 msgstr "Mettre à jour"
 
-#: templates/dashboard/time.html:49
-msgid "Time per project<br><small>(in hours)</small>"
-msgstr "Temps par projet<br><small>(en heures)</small>"
+#: templates/dashboard/task_comparison_table.html:5
+msgid "Project"
+msgstr "Projet"
 
-#: templates/dashboard/time.html:57
-msgid "Cumulated time per project<br><small>(in hours)</small>"
-msgstr "Temps cumulé par projet<br><small>(en heures)</small>"
+#: templates/dashboard/task_comparison_table.html:6
+msgid "Start (planned)"
+msgstr "Début (prévisionnel)"
+
+#: templates/dashboard/task_comparison_table.html:7
+msgid "Start (actual)"
+msgstr "Début (éel)"
+
+#: templates/dashboard/task_comparison_table.html:8
+msgid "End (planned)"
+msgstr "Fin (prévisionnel)"
+
+#: templates/dashboard/task_comparison_table.html:9
+msgid "End (actual)"
+msgstr "Fin (réel)"
+
+#: templates/dashboard/task_comparison_table.html:10
+msgid "Time (planned)"
+msgstr "Temps (prévisionnel)"
+
+#: templates/dashboard/task_comparison_table.html:11
+msgid "Time (actual)"
+msgstr "Temps (réel)"
+
+#: templates/dashboard/task_comparison_table.html:13
+msgid "Cost (actual)"
+msgstr "Coût (réel)"
+
+#: templates/dashboard/user.html:10
+msgid "Salary"
+msgstr "Dalaire"
+
+#: templates/dashboard/user.html:11
+msgid "Information"
+msgstr "Information"
 
 #: templates/registration/login.html:24
 msgid "No account yet?"
 msgstr "Pas encore de compte ?"
 
-#: templates/registration/login.html:24 templates/website/home.html:64
-#: templates/website/pricing.html:16
+#: templates/registration/login.html:24
 msgid "Sign up now"
 msgstr "Inscription"
-
-#: templates/website/about.html:7
-msgid "What is Linbees?"
-msgstr "Qu'est que Linbees"
-
-#: templates/website/about.html:8
-msgid ""
-"Linbees is a cloud application platform – a new way of monitoring and "
-"managing internal activities."
-msgstr ""
-"Linbees est un service cloud – une nouvelle façon  de gérer l'activité des "
-"entreprises."
-
-#: templates/website/about.html:9
-msgid ""
-"With the minimum effort and constraint for the users, Linbees brings the "
-"most powerful insight about internal activities to the management."
-msgstr ""
-"Linbees permet d'obtenir une vue complète de l'activité de votre "
-"oganisation, sans effort ni contrainte de la part des collaborateurs."
-
-#: templates/website/about.html:10
-msgid ""
-"Linbees is a start-up company based in Paris, founded by seasoned engineers, "
-"experts in project and process management."
-msgstr ""
-"Linbees est une start-up basée à Paris, fondée par des ingénieurs "
-"expérimentés, experts dans la gestion de projet et de process."
-
-#: templates/website/about.html:11
-msgid "Our philosophy"
-msgstr "Notre philosophy"
-
-#: templates/website/about.html:12
-msgid "Constraint-less and simple!"
-msgstr "Faire simple et sans contrainte !"
-
-#: templates/website/apps.html:13
-msgid "Download the Linbees app"
-msgstr "Télécharger les apps Linbees"
-
-#: templates/website/apps.html:21 templates/website/apps.html.py:28
-#: templates/website/apps.html:35
-msgid "for"
-msgstr "pour"
-
-#: templates/website/apps.html:23
-msgid "linbees-1.2-win32.msi"
-msgstr ""
-
-#: templates/website/apps.html:30
-msgid "linbees-1.2.dmg"
-msgstr ""
-
-#: templates/website/apps.html:37
-msgid "linbees-1.2.linux-x86_64.tar.gz"
-msgstr ""
-
-#: templates/website/base.html:61
-msgid "Back to top"
-msgstr "Retour au début"
-
-#: templates/website/basewithnav.html:20
-msgid "Pricing"
-msgstr "Tarif"
-
-#: templates/website/basewithnav.html:21 templates/website/home.html:50
-msgid "Download"
-msgstr "Téléchargement"
-
-#: templates/website/basewithnav.html:22
-msgid "Contact"
-msgstr "Contact"
-
-#: templates/website/basewithnav.html:26
-msgid "My dashboard"
-msgstr "Mon tableau de bord"
-
-#: templates/website/contact.html:8
-msgid "Any question?"
-msgstr "Une question ?"
-
-#: templates/website/contact.html:13
-msgid "Send"
-msgstr "Envoyer"
-
-#: templates/website/home.html:30
-msgid "Connect with your staff"
-msgstr "Connect with your staff"
-
-#: templates/website/home.html:30
-msgid " and get real data"
-msgstr " and get real data"
-
-#: templates/website/home.html:31
-msgid "Innovative time-tracking technology"
-msgstr "Technologie innovante de suivi des temps"
-
-#: templates/website/home.html:33
-msgid "See how it works"
-msgstr "Voir la démo"
-
-#: templates/website/home.html:42
-msgid "Create your dashboard"
-msgstr "Créez votre tableau de bord"
-
-#: templates/website/home.html:43
-msgid ""
-"Create an account for your company.<br>It's instant, it's free, no credit "
-"card is required."
-msgstr "Créez un compte.<br>C'est instantané, gratuit et sans engagement."
-
-#: templates/website/home.html:49
-msgid ""
-"Download the app and send it to your employees.<br>Or let them download and "
-"install it themselves."
-msgstr ""
-"Téléchargez l'app et envoyez là à vos employés.<br>Ou laissez les la "
-"télécharger et l'installer eux-mêmes."
-
-#: templates/website/home.html:54
-msgid "Get your activity reports"
-msgstr "Obtenez vos rapports d'activité"
-
-#: templates/website/home.html:55
-msgid "Go to your dashboard and check how much time is spent on each project."
-msgstr ""
-"Accédez votre tableau de bord et vérifiez le temps passé sur chaque projet."
-
-#: templates/website/home.html:56
-msgid "Go to your dashboard"
-msgstr "Tableau de bord"
-
-#: templates/website/legal.html:7
-msgid "Legal"
-msgstr "Informations légales"
-
-#: templates/website/pricing.html:13
-msgid "/ active user / month"
-msgstr "/ utilisateur actif / mois"
-
-#: templates/website/pricing.html:14
-msgid "(the first three months are free)"
-msgstr "(les trois premiers mois sont offerts)"
-
-#: templates/website/pricing.html:22
-msgid "Pay as you go!"
-msgstr "Payez en fonction de votre utilisation"
-
-#: templates/website/pricing.html:23
-msgid "Any special request?"
-msgstr "Une question ?"
-
-#: templates/website/pricing.html:23
-msgid "Contact our sales team"
-msgstr "Contactez notre équipe commerciale"
-
-#~ msgid "Create tasks"
-#~ msgstr "Définissez des tâches"
-
-#~ msgid "Submit"
-#~ msgstr "Envoyer"
-
-#~ msgid "Project"
-#~ msgstr "Projet"
-
-#~ msgid "Projects repartition"
-#~ msgstr "Répartition des projets"
-
-#~ msgid "tasks"
-#~ msgstr "tâches"
-
-#~ msgid "Tasks"
-#~ msgstr "Tâches"

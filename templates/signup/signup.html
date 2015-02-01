@@ -5,10 +5,10 @@
 {% load bootstrap3 %}
 
 {% block head %}
-  <!-- Custom styles for this template -->
-  <link href="{% static 'signup/signin.css' %}" rel="stylesheet">
-  <!-- Specifiq javascript for this template -->
-  <script type='text/javascript'>
+<!-- Custom styles for this template -->
+<link href="{% static 'signup/signin.css' %}" rel="stylesheet">
+<!-- Specifiq javascript for this template -->
+<script type='text/javascript'>
 
 String.prototype.capitalize = function() {
     return this.charAt(0).toUpperCase() + this.slice(1);
@@ -40,25 +40,25 @@ function autofill( evt ) {
     }
 }
 $(document).ready(function() {
-	$('#id_email').bind('change', autofill);
-	$('#id_email').bind('keyup', autofill);
+        $('#id_email').bind('change', autofill);
+        $('#id_email').bind('keyup', autofill);
 });
 
-  </script>
+</script>
 {% endblock head %}
 
 {% block home %}
-  <div class="container">
+<div class="container">
     <div class="row">
-      <form action={{ form_action }} method="post" class="form-signin" role="form">
-	{% csrf_token %}
-	{% bootstrap_form user_form label_class='sr-only' show_help=False %}
-	{% buttons %}
-	  <button type="submit" class="btn btn-lg btn-primary btn-block">
-	    {% trans "Sign up" %}
-	  </button>
-	{% endbuttons %}
-	</form>
+    <form action={{ form_action }} method="post" class="form-signin" role="form">
+        {% csrf_token %}
+        {% bootstrap_form user_form label_class='sr-only' show_help=False %}
+        {% buttons %}
+        <button type="submit" class="btn btn-lg btn-primary btn-block">
+            {% trans "Sign up" %}
+        </button>
+        {% endbuttons %}
+        </form>
     </div>
-  </div><!-- /.container -->
+</div><!-- /.container -->
 {% endblock home %}

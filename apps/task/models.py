@@ -18,9 +18,9 @@ class TaskGroup(TenantModel):
     updated_at  = models.DateTimeField(auto_now=True,
                                        verbose_name=_('updated at'))
     name        = models.CharField(unique=True, max_length=255,
-                                   verbose_name=_('name'))
+                                   verbose_name=_('Name'))
     description = models.CharField(max_length=255, blank=True,
-                                   verbose_name=_('description'))
+                                   verbose_name=_('Description'))
 
 class TaskType(TenantModel):
     """
@@ -33,9 +33,9 @@ class TaskType(TenantModel):
     updated_at  = models.DateTimeField(auto_now=True,
                                        verbose_name=_('updated at'))
     name        = models.CharField(unique=True, max_length=255,
-                                   verbose_name=_('name'))
+                                   verbose_name=_('Name'))
     description = models.CharField(max_length=255, blank=True,
-                                   verbose_name=_('description'))
+                                   verbose_name=_('Description'))
 
 class Task(MPTTModel, TenantModel):
     """
@@ -48,34 +48,34 @@ class Task(MPTTModel, TenantModel):
     updated_at  = models.DateTimeField(auto_now=True,
                                        verbose_name=_('updated at'))
     monitored   = models.BooleanField(default=True,
-                                      verbose_name=_('monitored'))
+                                      verbose_name=_('Monitored'))
     primary     = models.BooleanField(default=False,
-                                      verbose_name=_('primary'))
+                                      verbose_name=_('Primary'))
     personal    = models.BooleanField(default=False,
-                                      verbose_name=_('personal'))
+                                      verbose_name=_('Personal'))
     name        = models.CharField(max_length=255,
-                                   verbose_name=_('name'))
+                                   verbose_name=_('Name'))
     description = models.CharField(max_length=255, blank=True,
-                                   verbose_name=_('description'))
+                                   verbose_name=_('Description'))
     p_group     = models.ForeignKey(TaskGroup, blank=True, null=True,
-                                    verbose_name=_('group'))
+                                    verbose_name=_('Group'))
     p_type      = models.ForeignKey(TaskType, blank=True, null=True,
-                                    verbose_name=_('type'))
+                                    verbose_name=_('Type'))
     parent      = TreeForeignKey('self', blank=True, null=True,
-                                 verbose_name=_('parent task'),
-                                 help_text=_('parent task'),
+                                 verbose_name=_('Parent project'),
+                                 help_text=_('Parent project'),
                                  related_name='children task')
-    owner       = models.ForeignKey(Profile, verbose_name=_('owned by'))
+    owner       = models.ForeignKey(Profile, verbose_name=_('Owned by'))
     start_date  = models.DateField(blank=True, null=True,
-                                   verbose_name=_('start date estimate'))
+                                   verbose_name=_('Start date (planned)'))
     end_date    = models.DateField(blank=True, null=True,
-                                   verbose_name=_('end date estimate'))
+                                   verbose_name=_('End date (planned)'))
     additional_cost = models.IntegerField(blank=True, null=True,
-                                    verbose_name=_('additional cost'))
+                                    verbose_name=_('Additional cost'))
     cost_estimate = models.IntegerField(blank=True, null=True,
-                                    verbose_name=_('cost estimate'))
+                                    verbose_name=_('Cost (planned)'))
     time_estimate = models.IntegerField(blank=True, null=True,
-                                    verbose_name=_('time estimate (in hours)'))
+                                    verbose_name=_('Time (planned, in hours)'))
     
     class Meta:
         verbose_name = "Task"

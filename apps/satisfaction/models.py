@@ -14,9 +14,9 @@ class Criteria(TenantModel):
     updated_at  = models.DateTimeField(auto_now=True,
                                        verbose_name=_('updated at'))
     name        = models.CharField(unique=True, max_length=255,
-                                   verbose_name=_('name'))
+                                   verbose_name=_('Name'))
     description = models.CharField(max_length=255, blank=True,
-                                   verbose_name=_('description'))
+                                   verbose_name=_('Description'))
 
 class Satisfaction(TenantModel):
     """
