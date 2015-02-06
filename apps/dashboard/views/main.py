@@ -11,6 +11,7 @@ from apps.record.models import DailyDataPerTaskPerUser
 from django.shortcuts import render, redirect
 from libs.chart.chart import pie_total_time
 from apps.checks import has_paid, has_access, data_existence
+from django.http import HttpResponse
 
 def logout_view(request):
     logout(request)

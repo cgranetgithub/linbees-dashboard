@@ -23,14 +23,12 @@ SECRET_KEY = os.environ.get("SECRET_KEY", get_random_string(50, "abcdefghijklmno
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 TEMPLATE_DEBUG = False
-
 ALLOWED_HOSTS = ['*']
 
 # Admin and manager (will receive emails)
 ADMINS = (
-    ('linbees admin', 'admin@mail.lagat-software.com'),
+    ('linbees admin', 'contact@linbees.com'),
     ('charles', 'c.granet@gmail.com'),
-    ('alex', 'abourreille@gmail.com'),
 )
 MANAGERS = ADMINS
 
