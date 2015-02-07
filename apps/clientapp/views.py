@@ -9,6 +9,8 @@ from apps.profile.models import Profile
 from apps.workspace.models import Workspace
 from apps.record.models import AutoRecord, get_ongoing_task, new_task
 from apps.task.models import Task
+from django.http import HttpResponse
+import json
 
 def client_login(request):
     return login_view(request, template_name='clientapp/login.html',
@@ -70,3 +72,35 @@ def client_logout(request):
 
 def client_tutorial(request):
     return render(request, 'clientapp/tutorial.html')
+
+def tasks(request):
+    profile = request.user.profile
+    ws = profile.workspace
+    # my tasks + manager tasks
+    owners = [profile]
+    if profile.parent:
+        owners.append(profile.parent)
+    my_tasks = Task.objects.filter(workspace=ws, owner__in=owners)
+    # my ancestors and their tasks (excluding my manager)
+    ancestors = profile.get_ancestors().exclude(user=profile.parent.user)
+    ancestors_tasks = Task.objects.filter(workspace=ws, owner__in=ancestors)
+    data = []
+    for i in my_tasks:
+        node = {'id'  : str(i.id),
+                'text': str(i.name)}
+        if i.parent is None:
+            node['parent'] = '#',
+            node['state'] = {'opened'  : 'true'}
+        else:
+            node['parent'] = str(i.parent.id)
+            if i.parent in ancestors_tasks:
+                node['state'] = {'opened'  : 'true'}
+                root_node = {'id'  : str(i.parent.id),
+                             'text': str(i.parent.name),
+                             'parent': '#',
+                             'state': {'disabled': 'true',
+                                       'opened': 'true'}}
+                data.append(root_node)
+        data.append(node)
+    return HttpResponse(json.dumps(data), content_type="application/json")
+

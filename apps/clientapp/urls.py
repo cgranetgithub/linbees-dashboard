@@ -7,4 +7,5 @@ urlpatterns = patterns('',
     url(r'^login/'   , views.client_login   , name='login'),
     url(r'^logout/'  , views.client_logout  , name='logout'),
     url(r'^tutorial/', views.client_tutorial, name='tutorial'),
+    url(r'^data/tasks/', views.tasks, name='tasks_query'),
 )

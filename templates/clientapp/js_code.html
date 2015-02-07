@@ -1,0 +1,26 @@
+<script>
+$(function() {
+    
+    $(function () {
+        $('#single_tree_div')
+        // when selection changes
+        .on('changed.jstree', function (e, data) {
+            update_div();
+        })
+        // create the instance
+        .jstree({
+            'core' : {
+                'data' : {
+                    'url':"{% url 'clientapp:tasks_query' %}", 
+                    'dataType':'json',
+                },
+                'multiple' : false,
+            },
+        });
+    });
+    
+});
+</script>
+
+<link href="http://static.jstree.com/3.0.8/assets/dist/themes/default/style.min.css" rel="stylesheet"></link>
+<script src="http://static.jstree.com/3.0.8/assets/dist/jstree.min.js"></script>
