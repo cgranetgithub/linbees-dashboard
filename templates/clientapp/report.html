@@ -1,0 +1,18 @@
+{% load i18n %}
+
+<h4>{% trans "Your last 5 activities" %}</h2>
+<table class="table table-striped table-condensed">
+{% for r in records %}
+    <tr>
+    <td>{{r.task}}</td>
+    <td>{{r.start.date}}</td>
+    <td>{{r.start.time}}</td>
+    {% if r.start.date = r.end.date %}
+        <td>{{r.end.time}}</td>
+    {% elif r.end = None %}
+    {% else %}
+        <td>{{r.end}}</td>
+    {% endif %}
+    </tr>
+{% endfor %}
+</table>

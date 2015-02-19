@@ -54,7 +54,7 @@ $(document).ready(function() {
         {% csrf_token %}
         {% bootstrap_form user_form label_class='sr-only' show_help=False %}
         {% buttons %}
-        <button type="submit" class="btn btn-lg btn-primary btn-block">
+        <button type="submit" class="btn btn-lg btn-primary btn-block" name=signup>
             {% trans "Sign up" %}
         </button>
         {% endbuttons %}

@@ -7,6 +7,15 @@ from apps.task.models import Task
 from apps.profile.models import Profile, createUserProfile
 from apps.record.models import get_ongoing_task
 from libs.messages import register_but_ws_does_not_exist, existing_email
+from libs.test_util import (dashboard_signup, dashboard_login,
+                            dashboard_create_task, client_signup,
+                            selenium_dashboard_signup,
+                            selenium_dashboard_create_task)
+
+from django.test import LiveServerTestCase
+from selenium.webdriver.firefox.webdriver import WebDriver
+from selenium.webdriver.support.wait import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 
 class PagesAccessTest(TestCase):
     def setUp(self):
@@ -102,67 +111,57 @@ class RegisterTest(WebTest):
         response = response.click(description="Cancel")
         self.assertRedirects(response, '/clientapp/login/?next=/clientapp/')
 
-class ChangeProjectTest(WebTest):
+class ChangeProjectTest(LiveServerTestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.selenium = WebDriver()
+        super(ChangeProjectTest, cls).setUpClass()
+    @classmethod
+    def tearDownClass(cls):
+        cls.selenium.quit()
+        super(ChangeProjectTest, cls).tearDownClass()
+    def wait_ajax_complete(self):
+        """ Wait until ajax request is completed """
+        WebDriverWait(self.selenium, 10).until(
+            lambda s: s.execute_script("return jQuery.active == 0")
+        )
     def setUp(self):
-        workspace = Workspace.objects.create(name='lagat.com')
-        u = User.objects.create_user(username='charly@lagat.com'
-                                    , password='secret')
-        self.p = createUserProfile(u, workspace)
-        self.t1 = Task.objects.create(workspace=workspace,
-                                      name='task1', owner=self.p)
-        self.t2 = Task.objects.create(workspace=workspace,
-                                      name='task2', owner=self.p)
-        c = Client()
-        c.post('/i18n/setlang/', {'language':'en'})
-        form = self.app.get('/clientapp/login/').forms[0]
-        form['username'] = 'charly@lagat.com'
-        form['password'] = 'secret'
-        form.submit()
+        (response, workspace, self.user) = selenium_dashboard_signup(self,
+                                                    'yo@test.com', 'secret')
+        (response, self.task1) = selenium_dashboard_create_task(self, 'task1',
+                                                                self.user)
+        (response, self.task2) = selenium_dashboard_create_task(self, 'task2',
+                                                                self.user)
     def test_change_project(self):
-        response = self.app.get('/clientapp/')
-        self.assertContains(response, "task1")
-        self.assertContains(response, "task2")
-        self.assertNotContains(response, "task3")
-        form = response.forms[0]
-        form.select("tasks", self.t1.id)
-        form.submit()
-        self.assertEqual(get_ongoing_task(self.p).task.name, 'task1')
-        response = self.app.get('/clientapp/')
-        form = response.forms[0]
-        form.select("tasks", self.t2.id)
-        form.submit()
-        self.assertEqual(get_ongoing_task(self.p).task.name, 'task2')
-        response = self.app.get('/clientapp/')
-        form = response.forms[0]
-        form.select("tasks", self.t1.id)
-        form.submit()
-        self.assertEqual(get_ongoing_task(self.p).task.name, 'task1')
+        self.selenium.get('%s%s' % (self.live_server_url, '/clientapp/'))
+        self.wait_ajax_complete()
+        body = self.selenium.find_element_by_tag_name('body')
+        self.assertIn('task1', body.text)
+        self.assertIn('task2', body.text)
+        self.assertNotIn('task3', body.text)
+        self.selenium.find_element_by_id('%s_anchor'%self.task1.id).click()
+        self.wait_ajax_complete()
+        self.assertEqual(get_ongoing_task(self.user).task.name, 'task1')
+        self.selenium.find_element_by_id('%s_anchor'%self.task2.id).click()
+        self.wait_ajax_complete()
+        self.assertEqual(get_ongoing_task(self.user).task.name, 'task2')
+        self.selenium.find_element_by_id('%s_anchor'%self.task1.id).click()
+        self.wait_ajax_complete()
+        self.assertEqual(get_ongoing_task(self.user).task.name, 'task1')
     def test_set_off(self):
-        response = self.app.get('/clientapp/')
-        self.assertContains(response, "task1")
-        self.assertContains(response, "task2")
-        self.assertNotContains(response, "task3")
-        form = response.forms[0]
-        form.select("tasks", self.t1.id)
-        form.submit()
-        self.assertEqual(get_ongoing_task(self.p).task.name, 'task1')
-        
-        response = self.app.get('/clientapp/')
-        form = response.forms[0]
-        form.select("tasks", self.t2.id)
-        form.submit()
-        response = self.app.get('/clientapp/')
-        form = response.forms[0]
-        form.submit(name="clock_out")
-        self.assertEqual(get_ongoing_task(self.p), None)
-    def test_logout_close(self):
-        response = self.app.get('/clientapp/')
-        self.assertContains(response, "task1")
-        self.assertContains(response, "task2")
-        self.assertNotContains(response, "task3")
-        form = response.forms[0]
-        form.select("tasks", self.t1.id)
-        form.submit()
-        self.assertEqual(get_ongoing_task(self.p).task.name, 'task1')
-        self.app.get('/clientapp/logout').follow()
-        self.assertEqual(get_ongoing_task(self.p), None)
+        self.selenium.get('%s%s' % (self.live_server_url, '/clientapp/'))
+        self.wait_ajax_complete()
+        self.selenium.find_element_by_id('%s_anchor'%self.task1.id).click()
+        self.wait_ajax_complete()
+        self.assertEqual(get_ongoing_task(self.user).task.name, 'task1')
+        self.selenium.find_element_by_id('clockout').click()
+        self.wait_ajax_complete()
+        self.assertEqual(get_ongoing_task(self.user), None)
+    #def test_logout_close(self):
+        #self.selenium.get('%s%s' % (self.live_server_url, '/clientapp/'))
+        #self.wait_ajax_complete()
+        #self.selenium.find_element_by_id('%s_anchor'%self.task1.id).click()
+        #self.wait_ajax_complete()
+        #self.assertEqual(get_ongoing_task(self.user).task.name, 'task1')
+        #self.selenium.get('%s%s' % (self.live_server_url, '/clientapp/logout'))
+        #self.assertEqual(get_ongoing_task(self.user), None)

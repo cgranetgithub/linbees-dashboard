@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-02-01 14:07+0000\n"
+"POT-Creation-Date: 2015-02-19 19:45+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -25,11 +25,11 @@ msgstr "Date de début"
 msgid "End date"
 msgstr "Date de fin"
 
-#: apps/dashboard/views/main.py:41
+#: apps/dashboard/views/main.py:42
 msgid "Time repartition"
 msgstr "Répartition du temps"
 
-#: apps/dashboard/views/main.py:42
+#: apps/dashboard/views/main.py:43
 msgid "Cost repartition"
 msgstr "Répartition des coûts"
 
@@ -394,17 +394,9 @@ msgstr "Info société"
 msgid "Change my password"
 msgstr "Changer mon mot de passe"
 
-#: templates/clientapp/home.html:9
+#: templates/clientapp/home.html:8
 msgid "Select your current activity"
 msgstr "Sélectionnez votre activité en cours"
-
-#: templates/clientapp/home.html:16
-msgid "There is no project defined yet."
-msgstr "Aucun projet n'est défini pour l'instant."
-
-#: templates/clientapp/home.html:32
-msgid "Your last 5 activities"
-msgstr "Vos 5 dernières activités"
 
 #: templates/clientapp/login.html:7
 msgid "Please sign in"
@@ -429,6 +421,10 @@ msgstr "Créer"
 #: templates/clientapp/register.html:17
 msgid "Cancel"
 msgstr "Annuler"
+
+#: templates/clientapp/report.html:3
+msgid "Your last 5 activities"
+msgstr "Vos 5 dernières activités"
 
 #: templates/clientapp/tutorial.html:5
 msgid "back"
@@ -525,8 +521,8 @@ msgid "Cost"
 msgstr "Coût"
 
 #: templates/dashboard/task.html:11
-msgid "Planned/Actual"
-msgstr "Prévisionnel/Réel"
+msgid "Planned / Actual"
+msgstr "Prévisionnel / Réel"
 
 #: templates/dashboard/task.html:12
 msgid "Modification"

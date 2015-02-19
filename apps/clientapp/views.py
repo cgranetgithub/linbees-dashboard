@@ -33,34 +33,16 @@ def client_register(request):
     
 @login_required(login_url=reverse_lazy('clientapp:login'))
 def client_home(request):
+    return render(request, 'clientapp/home.html')
+
+@login_required(login_url=reverse_lazy('clientapp:login'))
+def client_report(request):
     workspace = request.user.profile.workspace
     profile = Profile.objects.get(workspace=workspace, user=request.user)
-    last_task = False
-    if request.method == 'POST':
-        form = TaskForm(request)
-        if form.is_valid():
-            if 'clock_out' in request.POST:
-                task = None
-            else:
-                pid = form.cleaned_data['tasks']
-                task = Task.objects.get(workspace=workspace, pk=pid)
-            new_task(profile, task)
-            return redirect(reverse('clientapp:home'))
-    else:
-        last_task = get_ongoing_task(profile) or False
-        if last_task:
-            init = {'tasks' : last_task.task.id}
-        else:
-            init = {'tasks' : ''}
-        form = TaskForm(request, initial=init)
     records = AutoRecord.objects.filter(workspace=workspace, profile=profile
-                                    ).order_by('start').reverse()[:5]
-    return render(request, 'clientapp/home.html',{'form':form
-                                                ,'form_action':"/clientapp/"
-                                                ,'records':records
-                                                ,'user':request.user
-                                                ,'last_task':last_task
-                                                ,'debug':settings.DEBUG})
+                                            ).order_by('start').reverse()[:5]
+    return render(request, 'clientapp/report.html', {'records':records})
+
 
 @login_required(login_url=reverse_lazy('clientapp:login'))
 def client_logout(request):
@@ -73,18 +55,21 @@ def client_logout(request):
 def client_tutorial(request):
     return render(request, 'clientapp/tutorial.html')
 
+@login_required(login_url=reverse_lazy('clientapp:login'))
 def tasks(request):
     profile = request.user.profile
     ws = profile.workspace
     # my tasks + manager tasks
     owners = [profile]
+    ancestors = []
     if profile.parent:
         owners.append(profile.parent)
+        ancestors = profile.get_ancestors().exclude(user=profile.parent.user)
     my_tasks = Task.objects.filter(workspace=ws, owner__in=owners)
     # my ancestors and their tasks (excluding my manager)
-    ancestors = profile.get_ancestors().exclude(user=profile.parent.user)
     ancestors_tasks = Task.objects.filter(workspace=ws, owner__in=ancestors)
     data = []
+    root_nodes = []
     for i in my_tasks:
         node = {'id'  : str(i.id),
                 'text': str(i.name)}
@@ -95,12 +80,14 @@ def tasks(request):
             node['parent'] = str(i.parent.id)
             if i.parent in ancestors_tasks:
                 node['state'] = {'opened'  : 'true'}
-                root_node = {'id'  : str(i.parent.id),
-                             'text': str(i.parent.name),
-                             'parent': '#',
-                             'state': {'disabled': 'true',
-                                       'opened': 'true'}}
-                data.append(root_node)
+                if i.parent.id not in root_nodes:
+                    root_node = {'id'  : str(i.parent.id),
+                                'text': str(i.parent),
+                                'parent': '#',
+                                'state': {'disabled': 'true',
+                                        'opened': 'true'}}
+                    data.append(root_node)
+                    root_nodes.append(i.parent.id)
         data.append(node)
     return HttpResponse(json.dumps(data), content_type="application/json")
 

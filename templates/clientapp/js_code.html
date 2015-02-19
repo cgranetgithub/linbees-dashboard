@@ -1,11 +1,40 @@
 <script>
 $(function() {
     
+    $('#clockout')
+        .button()
+        .click(function(event){
+            event.defaultPrevented;
+            var api = "{% url 'api_closecurrent' resource_name='record' api_name='v1' %}";
+            $.ajax({
+                type: "POST",
+                url: api,
+                data: {'csrfmiddlewaretoken': '{{csrf_token}}'},
+                success: function( returned_data ) {
+                    activity_report();
+                    $('#single_tree_div').jstree('deselect_all');
+                }
+            });
+    });
+
     $(function () {
         $('#single_tree_div')
         // when selection changes
         .on('changed.jstree', function (e, data) {
-            update_div();
+            change_selection();
+        })
+        .on('ready.jstree', function (e) {
+            var api = "{% url 'api_getcurrent' resource_name='record' api_name='v1' %}";
+            $.ajax({
+                type: "GET",
+                url: api,
+                data: {'csrfmiddlewaretoken': '{{csrf_token}}'},
+                success: function( returned_data ) {
+                    console.log(returned_data);
+                    $('#single_tree_div').jstree('select_node', returned_data['current_task']);
+                }
+            });
+            activity_report();
         })
         // create the instance
         .jstree({
@@ -16,9 +45,35 @@ $(function() {
                 },
                 'multiple' : false,
             },
+            "plugins" : ["wholerow"]
         });
     });
     
+    function change_selection() {
+        var task = $('#single_tree_div').jstree(true).get_selected();
+        var api = "{% url 'api_newselection' resource_name='record' api_name='v1' %}";
+        $.ajax({
+            type: "POST",
+            url: api,
+            data: {'csrfmiddlewaretoken': '{{csrf_token}}', 'task_id':task[0]},
+            success: function( returned_data ) {
+                activity_report();
+            }
+        });
+    };
+
+    function activity_report() {
+        var api = "{% url 'clientapp:report' %}";
+        $.ajax({
+            type: "GET",
+            url: api,
+            data: {'csrfmiddlewaretoken': '{{csrf_token}}'},
+            success: function( returned_data ) {
+                $('#report').html(returned_data);
+            }
+        });
+    };
+
 });
 </script>
 
