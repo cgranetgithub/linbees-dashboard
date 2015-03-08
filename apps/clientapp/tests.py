@@ -1,3 +1,5 @@
+import os
+
 from django.test import TestCase
 from django_webtest import WebTest
 from django.test.client import Client
@@ -14,6 +16,7 @@ from libs.test_util import (dashboard_signup, dashboard_login,
 
 from django.test import LiveServerTestCase
 from selenium.webdriver.firefox.webdriver import WebDriver
+from selenium import webdriver
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
@@ -22,7 +25,7 @@ class PagesAccessTest(TestCase):
         workspace = Workspace.objects.create(name='lagat.com')
         u = User.objects.create_user(username='charly@lagat.com',
                                      password='secret')
-        createUserProfile(u, workspace)	
+        createUserProfile(u, workspace)
         c = Client()
         c.post('/i18n/setlang/', {'language':'en'})
     def test_pages_access_not_connected(self):
@@ -114,7 +117,11 @@ class RegisterTest(WebTest):
 class ChangeProjectTest(LiveServerTestCase):
     @classmethod
     def setUpClass(cls):
-        cls.selenium = WebDriver()
+        if "SELENIUM_USE_REMOTE" in os.environ:
+            cls.selenium = webdriver.Remote(
+                desired_capabilities=webdriver.DesiredCapabilities.FIREFOX)
+        else:
+            cls.selenium = WebDriver()
         super(ChangeProjectTest, cls).setUpClass()
     @classmethod
     def tearDownClass(cls):
