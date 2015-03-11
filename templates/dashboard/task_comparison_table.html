@@ -16,7 +16,7 @@
         <tr>
         <td>{{task.name}}</td>
         {% if task.start %}
-            {% if task.start > task.actual_start %}
+            {% if task.start < task.actual_start %}
                 <td class="text-danger"><strong>{{task.start}}</strong></td>
                 <td class="text-danger"><strong>{{task.actual_start}}</strong></td>
             {% else %}
@@ -28,7 +28,7 @@
             <td>{{task.actual_start}}</td>
         {% endif %}
         {% if task.end %}
-            {% if task.end > task.actual_end %}
+            {% if task.end < task.actual_end %}
                 <td class="text-danger"><strong>{{task.end}}</strong></td>
                 <td class="text-danger"><strong>{{task.actual_end}}</strong></td>
             {% else %}
@@ -40,7 +40,7 @@
             <td>{{task.actual_end}}</td>
         {% endif %}
         {% if task.time %}
-            {% if task.time > task.actual_time %}
+            {% if task.time < task.actual_time %}
                 <td class="text-danger"><strong>{{task.time}}</strong></td>
                 <td class="text-danger"><strong>{{task.actual_time}}</strong></td>
             {% else %}
@@ -52,7 +52,7 @@
             <td>{{task.actual_time}}</td>
         {% endif %}
         {% if task.cost %}
-            {% if task.cost > task.actual_cost %}
+            {% if task.cost < task.actual_cost %}
                 <td class="text-danger"><strong>{{task.cost}}</strong></td>
                 <td class="text-danger"><strong>{{task.actual_cost}}</strong></td>
             {% else %}

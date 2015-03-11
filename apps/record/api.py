@@ -62,10 +62,16 @@ class RecordResource(ModelResource):
         if request.user and request.user.is_authenticated():
             try:
                 cur = get_ongoing_task(request.user.profile)
-                return self.create_response(request,
-                                            {u'success': True,
-                                             u'current': cur.id,
-                                             u'current_task': cur.task.id})
+                if cur:
+                    return self.create_response(request, 
+                                               {u'success': True,
+                                                u'current': cur.id,
+                                                u'current_task': cur.task.id})
+                else:
+                    return self.create_response(request,
+                                               {u'success': True,
+                                                u'current': None,
+                                                u'current_task': None})
             except:
                 return self.create_response(request, 
                                             {u'reason': u'Unexpected'},
