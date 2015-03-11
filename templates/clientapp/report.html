@@ -6,9 +6,9 @@
     <tr>
     <td>{{r.task}}</td>
     <td>{{r.start.date}}</td>
-    <td>{{r.start.time}}</td>
+    <td>{{r.start.time}} (UTC)</td>
     {% if r.start.date = r.end.date %}
-        <td>{{r.end.time}}</td>
+        <td>{{r.end.time}} (UTC)</td>
     {% elif r.end = None %}
     {% else %}
         <td>{{r.end}}</td>

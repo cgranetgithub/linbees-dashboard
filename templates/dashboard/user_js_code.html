@@ -12,13 +12,17 @@ $(function() {
         if ( '{{ topic }}' == 'time' ) {
             draw_time_per_user();
         } else if ( '{{ topic }}' == 'info' ) {
-            var select = $('#tree_div').jstree(true).get_selected()[0];
-            var data_url = "{% url 'user_info_edit' 0 %}".replace('/0/', '/'+select.toString()+'/');
-            update_form(data_url);
+            var select = $('#single_tree_div').jstree(true).get_selected();
+            if ( select.length == 1 ) {
+                var data_url = "{% url 'user_info_edit' 0 %}".replace('/0/', '/'+select.toString()+'/');
+                update_form(data_url);
+            }
         } else if ( '{{ topic }}' == 'salary' ) {
-            var select = $('#tree_div').jstree(true).get_selected()[0];
-            var data_url = "{% url 'user_salary_edit' 0 %}".replace('/0/', '/'+select.toString()+'/');
-            update_form(data_url);
+            var select = $('#single_tree_div').jstree(true).get_selected();
+            if ( select.length == 1 ) {
+                var data_url = "{% url 'user_salary_edit' 0 %}".replace('/0/', '/'+select.toString()+'/');
+                update_form(data_url);
+            }
         }
     };
     
@@ -37,7 +41,7 @@ $(function() {
     function draw_stacked_chart(data_url, divname) {
         var startdate = $('#id_start_date').val();
         var enddate = $('#id_end_date').val();
-        var select = $('#tree_div').jstree(true).get_selected()[0];
+        var select = $('#single_tree_div').jstree(true).get_selected()[0];
         console.log(data_url, divname, startdate, enddate, select);
         $.ajax({
             url: data_url, 
@@ -62,12 +66,12 @@ $(function() {
 
 
     $(function () {
-        $('#tree_div')
+        $('#single_tree_div')
         // once ready, draw chart
         .on('ready.jstree', function (e) {
 //             $('#tree_div').jstree('open_all');
-            $('#tree_div').jstree('select_node', {{selection}});
-            $('#tree_div').jstree('open_node', {{selection}});
+            $('#single_tree_div').jstree('select_node', {{selection}});
+            $('#single_tree_div').jstree('open_node', {{selection}});
             update_div();
         })
         // when selection changes

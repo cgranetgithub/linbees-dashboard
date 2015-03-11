@@ -25,6 +25,7 @@
             data: $(form).serialize(),
             success: function( response ) {
                 $('#ajaxform_div').html(response);
+                $('#single_tree_div').jstree('refresh');
                 }
         });
         return false;

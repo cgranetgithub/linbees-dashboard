@@ -20,9 +20,11 @@ $(function() {
         } else if ( '{{ topic }}' == 'control' ) {
             update_table();
         } else if ( '{{ topic }}' == 'info' ) {
-            var select = $('#single_tree_div').jstree(true).get_selected()[0];
-            var data_url = "{% url 'task_info_edit' 0 %}".replace('/0/', '/'+select.toString()+'/');
-            update_form(data_url);
+            var select = $('#single_tree_div').jstree(true).get_selected();
+            if ( select.length == 1 ) {
+                var data_url = "{% url 'task_info_edit' 0 %}".replace('/0/', '/'+select[0].toString()+'/');
+                update_form(data_url);
+            }
         }
     };
     
