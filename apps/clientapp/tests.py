@@ -15,7 +15,7 @@ from libs.test_util import (dashboard_signup, dashboard_login,
                             selenium_dashboard_create_task)
 
 from django.test import LiveServerTestCase
-from selenium.webdriver.firefox.webdriver import WebDriver
+#from selenium.webdriver.firefox.webdriver import WebDriver
 from selenium import webdriver
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
@@ -121,7 +121,7 @@ class ChangeProjectTest(LiveServerTestCase):
             cls.selenium = webdriver.Remote(
                 desired_capabilities=webdriver.DesiredCapabilities.FIREFOX)
         else:
-            cls.selenium = WebDriver()
+            cls.selenium = webdriver.Firefox()
         super(ChangeProjectTest, cls).setUpClass()
     @classmethod
     def tearDownClass(cls):
