@@ -51,8 +51,8 @@ def on_record_change(sender, instance, *args, **kwargs):
             duration_sum = ddtu_list.aggregate(Sum('duration')
                                                             )['duration__sum']
             for i in ddtu_list:
-                i.ratio = i.duration / duration_sum
-                i.cost = i.ratio * i.wage
+                i.time_ratio = i.duration / duration_sum
+                i.cost = i.time_ratio * i.wage
                 i.save()
                 
 @receiver(pre_save, sender=DailyDataPerTaskPerUser)

@@ -1,7 +1,6 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from libs.tenant import TenantModel
-#from profile.models import Profile
 
 class DailySalary(TenantModel):
     is_active   = models.BooleanField(default=True,

@@ -3,7 +3,6 @@ from django.conf import settings
 from libs.tenant import TenantModel
 from mptt.models import MPTTModel, TreeForeignKey
 from django.utils.translation import ugettext_lazy as _
-#from department.models import Department
 
 class Profile(MPTTModel, TenantModel):
     user = models.OneToOneField(settings.AUTH_USER_MODEL,

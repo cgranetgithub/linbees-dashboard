@@ -4,7 +4,6 @@ from django.contrib.auth.forms import UserCreationForm
 from django.utils.translation import ugettext, ugettext_lazy as _
 from profile.models import Profile
 from libs.messages import public_email_not_allowed, existing_email
-#from django.forms import ModelForm
 from mptt.forms import TreeNodeChoiceField
 
 
@@ -60,7 +59,6 @@ class RegistrationForm(UserCreationForm):
                 'password1', 'password2')
     def clean(self):
         cleaned_data = super(RegistrationForm, self).clean()
-        print self.cleaned_data
         if 'email' in self.cleaned_data:
             email = self.cleaned_data['email']
             #check email unicity

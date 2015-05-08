@@ -1,7 +1,5 @@
 from django.db import models
 from libs.tenant import TenantModel
-#from profile.models import Profile
-#from task.models import Task
 from django.utils.timezone import now
 from django.core.exceptions import ValidationError
 

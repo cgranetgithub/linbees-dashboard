@@ -1,7 +1,6 @@
 from django.db import models
 from libs.tenant import TenantModel
 from mptt.models import MPTTModel, TreeForeignKey
-#from profile.models import Profile
 from django.utils.translation import ugettext_lazy as _
 import django.dispatch
 
