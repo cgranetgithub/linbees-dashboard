@@ -1,7 +1,7 @@
 from django.db import models
 #from django.db.models.query import QuerySet
 #from model_utils.managers import PassThroughManager
-from apps.workspace.models import Workspace
+#from workspace.models import Workspace
 from django.core.exceptions import ValidationError
 
 #class TenantQuerySet(QuerySet):
@@ -9,7 +9,7 @@ from django.core.exceptions import ValidationError
         #return self.filter(workspace=ws)
 
 class TenantModel(models.Model):
-    workspace = models.ForeignKey(Workspace)
+    workspace = models.ForeignKey('workspace.Workspace')
     msg = u'workspace is a mandatory argument'
     #objects = PassThroughManager.for_queryset_class(TenantQuerySet)()
     class Meta:

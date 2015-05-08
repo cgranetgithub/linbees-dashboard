@@ -34,7 +34,7 @@ MANAGERS = ADMINS
 
 # Application definition
 INSTALLED_APPS = (
-    'django.contrib.admin',
+    'django.contrib.admin.apps.SimpleAdminConfig',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -44,20 +44,20 @@ INSTALLED_APPS = (
     'storages',   # for static files on S3
     'bootstrap3', # for a sexy website!
     'mptt',       # for trees management
-    'apps.workspace',
-    'apps.salary',
-    'apps.task',
-    'apps.profile',
-    'apps.record',
-    'apps.preference',
-    'apps.department',
-    'apps.invoice',
-    'apps.payment',
-    'apps.satisfaction',
-    'apps.dashboard',
-    'apps.administration',
-    'apps.signup',
-    'apps.clientapp',
+    'department', # must be before profile
+    'task',
+    'record',
+    'salary',
+    'workspace',
+    'profile',
+    'preference',
+    'invoice',
+    'payment',
+    'satisfaction',
+    #'applications.dashboard',
+    #'applications.administration',
+    #'applications.signup',
+    #'applications.clientapp',
 )
 
 MIDDLEWARE_CLASSES = (

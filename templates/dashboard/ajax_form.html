@@ -17,7 +17,7 @@
 
     <script>
     $('#ajaxform').on('submit', function(event){
-        event.preventDefault();
+        event.defaultPrevented;
         var form = $('#ajaxform');
         $.ajax({
             url: $(form).attr('action'), 
@@ -25,8 +25,11 @@
             data: $(form).serialize(),
             success: function( response ) {
                 $('#ajaxform_div').html(response);
-                $('#single_tree_div').jstree('refresh');
+                var errors = document.getElementsByClassName("has-error");
+                if (errors.length == 0) {
+                    $('#single_tree_div').jstree('refresh');
                 }
+            }
         });
         return false;
     });

@@ -1,7 +1,7 @@
 import datetime
 from django.db.models import Sum
 from libs.chart.calculus import sum_and_sort_time, queryset_filter
-from apps.task.models import Task
+from task.models import Task
 
 def pie_total_time(queryset):
     queryset = sum_and_sort_time(queryset)

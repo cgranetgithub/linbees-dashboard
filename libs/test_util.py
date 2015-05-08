@@ -1,7 +1,7 @@
 from selenium.webdriver.support.ui import Select
-from apps.workspace.models import Workspace, getDashboardNameFromEmail
-from apps.profile.models import Profile
-from apps.task.models import Task
+from workspace.models import Workspace, getDashboardNameFromEmail
+from profile.models import Profile
+from task.models import Task
 
 #
 # Helpers for WebTest (django_webtest)
