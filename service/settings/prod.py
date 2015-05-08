@@ -54,10 +54,10 @@ INSTALLED_APPS = (
     'invoice',
     'payment',
     'satisfaction',
-    #'applications.dashboard',
-    #'applications.administration',
-    #'applications.signup',
-    #'applications.clientapp',
+    'applications.dashboard',
+    'applications.administration',
+    'applications.signup',
+    'applications.clientapp',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -131,19 +131,19 @@ CACHES = {
         "LOCATION": "staticfiles",
     },
 }
-
+import sys
 LOGGING = {
-    "version": 1,
-    "disable_existing_loggers": False,
-    "handlers": {
-        "console": {
-            "level": "INFO",
-            "class": "logging.StreamHandler",
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
         },
     },
-    "loggers": {
-        "django": {
-            "handlers": ["console"],
-        }
-    }
+    'loggers': {
+        'django': {
+            'handlers': ['console'],
+            'level': os.getenv('DJANGO_LOG_LEVEL', 'INFO'),
+        },
+    },
 }

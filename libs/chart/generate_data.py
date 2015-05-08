@@ -163,15 +163,15 @@ def generate_records(workspace, begin_date=None, end_date=None):
         cur = begin_date
         ite = random.randint(1, nb_days)
         while cur != end_date:
-            start = datetime.datetime(cur.year, cur.month, cur.day
-                                                    , 9,  0, 0, tzinfo=utc)
+            start = datetime.datetime(cur.year, cur.month, cur.day,
+                                      9,  0, 0, tzinfo=utc)
             d = fn(ite, nb_days)
             cum = d
             for p in plist:
                 delta = datetime.timedelta(hours=int(d), minutes=int(d%1*60))
                 end = start + delta
                 AutoRecord.objects.create(workspace=workspace, profile=profile,
-                                      task=p, start=start, end=end)
+                                          task=p, start=start, end=end)
                 start = end
                 d = (random.uniform(7, 8) - cum)/(working_on)
                 cum +=d
