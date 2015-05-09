@@ -7,8 +7,8 @@ from django.db import models, migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('task', '__first__'),
-        ('workspace', '__first__'),
+        ('task', '0001_initial'),
+        ('workspace', '0001_initial'),
         ('profile', '0001_initial'),
     ]
 

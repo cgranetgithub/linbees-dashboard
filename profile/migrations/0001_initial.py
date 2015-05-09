@@ -10,8 +10,8 @@ class Migration(migrations.Migration):
 
     dependencies = [
         ('auth', '0006_require_contenttypes_0002'),
-        ('workspace', '__first__'),
-        ('department', '__first__'),
+        ('workspace', '0001_initial'),
+        ('department', '0001_initial'),
     ]
 
     operations = [

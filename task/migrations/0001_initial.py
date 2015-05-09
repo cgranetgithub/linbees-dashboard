@@ -8,7 +8,7 @@ import mptt.fields
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('workspace', '__first__'),
+        ('workspace', '0001_initial'),
         ('profile', '0001_initial'),
     ]
 

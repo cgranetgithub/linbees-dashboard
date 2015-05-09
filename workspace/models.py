@@ -47,17 +47,14 @@ class Workspace(models.Model):
                                 verbose_name=_('Dashboard name'),
                                 help_text=_(
 """By default, the dashboard name is your company email domain"""))
-    paid_until  = models.DateField(default=
-                                    now().date()
-                                    + datetime.timedelta(
-                                                settings.DEFAULT_FREE_PERIOD)
+    paid_until  = models.DateField(null=True
                                     , editable=False
                                     , verbose_name=_('Next invoice date')
                                     , help_text=_(
 """Date until when the oranization has paid its subscription. At creation time, paid_until is initiaized with now + the default trial period defined in the settings."""))
     monthly_user_fee = models.DecimalField(max_digits=5
                                     , decimal_places=2
-                                    , default=settings.DEFAULT_PRICE
+                                    , default=0
                                     , editable=False
                                     , verbose_name=_('Monthly user fee')
                                     , help_text=_(
