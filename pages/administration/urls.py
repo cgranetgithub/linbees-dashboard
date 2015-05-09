@@ -1,6 +1,6 @@
 from django.conf.urls import patterns, url
-from applications.administration import views
-from applications.checks import noAccess,latePayment
+from pages.administration import views
+from pages.checks import noAccess,latePayment
 
 urlpatterns = patterns('',
     url(r'^account/', views.accountAdmin, name='accountAdmin'),

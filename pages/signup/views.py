@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
 from django.core.urlresolvers import reverse
 from django.utils.translation import ugettext_lazy as _
-from applications.signup.forms import SignupForm
+from pages.signup.forms import SignupForm
 
 def signup(request):
     if request.method == 'POST':

@@ -4,7 +4,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import render, redirect
 from django.conf import settings
 from django.core.urlresolvers import reverse, reverse_lazy
-from applications.clientapp.forms import TaskForm, ClientUserForm
+from pages.clientapp.forms import TaskForm, ClientUserForm
 from profile.models import Profile
 from workspace.models import Workspace
 from record.models import AutoRecord, get_ongoing_task, new_task

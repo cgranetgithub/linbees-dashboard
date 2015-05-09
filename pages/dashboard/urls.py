@@ -1,8 +1,8 @@
 from django.conf.urls import patterns, url
-#from applications.dashboard import views, queries
-from applications.checks import noAccess, latePayment
+#from pages.dashboard import views, queries
+from pages.checks import noAccess, latePayment
 
-urlpatterns = patterns('applications.dashboard.views',
+urlpatterns = patterns('pages.dashboard.views',
     url(r'^$'           , 'main_page.overview', name='overview'),
     url(r'^logout/'     , 'main_page.logout_view', name='logout_view'),
     url(r'^task/time/'  , 'task_page.time', name='task_time'),
@@ -19,7 +19,7 @@ urlpatterns = patterns('applications.dashboard.views',
     url(r'^user/edit/salary/(?P<user_id>\d+)/$', 'user_page.salary_edit', name='user_salary_edit'),
     )
 
-urlpatterns += patterns('applications.dashboard.queries',
+urlpatterns += patterns('pages.dashboard.queries',
     url(r'^data/users/', 'users', name='users_query'),
     url(r'^data/tasks/(?P<single>\w+)/$', 'tasks', name='tasks_query'),
     url(r'^data/time_per_user/'   , 'time_per_user', name='time_per_user_query'),

@@ -7,7 +7,7 @@ from record.models import (DailyDataPerTaskPerUser,
 from libs.chart.chart import over_time, cumulative_over_time
 #from task.models import Task
 from django.db.models import Sum
-from applications.checks import has_paid, has_access, data_existence
+from pages.checks import has_paid, has_access, data_existence
 from django.http import HttpResponse
 import json
 from django.apps import apps

@@ -4,7 +4,7 @@ from django.core.urlresolvers import reverse, reverse_lazy
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.decorators import login_required, user_passes_test
 from workspace.forms import WorkspaceChangeForm
-from applications.checks import has_access
+from pages.checks import has_access
 
 @login_required
 @user_passes_test(has_access,

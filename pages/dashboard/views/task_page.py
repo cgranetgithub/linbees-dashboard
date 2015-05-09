@@ -1,14 +1,14 @@
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.utils.translation import ugettext, ugettext_lazy as _
 from django.core.urlresolvers import reverse_lazy
-from applications.dashboard.views import STARTDATE, TODAY
-from applications.dashboard.forms import DateRangeForm
+from pages.dashboard.views import STARTDATE, TODAY
+from pages.dashboard.forms import DateRangeForm
 from record.models import DailyDataPerTask
 from django.shortcuts import render, redirect
 #from task.models import Task
 from django.db.models import Sum
 from task.forms import TaskForm
-from applications.checks import has_paid, has_access, data_existence
+from pages.checks import has_paid, has_access, data_existence
 import json
 from django.apps import apps
 

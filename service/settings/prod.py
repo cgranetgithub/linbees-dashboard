@@ -54,10 +54,10 @@ INSTALLED_APPS = (
     'invoice',
     'payment',
     'satisfaction',
-    'applications.dashboard',
-    'applications.administration',
-    'applications.signup',
-    'applications.clientapp',
+    'pages.dashboard',
+    'pages.administration',
+    'pages.signup',
+    'pages.clientapp',
 )
 
 MIDDLEWARE_CLASSES = (

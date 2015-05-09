@@ -3,14 +3,14 @@ from django.utils.translation import ugettext, ugettext_lazy as _
 from django.core.urlresolvers import reverse_lazy
 from libs.chart.calculus import (sum_and_sort_time, resources_involved,
                                 active_users, queryset_filter)
-from applications.dashboard.views import STARTDATE
+from pages.dashboard.views import STARTDATE
 from django.views.generic import View
 from profile.models import Profile
 from django.contrib.auth import logout
 from record.models import DailyDataPerTaskPerUser
 from django.shortcuts import render, redirect
 from libs.chart.chart import pie_total_time
-from applications.checks import has_paid, has_access, data_existence
+from pages.checks import has_paid, has_access, data_existence
 from django.http import HttpResponse
 
 def logout_view(request):

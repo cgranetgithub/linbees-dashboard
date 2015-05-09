@@ -1,5 +1,5 @@
 from django.conf.urls import patterns, include, url
-from applications.dashboard.views.main_page import BlankView
+from pages.dashboard.views.main_page import BlankView
 from django.contrib import admin
 from tastypie.api import Api
 from task.api import TaskResource
@@ -14,10 +14,10 @@ v1_api.register(PreferenceResource())
 
 
 urlpatterns = patterns('',
-    url(r''         , include('applications.dashboard.urls')),
-    url(r'^administration/', include('applications.administration.urls', namespace="administration")),
-    url(r'^signup/'   , include('applications.signup.urls', namespace="signup")),
-    url(r'^clientapp/', include('applications.clientapp.urls', namespace="clientapp")),
+    url(r''         , include('pages.dashboard.urls')),
+    url(r'^administration/', include('pages.administration.urls', namespace="administration")),
+    url(r'^signup/'   , include('pages.signup.urls', namespace="signup")),
+    url(r'^clientapp/', include('pages.clientapp.urls', namespace="clientapp")),
     url(r'^api/'      , include(v1_api.urls)),
     url(r'^login/$', 'django.contrib.auth.views.login'),
     url(r'^blank/'   , BlankView.as_view(), name="blank"),

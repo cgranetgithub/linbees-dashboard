@@ -4,12 +4,12 @@ from profile.models import Profile
 from salary.models import DailySalary
 from profile.forms import ProfileForm
 from salary.forms import SalaryFormSet
-from applications.checks import has_paid, has_access, data_existence
+from pages.checks import has_paid, has_access, data_existence
 from django.shortcuts import render
 from django.core import serializers
 import json
-from applications.dashboard.views import STARTDATE, TODAY
-from applications.dashboard.forms import DateRangeForm
+from pages.dashboard.views import STARTDATE, TODAY
+from pages.dashboard.forms import DateRangeForm
 
 @login_required
 @user_passes_test(has_paid, login_url=reverse_lazy('latePayment'))
