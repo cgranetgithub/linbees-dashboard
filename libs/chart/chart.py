@@ -26,11 +26,14 @@ def over_time(workspace, queryset, field, queryclass):
         tmp = [d.isoformat()]
         for t in tasks:
             try:
-                duration = getattr(queryset.get(date=d, task=t), field)
+                value = getattr(queryset.get(date=d, task=t), field)
             except queryclass.DoesNotExist:
                 tmp.append(0)
             else:
-                tmp.append(float(duration or 0))
+                if field == 'cost':
+                    tmp.append(float(value or 0))
+                elif field == 'duration':
+                    tmp.append(float(value.total_seconds()/3600))
         array.append(tmp)
     options = {'is3D':'true', 'backgroundColor':'transparent'}
     return (array, options)

@@ -1,3 +1,4 @@
+import datetime
 from django.db import models
 from libs.tenant import TenantModel
 from django.utils.timezone import now
@@ -58,14 +59,13 @@ class DailyDataPerTaskPerUser(TenantModel):
     wage = models.DecimalField(default=0, max_digits=10, decimal_places=2)
     cost = models.DecimalField(default=0, max_digits=10, decimal_places=2)
     profile = models.ForeignKey('profile.Profile')
-    duration = models.DecimalField(default=0, max_digits=10,
-                                                decimal_places=2) # hours
+    duration = models.DurationField(default=datetime.timedelta(0))
     time_ratio = models.DecimalField(default=0, max_digits=3,
-                                                decimal_places=2)
+                                     decimal_places=2)
     class Meta:
         unique_together = (("workspace", "date", "task", "profile"),)
     def __unicode__(self):
-        return u'%s | %s | %s | %d | %d'%(self.date, self.task,
+        return u'%s | %s | %s | %s | %d'%(self.date, self.task,
                                           self.profile, self.duration,
                                           self.cost)
 
@@ -78,18 +78,16 @@ class DailyDataPerTask(TenantModel):
     """
     date = models.DateField()
     task = models.ForeignKey('task.Task')
-    duration = models.DecimalField(default=0, max_digits=10,
-                                   decimal_places=2) # hours
-    cost     = models.DecimalField(default=0, max_digits=10,
-                                   decimal_places=2)
-    children_duration = models.DecimalField(default=0, max_digits=10,
-                                            decimal_places=2)
-    children_cost     = models.DecimalField(default=0, max_digits=10,
-                                            decimal_places=2)
+    duration = models.DurationField(default=datetime.timedelta(0))
+    children_duration = models.DurationField(default=datetime.timedelta(0))
+    cost          = models.DecimalField(default=0, max_digits=10,
+                                        decimal_places=2)
+    children_cost = models.DecimalField(default=0, max_digits=10,
+                                        decimal_places=2)
     class Meta:
         unique_together = (("workspace", "date", "task"),)
     def __unicode__(self):
-        return u'%s | %s | %d | %d'%(self.date, self.task,
+        return u'%s | %s | %s | %d'%(self.date, self.task,
                                      self.duration, self.cost)
 
 def get_ongoing_task(profile):

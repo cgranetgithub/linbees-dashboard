@@ -7,6 +7,7 @@ from salary.models import DailySalary
 from record.models import (AutoRecord, DailyDataPerTaskPerUser,
                                     DailyDataPerTask)
 from libs.chart.calculus import record2daily
+import datetime
 from django.db.models import Sum
 
 import logging
@@ -21,15 +22,15 @@ def on_record_change(sender, instance, *args, **kwargs):
         data_dict = record2daily(instance)
         # for each date update ddtu
         for date in data_dict.iterkeys():
-            record_duration = data_dict[date].total_seconds()/3600
-            # skip records smaller than 3.6 seconds
-            if record_duration < 0.001:
+            record_duration = data_dict[date]
+            # skip records smaller than x seconds
+            if record_duration < datetime.timedelta(seconds=5):
                 continue
             (ddtu, created) = DailyDataPerTaskPerUser.objects.get_or_create(
                                                 workspace=workspace,
                                                 task=instance.task,
                                                 date=date, profile=profile)
-            ddtu.duration += Decimal(record_duration)
+            ddtu.duration += record_duration
             if created:
                 daily_wage = 0
                 try:
@@ -51,7 +52,8 @@ def on_record_change(sender, instance, *args, **kwargs):
             duration_sum = ddtu_list.aggregate(Sum('duration')
                                                             )['duration__sum']
             for i in ddtu_list:
-                i.time_ratio = i.duration / duration_sum
+                i.time_ratio = Decimal( i.duration.total_seconds() / 
+                                              duration_sum.total_seconds() )
                 i.cost = i.time_ratio * i.wage
                 i.save()
                 
@@ -64,7 +66,7 @@ def on_ddtu_change(sender, instance, *args, **kwargs):
         prev_duration = prev.duration
         prev_cost = prev.cost
     else:
-        prev_duration = 0
+        prev_duration = datetime.timedelta(0)
         prev_cost = 0
     duration_diff = instance.duration - prev_duration
     cost_diff = instance.cost - prev_cost
@@ -105,7 +107,7 @@ def on_ddt_creation(sender, instance, created, *args, **kwargs):
             my_duration = ddtu_list.aggregate(Sum('duration'))['duration__sum']
             my_cost = ddtu_list.aggregate(Sum('cost'))['cost__sum']
         else:
-            my_duration = 0
+            my_duration = datetime.timedelta(0)
             my_cost = 0
         # save
         instance.duration = my_duration + instance.children_duration
@@ -130,26 +132,40 @@ def on_salary_change(sender, instance, *args, **kwargs):
 def on_task_parent_change(sender, instance, prev_parent, new_parent, **kwargs):
     # if parent changed
     if prev_parent != new_parent:
-        logger.debug("on_task_parent_change %s %s"%(sender, instance))
+        logger.debug("on_task_parent_change %s %s %s"%(instance, prev_parent,
+                                                      new_parent))
         workspace = instance.workspace
-        # remove data from parent
-        ancestors = instance.get_ancestors()
-        parents = DailyDataPerTask.objects.filter(task__in=ancestors,
-                                                  workspace=workspace)
-        for parent in parents:
-            child = DailyDataPerTask.objects.get(task=instance,
-                                                 date=parent.date,
-                                                 workspace=workspace)
-            parent.duration -= child.duration
-            parent.cost -= child.cost
-            parent.save()
-        # add data to new parent
-        parents = DailyDataPerTask.objects.filter(task=new_parent,
-                                                  workspace=workspace)
-        for parent in parents:
-            child = DailyDataPerTask.objects.get(task=instance,
-                                                 date=parent.date,
-                                                 workspace=workspace)
-            parent.duration += child.duration
-            parent.cost += child.cost
-            parent.save()
+        if prev_parent:
+            # get all ancestors tasks starting from previous parent
+            ancestors = prev_parent.get_ancestors(include_self=True)
+            # get all ddt which are ancestors
+            parents = DailyDataPerTask.objects.filter(task__in=ancestors,
+                                                    workspace=workspace)
+            for parent in parents:
+                # get instance for the same date as parent
+                child = DailyDataPerTask.objects.get(task=instance,
+                                                    date=parent.date,
+                                                    workspace=workspace)
+                # remove duration and cost
+                parent.duration -= child.duration
+                parent.children_duration -= child.duration
+                parent.cost -= child.cost
+                parent.children_cost -= child.cost
+                parent.save()
+        if new_parent:
+            # get all ancestors tasks starting from new parent
+            ancestors = new_parent.get_ancestors(include_self=True)
+            # get all ddt which are ancestors
+            parents = DailyDataPerTask.objects.filter(task__in=ancestors,
+                                                    workspace=workspace)
+            for parent in parents:
+                # get instance for the same date as parent
+                child = DailyDataPerTask.objects.get(task=instance,
+                                                    date=parent.date,
+                                                    workspace=workspace)
+                # add duration and cost
+                parent.duration += child.duration
+                parent.children_duration += child.duration
+                parent.cost += child.cost
+                parent.children_cost += child.cost
+                parent.save()

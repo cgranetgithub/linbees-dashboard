@@ -2,6 +2,7 @@
 from __future__ import unicode_literals
 
 from django.db import models, migrations
+import datetime
 
 
 class Migration(migrations.Migration):
@@ -35,9 +36,9 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('date', models.DateField()),
-                ('duration', models.DecimalField(default=0, max_digits=10, decimal_places=2)),
+                ('duration', models.DurationField(default=datetime.timedelta(0))),
+                ('children_duration', models.DurationField(default=datetime.timedelta(0))),
                 ('cost', models.DecimalField(default=0, max_digits=10, decimal_places=2)),
-                ('children_duration', models.DecimalField(default=0, max_digits=10, decimal_places=2)),
                 ('children_cost', models.DecimalField(default=0, max_digits=10, decimal_places=2)),
                 ('task', models.ForeignKey(to='task.Task')),
                 ('workspace', models.ForeignKey(to='workspace.Workspace')),
@@ -50,7 +51,7 @@ class Migration(migrations.Migration):
                 ('date', models.DateField()),
                 ('wage', models.DecimalField(default=0, max_digits=10, decimal_places=2)),
                 ('cost', models.DecimalField(default=0, max_digits=10, decimal_places=2)),
-                ('duration', models.DecimalField(default=0, max_digits=10, decimal_places=2)),
+                ('duration', models.DurationField(default=datetime.timedelta(0))),
                 ('time_ratio', models.DecimalField(default=0, max_digits=3, decimal_places=2)),
                 ('profile', models.ForeignKey(to='profile.Profile')),
                 ('task', models.ForeignKey(to='task.Task')),

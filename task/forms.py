@@ -34,7 +34,6 @@ class TaskForm(forms.ModelForm):
             manager_tasks = Task.objects.filter(workspace=ws, owner=profile.parent)
         # exclusions (the task & its descendants)
         if self.instance is not None and self.instance.id:
-            print "^^^^", self.instance
             manager_tasks = manager_tasks.exclude(id=self.instance.id)
             task_desc = self.instance.get_descendants(include_self=True)
             task_desc_ids = [ i.id for i in task_desc ]
