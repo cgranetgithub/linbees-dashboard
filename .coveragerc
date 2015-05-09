@@ -1,0 +1,19 @@
+[run]
+source =
+    department
+    locale
+    payment
+    profile           
+    salary        
+    templates
+    invoice  
+    manage.py  
+    preference  
+    record            
+    satisfaction  
+    workspace
+    libs     
+    pages      
+    Procfile    
+    service       
+    task         

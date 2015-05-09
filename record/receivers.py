@@ -15,15 +15,15 @@ logger = logging.getLogger('django')
 @receiver(post_save, sender=AutoRecord)
 def on_record_change(sender, instance, *args, **kwargs):
     if instance.start and instance.end:
-        logger.info("on_record_change %s %s"%(sender, instance))
+        logger.debug("on_record_change %s %s"%(sender, instance))
         (workspace, profile) = (instance.workspace, instance.profile)
         # calculate durations per day (record might last several days)
         data_dict = record2daily(instance)
         # for each date update ddtu
         for date in data_dict.iterkeys():
             record_duration = data_dict[date].total_seconds()/3600
-            # skip records smaller than 36 seconds
-            if record_duration < 0.01:
+            # skip records smaller than 3.6 seconds
+            if record_duration < 0.001:
                 continue
             (ddtu, created) = DailyDataPerTaskPerUser.objects.get_or_create(
                                                 workspace=workspace,
@@ -57,7 +57,7 @@ def on_record_change(sender, instance, *args, **kwargs):
                 
 @receiver(pre_save, sender=DailyDataPerTaskPerUser)
 def on_ddtu_change(sender, instance, *args, **kwargs):
-    logger.info("on_ddtu_change %s %s"%(sender, instance))
+    logger.debug("on_ddtu_change %s %s"%(sender, instance))
     # get last data, get new data, calculate diff
     if instance.id:
         prev = DailyDataPerTaskPerUser.objects.get(pk=instance.id)
@@ -85,7 +85,7 @@ def on_ddtu_change(sender, instance, *args, **kwargs):
 def on_ddt_creation(sender, instance, created, *args, **kwargs):
     # if new, calculate children data & self data
     if created:
-        logger.info("on_ddt_creation %s %s"%(sender, instance))
+        logger.debug("on_ddt_creation %s %s"%(sender, instance))
         workspace = instance.workspace
         # children
         children_tasks = instance.task.get_children()
@@ -114,7 +114,7 @@ def on_ddt_creation(sender, instance, created, *args, **kwargs):
 
 @receiver(post_save, sender=DailySalary)
 def on_salary_change(sender, instance, *args, **kwargs):
-    logger.info("on_salary_change %s %s"%(sender, instance))
+    logger.debug("on_salary_change %s %s"%(sender, instance))
     # update ddtu with new wage
     ddtu_list = DailyDataPerTaskPerUser.objects.filter(
                                             profile=instance.profile,
@@ -130,7 +130,7 @@ def on_salary_change(sender, instance, *args, **kwargs):
 def on_task_parent_change(sender, instance, prev_parent, new_parent, **kwargs):
     # if parent changed
     if prev_parent != new_parent:
-        logger.info("on_task_parent_change %s %s"%(sender, instance))
+        logger.debug("on_task_parent_change %s %s"%(sender, instance))
         workspace = instance.workspace
         # remove data from parent
         ancestors = instance.get_ancestors()

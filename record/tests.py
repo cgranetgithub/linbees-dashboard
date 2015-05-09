@@ -8,16 +8,23 @@ from django.utils.timezone import utc
 from django.contrib.auth.models import User
 from workspace.models import Workspace
 from profile.models import createUserProfile
+from salary.models import DailySalary
 from task.models import Task
 from record.models import (AutoRecord, DailyDataPerTask,
                                     DailyDataPerTaskPerUser)
 from libs.test_util import (dashboard_signup, dashboard_login,
                             dashboard_create_task, client_signup)
 
-class DurationTest(WebTest):
-    def test_duration(self):
+class DailyDataTest(WebTest):
+    def test_time_cost(self):
         (response, workspace, user1) = dashboard_signup(self.app,
                                             'charly@lagat.com', 'secret')
+        # set salary
+        fs = DailySalary.objects.create(workspace=workspace,
+                                        profile=user1,
+                                        start_date=timezone.now().date(),
+                                        end_date=timezone.now().date(),
+                                        daily_wage=100)
         # create 1 task & 1 record and check
         (response, task1) = dashboard_create_task(self.app, 'T1', user1)
         record1 = AutoRecord.objects.create(workspace=workspace, task=task1,
@@ -28,9 +35,14 @@ class DurationTest(WebTest):
         ddtu = DailyDataPerTaskPerUser.objects.get(workspace=workspace,
                                         date=date, task=task1, profile=user1)
         self.assertEqual(ddtu.duration, Decimal('0.10'))
-        ddtu = DailyDataPerTask.objects.get(workspace=workspace, date=date,
+        self.assertEqual(ddtu.time_ratio, Decimal('1.00'))
+        self.assertEqual(ddtu.cost, Decimal('100.00'))
+        ddt = DailyDataPerTask.objects.get(workspace=workspace, date=date,
                                             task=task1)
-        self.assertEqual(ddtu.duration, Decimal('0.10'))
+        self.assertEqual(ddt.duration, Decimal('0.10'))
+        self.assertEqual(ddt.children_duration, Decimal('0.00'))
+        self.assertEqual(ddt.cost, Decimal('100.00'))
+        self.assertEqual(ddt.children_cost, Decimal('0.00'))
         # create a sub-task with 1 record and check
         (response, task2) = dashboard_create_task(self.app, 'T2', user1,
                                                   parent=task1)
@@ -41,15 +53,25 @@ class DurationTest(WebTest):
         ddtu = DailyDataPerTaskPerUser.objects.get(workspace=workspace,
                                         date=date, task=task1, profile=user1)
         self.assertEqual(ddtu.duration, Decimal('0.10'))
+        self.assertEqual(ddtu.time_ratio, Decimal('0.33'))
+        self.assertEqual(ddtu.cost, Decimal('33.33'))
         ddtu = DailyDataPerTaskPerUser.objects.get(workspace=workspace,
                                         date=date, task=task2, profile=user1)
         self.assertEqual(ddtu.duration, Decimal('0.20'))
+        self.assertEqual(ddtu.time_ratio, Decimal('0.67'))
+        self.assertEqual(ddtu.cost, Decimal('66.67'))
         ddt = DailyDataPerTask.objects.get(workspace=workspace, date=date,
                                            task=task1)
         self.assertEqual(ddt.duration, Decimal('0.30'))
+        self.assertEqual(ddt.children_duration, Decimal('0.20'))
+        self.assertEqual(ddt.cost, Decimal('100.00'))
+        self.assertEqual(ddt.children_cost, Decimal('66.67'))
         ddt = DailyDataPerTask.objects.get(workspace=workspace, date=date,
                                            task=task2)
         self.assertEqual(ddt.duration, Decimal('0.20'))
+        self.assertEqual(ddt.children_duration, Decimal('0.00'))
+        self.assertEqual(ddt.cost, Decimal('66.67'))
+        self.assertEqual(ddt.children_cost, Decimal('0.00'))
         # add more records to the tasks
         record3 = AutoRecord.objects.create(workspace=workspace, task=task1,
                                         profile=user1, start=timezone.now())
@@ -62,20 +84,40 @@ class DurationTest(WebTest):
         ddtu = DailyDataPerTaskPerUser.objects.get(workspace=workspace,
                                         date=date, task=task1, profile=user1)
         self.assertEqual(ddtu.duration, Decimal('0.30'))
+        self.assertEqual(ddtu.time_ratio, Decimal('0.43'))
+        self.assertEqual(ddtu.cost, Decimal('42.86'))
         ddtu = DailyDataPerTaskPerUser.objects.get(workspace=workspace,
                                         date=date, task=task2, profile=user1)
         self.assertEqual(ddtu.duration, Decimal('0.40'))
+        self.assertEqual(ddtu.time_ratio, Decimal('0.57'))
+        self.assertEqual(ddtu.cost, Decimal('57.14'))
         ddt = DailyDataPerTask.objects.get(workspace=workspace, date=date,
                                            task=task1)
         self.assertEqual(ddt.duration, Decimal('0.70'))
+        self.assertEqual(ddt.children_duration, Decimal('0.40'))
+        self.assertEqual(ddt.cost, Decimal('100.00'))
+        self.assertEqual(ddt.children_cost, Decimal('57.14'))
         ddt = DailyDataPerTask.objects.get(workspace=workspace, date=date,
                                            task=task2)
         self.assertEqual(ddt.duration, Decimal('0.40'))
+        self.assertEqual(ddt.children_duration, Decimal('0.00'))
+        self.assertEqual(ddt.cost, Decimal('57.14'))
+        self.assertEqual(ddt.children_cost, Decimal('0.00'))
         # add new users with records
         (response, workspace, user2) = client_signup(self.app,
                                                 'john@lagat.com', 'secret')
         (response, workspace, user3) = client_signup(self.app,
                                                 'jack@lagat.com', 'secret')
+        fs = DailySalary.objects.create(workspace=workspace,
+                                        profile=user2,
+                                        start_date=timezone.now().date(),
+                                        end_date=timezone.now().date(),
+                                        daily_wage=200)
+        fs = DailySalary.objects.create(workspace=workspace,
+                                        profile=user3,
+                                        start_date=timezone.now().date(),
+                                        end_date=timezone.now().date(),
+                                        daily_wage=300)
         record5 = AutoRecord.objects.create(workspace=workspace, task=task1,
                                             profile=user2, start=timezone.now())
         record5.end = record5.start + dt.timedelta(minutes=12)
@@ -83,6 +125,8 @@ class DurationTest(WebTest):
         ddtu = DailyDataPerTaskPerUser.objects.get(workspace=workspace,
                                         date=date, task=task1, profile=user2)
         self.assertEqual(ddtu.duration, Decimal('0.20'))
+        self.assertEqual(ddtu.time_ratio, Decimal('1.00'))
+        self.assertEqual(ddtu.cost, Decimal('200.00'))
         record6 = AutoRecord.objects.create(workspace=workspace, task=task2,
                                         profile=user3, start=timezone.now())
         record6.end = record6.start + dt.timedelta(minutes=6)
@@ -90,66 +134,132 @@ class DurationTest(WebTest):
         ddtu = DailyDataPerTaskPerUser.objects.get(workspace=workspace,
                                         date=date, task=task2, profile=user3)
         self.assertEqual(ddtu.duration, Decimal('0.10'))
+        self.assertEqual(ddtu.time_ratio, Decimal('1.00'))
+        self.assertEqual(ddtu.cost, Decimal('300.00'))
         ddt = DailyDataPerTask.objects.get(workspace=workspace, date=date,
                                            task=task1)
         self.assertEqual(ddt.duration, Decimal('1.00'))
+        self.assertEqual(ddt.children_duration, Decimal('0.50'))
+        self.assertEqual(ddt.cost, Decimal('600.00'))
+        self.assertEqual(ddt.children_cost, Decimal('357.14'))
         ddt = DailyDataPerTask.objects.get(workspace=workspace, date=date,
                                            task=task2)
         self.assertEqual(ddt.duration, Decimal('0.50'))
+        self.assertEqual(ddt.children_duration, Decimal('0.00'))
+        self.assertEqual(ddt.cost, Decimal('357.14'))
+        self.assertEqual(ddt.children_cost, Decimal('0.00'))
+        
+    def test_change_salary(self):
+        (response, workspace, user1) = dashboard_signup(self.app,
+                                            'charly@lagat.com', 'secret')
+        # set salary
+        ds1 = DailySalary.objects.create(workspace=workspace,
+                                        profile=user1,
+                                        start_date=timezone.now().date(),
+                                        end_date=timezone.now().date(),
+                                        daily_wage=100)
+        # create 1 task & 1 record and check
+        (response, task1) = dashboard_create_task(self.app, 'T1', user1)
+        record1 = AutoRecord.objects.create(workspace=workspace, task=task1,
+                                         profile=user1, start=timezone.now())
+        record1.end = record1.start + dt.timedelta(minutes=6)
+        record1.save()
+        date = record1.start.date()
+        # create a sub-task with 1 record and check
+        (response, task2) = dashboard_create_task(self.app, 'T2', user1,
+                                                  parent=task1)
+        record2 = AutoRecord.objects.create(workspace=workspace, task=task2,
+                                         profile=user1, start=timezone.now())
+        record2.end = record2.start + dt.timedelta(minutes=12)
+        record2.save()
+        # add more records to the tasks
+        record3 = AutoRecord.objects.create(workspace=workspace, task=task1,
+                                        profile=user1, start=timezone.now())
+        record3.end = record3.start + dt.timedelta(minutes=12)
+        record3.save()
+        record4 = AutoRecord.objects.create(workspace=workspace, task=task2,
+                                        profile=user1, start=timezone.now())
+        record4.end = record4.start + dt.timedelta(minutes=12)
+        record4.save()
+        # add new users with records
+        (response, workspace, user2) = client_signup(self.app,
+                                                'john@lagat.com', 'secret')
+        (response, workspace, user3) = client_signup(self.app,
+                                                'jack@lagat.com', 'secret')
+        ds2 = DailySalary.objects.create(workspace=workspace,
+                                        profile=user2,
+                                        start_date=timezone.now().date(),
+                                        end_date=timezone.now().date(),
+                                        daily_wage=200)
+        ds3 = DailySalary.objects.create(workspace=workspace,
+                                        profile=user3,
+                                        start_date=timezone.now().date(),
+                                        end_date=timezone.now().date(),
+                                        daily_wage=300)
+        record5 = AutoRecord.objects.create(workspace=workspace, task=task1,
+                                            profile=user2, start=timezone.now())
+        record5.end = record5.start + dt.timedelta(minutes=12)
+        record5.save()
+        record6 = AutoRecord.objects.create(workspace=workspace, task=task2,
+                                        profile=user3, start=timezone.now())
+        record6.end = record6.start + dt.timedelta(minutes=6)
+        record6.save()
+        ddt = DailyDataPerTask.objects.get(workspace=workspace, date=date,
+                                           task=task1)
+        self.assertEqual(ddt.duration, Decimal('1.00'))
+        self.assertEqual(ddt.children_duration, Decimal('0.50'))
+        self.assertEqual(ddt.cost, Decimal('600.00'))
+        self.assertEqual(ddt.children_cost, Decimal('357.14'))
+        ddt = DailyDataPerTask.objects.get(workspace=workspace, date=date,
+                                           task=task2)
+        self.assertEqual(ddt.duration, Decimal('0.50'))
+        self.assertEqual(ddt.children_duration, Decimal('0.00'))
+        self.assertEqual(ddt.cost, Decimal('357.14'))
+        self.assertEqual(ddt.children_cost, Decimal('0.00'))
+        # change salaries
+        ds1.daily_wage=80
+        ds1.save()
+        ds2.daily_wage=60
+        ds2.save()
+        ds3.daily_wage=40
+        ds3.save()
+        # verify
+        ddtu = DailyDataPerTaskPerUser.objects.get(workspace=workspace,
+                                        date=date, task=task1, profile=user1)
+        self.assertEqual(ddtu.duration, Decimal('0.30'))
+        self.assertEqual(ddtu.time_ratio, Decimal('0.43'))
+        self.assertEqual(ddtu.cost, Decimal('34.4'))
+        ddtu = DailyDataPerTaskPerUser.objects.get(workspace=workspace,
+                                        date=date, task=task2, profile=user1)
+        self.assertEqual(ddtu.duration, Decimal('0.40'))
+        self.assertEqual(ddtu.time_ratio, Decimal('0.57'))
+        self.assertEqual(ddtu.cost, Decimal('45.6'))
+        ddtu = DailyDataPerTaskPerUser.objects.get(workspace=workspace,
+                                        date=date, task=task1, profile=user2)
+        self.assertEqual(ddtu.duration, Decimal('0.20'))
+        self.assertEqual(ddtu.time_ratio, Decimal('1.00'))
+        self.assertEqual(ddtu.cost, Decimal('60.00'))
+        ddtu = DailyDataPerTaskPerUser.objects.get(workspace=workspace,
+                                        date=date, task=task2, profile=user3)
+        self.assertEqual(ddtu.duration, Decimal('0.10'))
+        self.assertEqual(ddtu.time_ratio, Decimal('1.00'))
+        self.assertEqual(ddtu.cost, Decimal('40.00'))
+        ddt = DailyDataPerTask.objects.get(workspace=workspace, date=date,
+                                           task=task1)
+        self.assertEqual(ddt.duration, Decimal('1.00'))
+        self.assertEqual(ddt.children_duration, Decimal('0.50'))
+        self.assertEqual(ddt.cost, Decimal('180.00'))
+        self.assertEqual(ddt.children_cost, Decimal('85.60'))
+        ddt = DailyDataPerTask.objects.get(workspace=workspace, date=date,
+                                           task=task2)
+        self.assertEqual(ddt.duration, Decimal('0.50'))
+        self.assertEqual(ddt.children_duration, Decimal('0.00'))
+        self.assertEqual(ddt.cost, Decimal('85.60'))
+        self.assertEqual(ddt.children_cost, Decimal('0.00'))
 
-    #def test_multiple_days(self):
-        #record = AutoRecord.objects.create(workspace=workspace,
-                                       #task=task1,
-                                       #profile=user1,
-                                       #start=timezone.now())
-        #record.end = ( record.start
-                            #+ dt.timedelta(2) )
-        #record.save()
-        #today = record.start.date()
-        #tomorrow = today + dt.timedelta(1)
-        #aftertomorrow = today + dt.timedelta(2)
-        #ddtu1 = DailyDataPerTaskPerUser.objects.get(workspace=workspace, 
-                                        #date=today,
-                                        #task=task1,
-                                        #profile=user1).duration
-        #ddtu2 = DailyDataPerTaskPerUser.objects.get(workspace=workspace, 
-                                        #date=tomorrow,
-                                        #task=task1,
-                                        #profile=user1).duration
-        #self.assertEqual(ddtu2, Decimal('24'))
-        #ddtu3 = DailyDataPerTaskPerUser.objects.get(workspace=workspace, 
-                                        #date=aftertomorrow,
-                                        #task=task1,
-                                        #profile=user1).duration
-        #self.assertEqual(ddtu1+ddtu2+ddtu3, Decimal('48'))
+    def test_move_task(self):
+        pass
 
-class MultipleAutoRecordADayTest(TestCase):
-    def test_duration(self):
-        workspace = Workspace.objects.create(name='testlagatdashboard')
-        auth = User.objects.create_user(username='charly@lagat.com'
-                                    , password='secret')
-        user1 = createUserProfile(auth, workspace)
-        task1 = Task.objects.create(workspace=workspace,
-                                        name='p0', owner=user1)
-        for i in range(2):
-            record = AutoRecord.objects.create(workspace=workspace,
-                                           task=task1, profile=user1,
-                                           start=timezone.now())
-            record.end = ( record.start
-                                + dt.timedelta(minutes=6) )
-            record.save()
-        for i in range(2):
-            record = AutoRecord.objects.create(workspace=workspace,
-                                           task=task1, profile=user1,
-                                           start=timezone.now())
-            record.end = ( record.start
-                                + dt.timedelta(minutes=6) )
-            record.save()
-        ddtu = DailyDataPerTaskPerUser.objects.get(workspace=workspace, 
-                                        date=record.start.date()
-                                        , task=task1
-                                        , profile=user1)
-        self.assertEqual(ddtu.duration, Decimal('0.4'))
 
 class ApiTest(TestCase):
     def setUp(self):
