@@ -58,7 +58,40 @@ class TaskForm(forms.ModelForm):
             'start_date': forms.DateInput(attrs={'class': 'datepicker'}),
             'end_date': forms.DateInput(attrs={'class': 'datepicker'}),
         }
-
+    def clean_name(self):
+        data = self.cleaned_data['name']
+        # get siblings and check if name already exists
+        try:
+            self.instance.get_siblings().get(name=data)
+        except Task.DoesNotExist:
+            pass
+        else:
+            raise forms.ValidationError(_('A project with the same name already exists.'))
+        # Always return the cleaned data, whether you have changed it or
+        # not.
+        return data
+    def clean_parent(self):
+        parent = self.cleaned_data['parent']
+        print parent
+        if parent:
+            # verify that there is no project with same name in the parent
+            try:
+                parent.get_children().get(name=self.instance.name)
+            except Task.DoesNotExist:
+                pass
+            else:
+                raise forms.ValidationError(_('A project with the same name already exists in this parent project.'))
+        # Always return the cleaned data, whether you have changed it or
+        # not.
+        return parent
+    def clean(self):
+        cleaned_data = super(TaskForm, self).clean()
+        start_date = cleaned_data.get("start_date")
+        end_date = cleaned_data.get("end_date")
+        if start_date and end_date and (start_date > end_date):
+            self.add_error('start_date', _('Start date should be lower than end date.'))
+            self.add_error('end_date', _('End date should be greater than start date.'))
+            
 class TaskListForm(forms.Form):
     plist = forms.MultipleChoiceField(label=_('Projects')
                                     , widget=forms.CheckboxSelectMultiple)
