@@ -61,18 +61,18 @@ class TaskForm(forms.ModelForm):
     def clean_name(self):
         data = self.cleaned_data['name']
         # get siblings and check if name already exists
-        try:
-            self.instance.get_siblings().get(name=data)
-        except Task.DoesNotExist:
-            pass
-        else:
-            raise forms.ValidationError(_('A project with the same name already exists.'))
+        if self.instance and self.instance.id:
+            try:
+                self.instance.get_siblings().get(name=data)
+            except Task.DoesNotExist:
+                pass
+            else:
+                raise forms.ValidationError(_('A project with the same name already exists.'))
         # Always return the cleaned data, whether you have changed it or
         # not.
         return data
     def clean_parent(self):
         parent = self.cleaned_data['parent']
-        print parent
         if parent:
             # verify that there is no project with same name in the parent
             try:
