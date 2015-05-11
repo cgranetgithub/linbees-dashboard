@@ -59,38 +59,36 @@ def tasks(request, single=False):
     data = []
     selected = False
     for i in my_tasks:
+        node = {'id'  : str(i.id),
+                'text': str(i.name)}
         if i.parent is None:
-            node = {'id'    : str(i.id),
-                    'text'  : str(i.name),
-                    'parent': '#'}
+            node['parent'] = '#',
             if single:
                 if not selected:
                     node['state'] = {'selected': 'true',
-                                     'opened'  : 'true'}
+                                    'opened'  : 'true'}
                     selected = True
             else:
                 node['state'] = {'selected': 'true',
-                                 'opened'  : 'true'}
-            data.append(node)
-        elif i.parent in ancestors_tasks:
-            node = {'id'    : str(i.id),
-                    'text'  : str(i.name),
-                    'parent': str(i.parent.id)}
-            if single:
-                if not selected:
+                                'opened'  : 'true'}
+        else:
+            node['parent'] = str(i.parent.id)
+            if i.parent in ancestors_tasks:
+                if single:
+                    if not selected:
+                        node['state'] = {'selected': 'true',
+                                        'opened'  : 'true'}
+                        selected = True
+                else:
                     node['state'] = {'selected': 'true',
-                                     'opened'  : 'true'}
-                    selected = True
-            else:
-                node['state'] = {'selected': 'true',
-                                 'opened'  : 'true'}
-            root_node = {'id'    : str(i.parent.id),
-                         'text'  : str(i.parent.name),
-                         'parent': '#',
-                         'state' : {'disabled': 'true',
-                                    'opened': 'true'}}
-            data.append(root_node)
-            data.append(node)
+                                    'opened'  : 'true'}
+                root_node = {'id'  : str(i.parent.id),
+                             'text': str(i.parent.name),
+                             'parent': '#',
+                             'state': {'disabled': 'true',
+                                       'opened': 'true'}}
+                data.append(root_node)
+        data.append(node)
     return HttpResponse(json.dumps(data), content_type="application/json")
 
 @login_required
@@ -252,7 +250,7 @@ def total_time_per_project(request, topic='duration'):
                 elif topic == 'cost':
                     tmp = [unicode(i),
                         int(data_list.aggregate(Sum(topic))['%s__sum'%topic])]
-                data['data'].append(tmp)
+            data['data'].append(tmp)
         data['options'] = {'is3D':'true', 'backgroundColor':'transparent'}
     return HttpResponse(json.dumps(data), content_type="application/json")
 
