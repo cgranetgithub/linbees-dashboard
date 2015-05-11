@@ -243,8 +243,13 @@ def total_time_per_project(request, topic='duration'):
             data_list = DailyDataPerTask.objects.filter(workspace=workspace,
                                                         task=i)
             if len(data_list) > 0:
-                tmp = [unicode(i),
-                       int(data_list.aggregate(Sum(topic))['%s__sum'%topic])]
+                if topic == 'duration':
+                    tmp = [ unicode(i),
+                            (data_list.aggregate(Sum(topic))['%s__sum'%topic]
+                                                        ).total_seconds()/3600]
+                elif topic == 'cost':
+                    tmp = [unicode(i),
+                        int(data_list.aggregate(Sum(topic))['%s__sum'%topic])]
             data['data'].append(tmp)
         data['options'] = {'is3D':'true', 'backgroundColor':'transparent'}
     return HttpResponse(json.dumps(data), content_type="application/json")

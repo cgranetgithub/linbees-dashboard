@@ -35,6 +35,7 @@ $(function() {
     function update_form(data_url) {
         $.get( data_url, function( data ) {
             $( "#form_div" ).html( data );
+            $( ".datepicker" ).datepicker({ dateFormat: "yy-mm-dd" });
         });
     };
 

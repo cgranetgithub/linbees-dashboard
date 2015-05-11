@@ -141,8 +141,8 @@ def comparison_table(request):
             if len(data_list) > 0:
                 tmp['actual_start'] = data_list.first().date.isoformat()
                 tmp['actual_end'] = data_list.last().date.isoformat()
-                tmp['actual_time'] = float(data_list.aggregate(Sum('duration')
-                                                            )['duration__sum']) or ''
+                tmp['actual_time'] = (data_list.aggregate(Sum('duration')
+                                    )['duration__sum']).total_seconds()/3600
                 tmp['actual_cost'] = float(data_list.aggregate(Sum('cost')
                                                                 )['cost__sum']) or ''
             data.append(tmp)

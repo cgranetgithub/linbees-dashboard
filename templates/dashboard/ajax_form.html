@@ -4,7 +4,7 @@
 <div id="ajaxform_div">
     <form action="{{ form_action }}" method="post" role="form" id="ajaxform">{% csrf_token %}
         {% if is_formset %}
-            {% bootstrap_formset formset %}
+            {% bootstrap_formset formset layout='horizontal' %}
         {% else %}
             {% bootstrap_form form %}
         {% endif %}
