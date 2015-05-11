@@ -72,7 +72,7 @@ class TaskForm(forms.ModelForm):
         return data
     def clean_parent(self):
         parent = self.cleaned_data['parent']
-        if parent and (self.instance.parent != parent): # if parent change
+        if parent:
             # verify that there is no project with same name in the parent
             try:
                 parent.get_children().get(name=self.instance.name)
