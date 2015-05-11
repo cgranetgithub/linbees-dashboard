@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-02-19 19:45+0000\n"
+"POT-Creation-Date: 2015-05-11 12:35+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,307 +17,56 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: apps/dashboard/forms.py:6 apps/salary/models.py:15
-msgid "Start date"
-msgstr "Date de début"
-
-#: apps/dashboard/forms.py:9 apps/salary/models.py:16
-msgid "End date"
-msgstr "Date de fin"
-
-#: apps/dashboard/views/main.py:42
-msgid "Time repartition"
-msgstr "Répartition du temps"
-
-#: apps/dashboard/views/main.py:43
-msgid "Cost repartition"
-msgstr "Répartition des coûts"
-
-#: apps/dashboard/views/task.py:28
-msgid "Time per project (in hours)"
-msgstr "Temps par projet (en heures)"
-
-#: apps/dashboard/views/task.py:29
-msgid "Cumulated time per project (in hours)"
-msgstr "Temps cumulé par projet (en heures)"
-
-#: apps/dashboard/views/task.py:46
-msgid "Cost per project"
-msgstr "Coût par projet"
-
-#: apps/dashboard/views/task.py:47
-msgid "Cumulated cost per project"
-msgstr "Coût cumulé par projet"
-
-#: apps/department/models.py:10 apps/invoice/models.py:10
-#: apps/payment/models.py:13 apps/preference/models.py:19
-#: apps/salary/models.py:8 apps/satisfaction/models.py:11
-#: apps/satisfaction/models.py:26 apps/task/models.py:15
-#: apps/task/models.py:30 apps/task/models.py:45 apps/workspace/models.py:41
+#: department/models.py:10 invoice/models.py:10 payment/models.py:13
+#: preference/models.py:19 salary/models.py:7 satisfaction/models.py:11
+#: satisfaction/models.py:26 task/models.py:14 task/models.py:29
+#: task/models.py:44 workspace/models.py:41
 msgid "active"
 msgstr "actif"
 
-#: apps/department/models.py:12 apps/invoice/models.py:12
-#: apps/payment/models.py:15 apps/preference/models.py:21
-#: apps/profile/models.py:36 apps/salary/models.py:10
-#: apps/satisfaction/models.py:13 apps/satisfaction/models.py:28
-#: apps/task/models.py:17 apps/task/models.py:32 apps/task/models.py:47
-#: apps/workspace/models.py:43
+#: department/models.py:12 invoice/models.py:12 payment/models.py:15
+#: preference/models.py:21 profile/models.py:36 salary/models.py:9
+#: satisfaction/models.py:13 satisfaction/models.py:28 task/models.py:16
+#: task/models.py:31 task/models.py:46 workspace/models.py:43
 msgid "created at"
 msgstr "créé le"
 
-#: apps/department/models.py:14 apps/invoice/models.py:14
-#: apps/payment/models.py:17 apps/preference/models.py:23
-#: apps/profile/models.py:38 apps/salary/models.py:12
-#: apps/satisfaction/models.py:15 apps/task/models.py:19
-#: apps/task/models.py:34 apps/task/models.py:49 apps/workspace/models.py:45
+#: department/models.py:14 invoice/models.py:14 payment/models.py:17
+#: preference/models.py:23 profile/models.py:38 salary/models.py:11
+#: satisfaction/models.py:15 task/models.py:18 task/models.py:33
+#: task/models.py:48 workspace/models.py:45
 msgid "updated at"
 msgstr "mis à jour le"
 
-#: apps/department/models.py:16 apps/satisfaction/models.py:17
-#: apps/task/models.py:21 apps/task/models.py:36 apps/task/models.py:57
+#: department/models.py:16 satisfaction/models.py:17 task/models.py:20
+#: task/models.py:35 task/models.py:56
 msgid "Name"
 msgstr "Nom"
 
-#: apps/department/models.py:18 apps/satisfaction/models.py:19
-#: apps/task/models.py:23 apps/task/models.py:38 apps/task/models.py:59
+#: department/models.py:18 satisfaction/models.py:19 task/models.py:22
+#: task/models.py:37 task/models.py:58
 msgid "Description"
 msgstr "Description"
 
-#: apps/invoice/models.py:16
+#: invoice/models.py:16
 msgid "sent at"
 msgstr "envoyé le"
 
-#: apps/invoice/models.py:17
+#: invoice/models.py:17
 msgid "month"
 msgstr "mois"
 
-#: apps/invoice/models.py:18
+#: invoice/models.py:18
 msgid "year"
 msgstr "année"
 
-#: apps/invoice/models.py:19
+#: invoice/models.py:19
 msgid "amount"
 msgstr "montant"
 
-#: apps/invoice/models.py:21
+#: invoice/models.py:21
 msgid "comment"
 msgstr "commentaire"
-
-#: apps/preference/models.py:8
-msgid "Keep on top"
-msgstr "Toujours devant"
-
-#: apps/profile/forms.py:104 apps/profile/models.py:14
-msgid "Manager"
-msgstr "Manager"
-
-#: apps/profile/models.py:12
-msgid "Title"
-msgstr "Titre"
-
-#: apps/profile/models.py:18
-msgid "Accepted terms"
-msgstr ""
-
-#: apps/profile/models.py:21 templates/dashboard/no_access.html:5
-msgid "Dashboard access"
-msgstr "Accès au tableau de bord"
-
-#: apps/profile/models.py:23
-msgid "Designates whether the user can access the dashboard."
-msgstr "Indique si l'utilisateur a accès à ce tableau de bord"
-
-#: apps/profile/models.py:25
-msgid "HR status"
-msgstr "Status RH"
-
-#: apps/profile/models.py:27
-msgid "Designates whether the user has the HR permissions."
-msgstr ""
-"Indique si l'utilisateur a accès aux données RH (comme les données "
-"salariales)"
-
-#: apps/profile/models.py:29
-msgid "Primary status"
-msgstr "Admininistrteur des tâches principales"
-
-#: apps/profile/models.py:31
-msgid ""
-"Designates whether the user has the permissions to administrate primary "
-"tasks/projects."
-msgstr "Indique si l'utilisateur a le contrôle des tâches principales."
-
-#: apps/profile/models.py:34
-msgid "has power transfer from"
-msgstr "délégation de"
-
-#: apps/salary/models.py:14
-msgid "User"
-msgstr "Utilisateur"
-
-#: apps/salary/models.py:19
-msgid "Daily wage"
-msgstr "Salaire journalier"
-
-#: apps/salary/models.py:20
-msgid "This represents the cost of the employee per day"
-msgstr "Cette valeur représente le coût du salarié par jour."
-
-#: apps/signup/views.py:20
-#, python-format
-msgid ""
-"%(name)s, your account was successfully created.<br>Welcome to %(ws)s "
-"dashboard!"
-msgstr ""
-"%(name)s, votre compte a été créé avec succès.<br>Bienvenue sur le tableau "
-"de bord %(ws)s !"
-
-#: apps/task/forms.py:43 apps/task/models.py:65 apps/task/models.py:66
-msgid "Parent project"
-msgstr "Projet parent"
-
-#: apps/task/forms.py:46
-msgid "Project owner"
-msgstr "Propriétaire du projet"
-
-#: apps/task/forms.py:63 templates/dashboard/base.html:62
-msgid "Projects"
-msgstr "Projets"
-
-#: apps/task/models.py:51
-msgid "Monitored"
-msgstr "Suivi"
-
-#: apps/task/models.py:53
-msgid "Primary"
-msgstr "Primaire"
-
-#: apps/task/models.py:55
-msgid "Personal"
-msgstr "Personel"
-
-#: apps/task/models.py:61
-msgid "Group"
-msgstr "Groupe"
-
-#: apps/task/models.py:63
-msgid "Type"
-msgstr "Type"
-
-#: apps/task/models.py:68
-msgid "Owned by"
-msgstr "Appartenant à"
-
-#: apps/task/models.py:70
-msgid "Start date (planned)"
-msgstr "Date de début (prévisionnelle)"
-
-#: apps/task/models.py:72
-msgid "End date (planned)"
-msgstr "Date de fin (prévisionnelle)"
-
-#: apps/task/models.py:74
-msgid "Additional cost"
-msgstr "Coût additionnel"
-
-#: apps/task/models.py:76
-msgid "Cost (planned)"
-msgstr "Coût (prévisionnel)"
-
-#: apps/task/models.py:78
-msgid "Time (planned, in hours)"
-msgstr "Temps (prévisionnel, en heures)"
-
-#: apps/workspace/models.py:19
-msgid "Trial mode"
-msgstr "Période d'évaluation"
-
-#: apps/workspace/models.py:21
-msgid ""
-"This field indicate that your are using your workspace for evaluation. "
-"Deactivate it once you are ready to go to production mode."
-msgstr ""
-"Ce champ indique si vous utilisez linbees en mode évaluation ou production."
-
-#: apps/workspace/models.py:23
-msgid "Main contact name"
-msgstr "Nom du contact principal"
-
-#: apps/workspace/models.py:25
-msgid "Main contact email"
-msgstr "Email du contact principal"
-
-#: apps/workspace/models.py:27
-msgid "Will be used to send out important message (for instance invoices)"
-msgstr "Utilisé pour envoyer les messages importants (factures, etc...)"
-
-#: apps/workspace/models.py:29
-msgid "Address (line1)"
-msgstr "Adresse (ligne 1)"
-
-#: apps/workspace/models.py:32
-msgid "Zipcode"
-msgstr "code postal"
-
-#: apps/workspace/models.py:34
-msgid "City"
-msgstr "Ville"
-
-#: apps/workspace/models.py:36
-msgid "Country"
-msgstr "Pays"
-
-#: apps/workspace/models.py:38
-msgid "Phone number"
-msgstr "Numéro de téléphone"
-
-#: apps/workspace/models.py:47
-msgid "Dashboard name"
-msgstr "Nom du tableau de bord"
-
-#: apps/workspace/models.py:49
-msgid "By default, the dashboard name is your company email domain"
-msgstr ""
-"Par défaut, le nom du tableau de bord est celui du nom de domaine de votre "
-"société"
-
-#: apps/workspace/models.py:55
-msgid "Next invoice date"
-msgstr "Date de la prochaine facture"
-
-#: apps/workspace/models.py:57
-msgid ""
-"Date until when the oranization has paid its subscription. At creation time, "
-"paid_until is initiaized with now + the default trial period defined in the "
-"settings."
-msgstr "Date jusqu'à laquelle la souscription est payée."
-
-#: apps/workspace/models.py:62
-msgid "Monthly user fee"
-msgstr "Coût per mois et par utilisateur"
-
-#: apps/workspace/models.py:64
-msgid ""
-"Monthly rate applied to calculate the monthly fee. Monthly fee is number of "
-"active users x rate."
-msgstr ""
-
-#: apps/workspace/models.py:69
-msgid "Monthly fixed fee"
-msgstr "Coût fixe mensuel"
-
-#: apps/workspace/models.py:71
-msgid "Fee per month, independent of the number of users"
-msgstr "Coût mensuel, indépendant du nombre d'utilisateurs"
-
-#: apps/workspace/models.py:76
-msgid "Yearly fixed fee"
-msgstr "Coût fixe annuel"
-
-#: apps/workspace/models.py:78
-msgid "Fee per year, independent of the number of users"
-msgstr "Coût annuel, indépendant du nombre d'utilisateurs"
 
 #: libs/messages.py:4
 #, python-format
@@ -351,6 +100,183 @@ msgstr ""
 #: libs/messages.py:11
 msgid "A user with that email already exists."
 msgstr "Un utilisateur avec cet email est déjà enregistré."
+
+#: pages/dashboard/forms.py:6 salary/models.py:14
+msgid "Start date"
+msgstr "Date de début"
+
+#: pages/dashboard/forms.py:9 salary/models.py:15
+msgid "End date"
+msgstr "Date de fin"
+
+#: pages/dashboard/views/main_page.py:42
+msgid "Time repartition"
+msgstr "Répartition du temps"
+
+#: pages/dashboard/views/main_page.py:43
+msgid "Cost repartition"
+msgstr "Répartition des coûts"
+
+#: pages/dashboard/views/task_page.py:29
+msgid "Time per project (in hours)"
+msgstr "Temps par projet (en heures)"
+
+#: pages/dashboard/views/task_page.py:30
+msgid "Cumulated time per project (in hours)"
+msgstr "Temps cumulé par projet (en heures)"
+
+#: pages/dashboard/views/task_page.py:47
+msgid "Cost per project"
+msgstr "Coût par projet"
+
+#: pages/dashboard/views/task_page.py:48
+msgid "Cumulated cost per project"
+msgstr "Coût cumulé par projet"
+
+#: pages/signup/views.py:20
+#, python-format
+msgid ""
+"%(name)s, your account was successfully created.<br>Welcome to %(ws)s "
+"dashboard!"
+msgstr ""
+"%(name)s, votre compte a été créé avec succès.<br>Bienvenue sur le tableau "
+"de bord %(ws)s !"
+
+#: preference/models.py:8
+msgid "Keep on top"
+msgstr "Toujours devant"
+
+#: profile/forms.py:103 profile/models.py:13
+msgid "Manager"
+msgstr "Manager"
+
+#: profile/models.py:11
+msgid "Title"
+msgstr "Titre"
+
+#: profile/models.py:18
+msgid "Accepted terms"
+msgstr "Termes acceptés"
+
+#: profile/models.py:21 templates/dashboard/no_access.html:5
+msgid "Dashboard access"
+msgstr "Accès au tableau de bord"
+
+#: profile/models.py:23
+msgid "Designates whether the user can access the dashboard."
+msgstr "Indique si l'utilisateur a accès à ce tableau de bord"
+
+#: profile/models.py:25
+msgid "HR status"
+msgstr "Status RH"
+
+#: profile/models.py:27
+msgid "Designates whether the user has the HR permissions."
+msgstr ""
+"Indique si l'utilisateur a accès aux données RH (comme les données "
+"salariales)"
+
+#: profile/models.py:29
+msgid "Primary status"
+msgstr "Admininistrateur des tâches principales"
+
+#: profile/models.py:31
+msgid ""
+"Designates whether the user has the permissions to administrate primary "
+"tasks/projects."
+msgstr "Indique si l'utilisateur a le contrôle des tâches principales."
+
+#: profile/models.py:34
+msgid "has power transfer from"
+msgstr "délégation de"
+
+#: salary/forms.py:22 task/forms.py:91
+msgid "Start date should be lower than end date."
+msgstr "La date de début doit être antérieure la date de fin."
+
+#: salary/forms.py:23 task/forms.py:92
+msgid "End date should be greater than start date."
+msgstr "La date de fin doit être postérieure la date de début."
+
+#: salary/forms.py:43
+msgid "This period overlaps another one"
+msgstr "Cette période est en conflit avec une autre"
+
+#: salary/models.py:13
+msgid "User"
+msgstr "Utilisateur"
+
+#: salary/models.py:18
+msgid "Daily wage"
+msgstr "Salaire journalier"
+
+#: salary/models.py:19
+msgid "This represents the cost of the employee per day"
+msgstr "Cette valeur représente le coût du salarié par jour."
+
+#: task/forms.py:42 task/models.py:64 task/models.py:65
+msgid "Parent project"
+msgstr "Projet parent"
+
+#: task/forms.py:45
+msgid "Project owner"
+msgstr "Propriétaire du projet"
+
+#: task/forms.py:69
+msgid "A project with the same name already exists."
+msgstr "Un projet du même nom existe déjà déjà."
+
+#: task/forms.py:82
+msgid "A project with the same name already exists in this parent project."
+msgstr "Un projet du même nom existe déjà déjà dans ce projet parent."
+
+#: task/forms.py:95 templates/dashboard/base.html:62
+msgid "Projects"
+msgstr "Projets"
+
+#: task/models.py:50
+msgid "Monitored"
+msgstr "Suivi"
+
+#: task/models.py:52
+msgid "Primary"
+msgstr "Primaire"
+
+#: task/models.py:54
+msgid "Personal"
+msgstr "Personel"
+
+#: task/models.py:60
+msgid "Group"
+msgstr "Groupe"
+
+#: task/models.py:62
+msgid "Type"
+msgstr "Type"
+
+#: task/models.py:68
+msgid "Owned by"
+msgstr "Appartenant à"
+
+#: task/models.py:70
+msgid "Start date (planned)"
+msgstr "Date de début (prévisionnelle)"
+
+#: task/models.py:72
+msgid "End date (planned)"
+msgstr "Date de fin (prévisionnelle)"
+
+#: task/models.py:74
+msgid "Additional cost"
+msgstr "Coût additionnel"
+
+#: task/models.py:76
+msgid "Cost (planned)"
+msgstr "Coût (prévisionnel)"
+
+#: task/models.py:78
+msgid "Time (planned, in hours)"
+msgstr "Temps (prévisionnel, en heures)"
 
 #: templates/admin/base.html:28
 msgid "Welcome,"
@@ -589,3 +515,93 @@ msgstr "Pas encore de compte ?"
 #: templates/registration/login.html:24
 msgid "Sign up now"
 msgstr "Inscription"
+
+#: workspace/models.py:19
+msgid "Trial mode"
+msgstr "Période d'évaluation"
+
+#: workspace/models.py:21
+msgid ""
+"This field indicate that your are using your workspace for evaluation. "
+"Deactivate it once you are ready to go to production mode."
+msgstr ""
+"Ce champ indique si vous utilisez linbees en mode évaluation ou production."
+
+#: workspace/models.py:23
+msgid "Main contact name"
+msgstr "Nom du contact principal"
+
+#: workspace/models.py:25
+msgid "Main contact email"
+msgstr "Email du contact principal"
+
+#: workspace/models.py:27
+msgid "Will be used to send out important message (for instance invoices)"
+msgstr "Utilisé pour envoyer les messages importants (factures, etc...)"
+
+#: workspace/models.py:29
+msgid "Address (line1)"
+msgstr "Adresse (ligne 1)"
+
+#: workspace/models.py:32
+msgid "Zipcode"
+msgstr "code postal"
+
+#: workspace/models.py:34
+msgid "City"
+msgstr "Ville"
+
+#: workspace/models.py:36
+msgid "Country"
+msgstr "Pays"
+
+#: workspace/models.py:38
+msgid "Phone number"
+msgstr "Numéro de téléphone"
+
+#: workspace/models.py:47
+msgid "Dashboard name"
+msgstr "Nom du tableau de bord"
+
+#: workspace/models.py:49
+msgid "By default, the dashboard name is your company email domain"
+msgstr ""
+"Par défaut, le nom du tableau de bord est celui du nom de domaine de votre "
+"société"
+
+#: workspace/models.py:52
+msgid "Next invoice date"
+msgstr "Date de la prochaine facture"
+
+#: workspace/models.py:54
+msgid ""
+"Date until when the oranization has paid its subscription. At creation time, "
+"paid_until is initiaized with now + the default trial period defined in the "
+"settings."
+msgstr "Date jusqu'à laquelle la souscription est payée."
+
+#: workspace/models.py:59
+msgid "Monthly user fee"
+msgstr "Coût per mois et par utilisateur"
+
+#: workspace/models.py:61
+msgid ""
+"Monthly rate applied to calculate the monthly fee. Monthly fee is number of "
+"active users x rate."
+msgstr ""
+
+#: workspace/models.py:66
+msgid "Monthly fixed fee"
+msgstr "Coût fixe mensuel"
+
+#: workspace/models.py:68
+msgid "Fee per month, independent of the number of users"
+msgstr "Coût mensuel, indépendant du nombre d'utilisateurs"
+
+#: workspace/models.py:73
+msgid "Yearly fixed fee"
+msgstr "Coût fixe annuel"
+
+#: workspace/models.py:75
+msgid "Fee per year, independent of the number of users"
+msgstr "Coût annuel, indépendant du nombre d'utilisateurs"

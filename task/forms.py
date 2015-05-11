@@ -1,5 +1,4 @@
 from django import forms
-from django.db.models.query import QuerySet
 from django.utils.translation import ugettext, ugettext_lazy as _
 from task.models import Task
 from profile.models import Profile
@@ -29,7 +28,7 @@ class TaskForm(forms.ModelForm):
         my_descendants = profile.get_descendants(include_self=True)
         my_tasks = Task.objects.filter(workspace=ws, owner__in=my_descendants)
         # my manager tasks
-        manager_tasks = QuerySet(Task)
+        manager_tasks = Task.objects.filter(workspace=ws)
         if profile.parent:
             manager_tasks = Task.objects.filter(workspace=ws, owner=profile.parent)
         # exclusions (the task & its descendants)

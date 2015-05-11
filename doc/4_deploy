@@ -1,6 +1,15 @@
 before deploy do the following
 
 1) update internationalization locally
-python manage.py makemessages  --settings=service.settings.dev --all -i venv
+python manage.py makemessages  --settings=service.settings.dev --all -i venv -i xmlrunner
 python manage.py compilemessages  --settings=service.settings.dev
 
+
+deploy
+
+1) push code
+git push [env_name] master
+2) [optional] migrate DB
+heroku run python manage.py migrate --app [app_name]
+3) [optional] update static files
+heroku run python manage.py collectstatic --app [app_name]

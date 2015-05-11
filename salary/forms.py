@@ -40,10 +40,11 @@ class BaseSalaryFormSet(BaseModelFormSet):
                                 ((sd >= start_date) and (sd <= end_date))
                                 or ((ed >= start_date) and (ed <= end_date))
                                 or ((sd <= start_date) and (ed >= end_date)) ):
-                        form.add_error('start_date', u"Overlap")
-                        form.add_error('end_date', u"Overlap")
-                        i.add_error('start_date', u"Overlap")
-                        i.add_error('end_date', u"Overlap")
+                        msg = _('This period overlaps another one')
+                        form.add_error('start_date', msg)
+                        form.add_error('end_date', msg)
+                        i.add_error('start_date', msg)
+                        i.add_error('end_date', msg)
 
 SalaryFormSet = modelformset_factory(
                         DailySalary,
