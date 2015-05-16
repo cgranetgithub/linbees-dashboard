@@ -1,20 +1,21 @@
 {% extends "clientapp/base.html" %}
+{% load staticfiles %}
 {% load i18n %}
-
 {% load bootstrap3 %}
-{# Load CSS and JavaScript #}
-{% bootstrap_css %}
-{% bootstrap_javascript %}
+
+{% block head %}
+<script src="{% static 'signup/signup.js' %}"></script>
+{% endblock head %}
 
 {% block content %}
     <form method="post" action={{ form_action }} class="form-signin" role="form">{% csrf_token %}
-      <h2 class="form-signin-heading">{% trans "Create your account" %}</h2>
-      {% bootstrap_form form label_class='sr-only' show_help=False %}
-      {% buttons %}
-	<button type="submit" class="btn btn-lg btn-primary">
-	  {% trans "Create" %}
-	</button>
-      <a class="btn btn-lg btn-primary" href="{% url 'clientapp:home' %}">{% trans "Cancel" %}</a>
-      {% endbuttons %}
+        <h2 class="form-signin-heading">{% trans "Create your account" %}</h2>
+        {% bootstrap_form form label_class='sr-only' show_help=False %}
+        {% buttons %}
+            <button type="submit" class="btn btn-lg btn-primary" name="signup">
+            {% trans "Create" %}
+            </button>
+        <a class="btn btn-lg btn-primary" href="{% url 'clientapp:home' %}">{% trans "Cancel" %}</a>
+        {% endbuttons %}
     </form>
 {% endblock content %}

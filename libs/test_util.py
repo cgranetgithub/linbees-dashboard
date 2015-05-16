@@ -73,6 +73,25 @@ def selenium_dashboard_signup(live_server, email, password, name=None):
 def selenium_client_signup(live_server, email, password, name=None):
     return selenium_signup(live_server, '/clientapp/register/', email, password, name)
 
+def selenium_login(live_server, url, username, password):
+    live_server.selenium.get('%s%s' % (live_server.live_server_url, url))
+    live_server.selenium.find_element_by_name("username").send_keys(username)
+    live_server.selenium.find_element_by_name("password").send_keys(password)
+    response = live_server.selenium.find_element_by_name("login").click()
+    try:
+        user = Profile.objects.get(workspace=workspace, user__username=username)
+        workspace = user.workspace
+    except:
+        workspace = None
+        user = None
+    return (response, workspace, user)
+
+def selenium_dashboard_login(live_server, email, password):
+    return selenium_login(live_server, '/login/', email, password)
+
+def selenium_client_login(live_server, email, password):
+    return selenium_login(live_server, '/clientapp/login/', email, password)
+
 def selenium_dashboard_create_task(live_server, name, owner, parent=None):
     live_server.selenium.get('%s%s' % (live_server.live_server_url, '/task/new/'))
     live_server.selenium.find_element_by_name("name").send_keys(name)

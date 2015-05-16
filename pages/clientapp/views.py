@@ -25,12 +25,26 @@ def client_register(request):
                                 password=form.cleaned_data["password2"])
             if user is not None and user.is_active:
                 login(request, user)
-                return redirect(reverse('clientapp:home'))
+                return redirect(reverse('clientapp:setmanager'))
     else:
         form = ClientUserForm()
     return render(request, 'clientapp/register.html',
                   {'form': form, 'form_action': "/clientapp/register/"})
     
+@login_required(login_url=reverse_lazy('clientapp:login'))
+def client_set_manager(request):
+    if request.method == 'POST':
+        profile = request.user.profile
+        ws = profile.workspace
+        try:
+            manager = Profile.objects.get(workspace=ws, user=request.POST['manager'])
+            profile.parent = manager
+            profile.save()
+            return redirect(reverse('clientapp:home'))
+        except:
+            pass
+    return render(request, 'clientapp/set_manager.html')
+
 @login_required(login_url=reverse_lazy('clientapp:login'))
 def client_home(request):
     return render(request, 'clientapp/home.html')
@@ -91,3 +105,24 @@ def tasks(request):
         data.append(node)
     return HttpResponse(json.dumps(data), content_type="application/json")
 
+@login_required(login_url=reverse_lazy('clientapp:login'))
+def managers(request):
+    ws = request.user.profile.workspace
+    # anybody with dashboard access (means is a manager), plus his ancestors
+    managers = Profile.objects.filter(workspace=ws, has_dashboard_access=True)
+    hierarchy = managers
+    for m in managers:
+        anc = m.get_ancestors()
+        hierarchy = hierarchy | anc
+    data = []
+    for i in hierarchy:
+        node = {'id'   : str(i.user.id),
+                'text' : str(i.name),
+                'state': {'opened'  : 'true'},
+                }
+        if i.parent is None:
+            node['parent'] = '#',
+        else:
+            node['parent'] = str(i.parent.user.id)
+        data.append(node)
+    return HttpResponse(json.dumps(data), content_type="application/json")

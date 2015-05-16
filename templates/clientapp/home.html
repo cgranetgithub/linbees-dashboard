@@ -6,19 +6,19 @@
 <div class="row">
     <div class="col-md-12">
         <h3>{% trans "Select your current activity" %}</h2>
+        <a href="/clientapp/" class="pull-right">
+            {% bootstrap_icon "refresh" %}
+        </a>
         <div class="panel panel-default">
             <div class="panel-body">
-                <a href="/clientapp/" class="pull-right">
-                    {% bootstrap_icon "refresh" %}
-                </a>
                 <div id="single_tree_div"></div>
-                {% buttons %}
-                <button class="btn btn-primary" id="clockout" type="submit" name="clock_out" value="Off">
-                    {% bootstrap_icon "off" %}
-                </button>
-                {% endbuttons %}
             </div>
         </div>
+        {% buttons %}
+        <button class="btn btn-primary btn-lg btn-block" id="clockout" type="submit" name="clock_out" value="Off">
+            {% trans "Stop" %}
+        </button>
+        {% endbuttons %}
     </div>
 </div>
 <div class="row">

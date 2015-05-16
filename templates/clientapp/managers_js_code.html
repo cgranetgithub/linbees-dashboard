@@ -1,0 +1,46 @@
+<script>
+$(function() {
+    
+    $('#validate')
+        .button()
+        .click(function(event){
+            var selection = $('#single_tree_div').jstree(true).get_selected();
+            if (selection.length == 1) {
+                $('#validate').prop('disabled', true);
+                $("<input>").attr("type", "hidden").attr("name", "manager").val(selection[0]).appendTo('#buttonform');
+            }
+    });
+
+    $(function () {
+        $('#single_tree_div')
+        // when selection changes
+        .on('changed.jstree', function (e, data) {
+            change_selection();
+        })
+        // create the instance
+        .jstree({
+            'core' : {
+                'data' : {
+                    'url':"{% url 'clientapp:managers_query' %}", 
+                    'dataType':'json',
+                },
+                'multiple' : false,
+            },
+//             "plugins" : ["wholerow"]
+        });
+    });
+    
+    function change_selection() {
+        var selection = $('#single_tree_div').jstree(true).get_selected();
+        if (selection.length > 0) {
+            $('#validate').prop('disabled', false);
+        } else {
+            $('#validate').prop('disabled', true);
+        }
+    };
+
+});
+</script>
+
+<link href="http://static.jstree.com/3.0.8/assets/dist/themes/default/style.min.css" rel="stylesheet"></link>
+<script src="http://static.jstree.com/3.0.8/assets/dist/jstree.min.js"></script>

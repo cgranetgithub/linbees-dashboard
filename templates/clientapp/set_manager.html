@@ -1,0 +1,30 @@
+{% extends "clientapp/base.html" %}
+{% load i18n %}
+{% load bootstrap3 %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12">
+        <h3>{% trans "Select your manager" %}</h2>
+        <a href="/clientapp/setmanager/" class="pull-right">
+            {% bootstrap_icon "refresh" %}
+        </a>
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div id="single_tree_div"></div>
+            </div>
+        </div>
+        <form method="post" id="buttonform">{% csrf_token %}
+            {% buttons %}
+            <button class="btn btn-primary btn-lg btn-block" id="validate" type="submit" disabled>
+                OK
+            </button>
+            {% endbuttons %}
+        </form>
+    </div>
+</div>
+
+<!-- Linbees js stuff -->
+{% include "clientapp/managers_js_code.html" %}
+
+{% endblock content %}
