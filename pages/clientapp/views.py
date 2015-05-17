@@ -33,6 +33,7 @@ def client_register(request):
     
 @login_required(login_url=reverse_lazy('clientapp:login'))
 def client_set_manager(request):
+    print 'here', request.method
     if request.method == 'POST':
         profile = request.user.profile
         ws = profile.workspace

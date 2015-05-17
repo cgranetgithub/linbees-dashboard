@@ -2,12 +2,12 @@
 $(function() {
     
     $('#validate')
-//         .button()
-        .click(function(event){
+        .button()
+        .on("click", function(){
             var selection = $('#single_tree_div').jstree(true).get_selected();
             if (selection.length == 1) {
-                $('#validate').prop('disabled', true);
                 $("<input>").attr("type", "hidden").attr("name", "manager").val(selection[0]).appendTo('#buttonform');
+//                 $('#validate').prop('disabled', true);
             }
     });
 
