@@ -1,0 +1,2 @@
+heroku pg:copy linbees-dashboard-production::AQUA ROSE --app linbees-dashboard-staging
+

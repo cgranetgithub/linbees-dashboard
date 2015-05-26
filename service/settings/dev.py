@@ -8,16 +8,29 @@ SECRET_KEY = '(jut!-c_9j^a==v$+6(-w3x7v#%*ljd7y2h0w-=*d4r@f5hy-z'
 
 # Database
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'linbees',
-        'USER': 'devlinbees',
-        'PASSWORD': 'test',
-        'HOST': 'localhost',
-        'PORT': '',
+USE_DB = os.environ.get("USE_DB", "DEV")
+if USE_DB == "STAGING":
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': 'd5sfel8nrs0qbv',
+            'USER': 'hxekoxiocalvcu',
+            'PASSWORD': 'QDYol84KSTHElJELDnjN2YM9sf',
+            'HOST': 'ec2-54-228-227-87.eu-west-1.compute.amazonaws.com',
+            'PORT': '5432',
+        }
     }
-}
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': 'linbees',
+            'USER': 'devlinbees',
+            'PASSWORD': 'test',
+            'HOST': 'localhost',
+            'PORT': '',
+        }
+    }    
 
 INSTALLED_APPS = list(INSTALLED_APPS)
 INSTALLED_APPS.remove('storages')

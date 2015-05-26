@@ -48,3 +48,67 @@ class SignupTest(WebTest):
         response = form.submit()
         self.assertContains(response, 
                             public_email_not_allowed%{'domain':u'gmail.com'})
+    def test_case(self):
+        form = self.app.get('/signup/').forms[0]
+        form['username'] = 'ToTo'
+        form['email'] = 'toto@UPPER.com'
+        form['password1'] = 'toto'
+        form['password2'] = 'toto'
+        response = form.submit()
+        ws = Workspace.objects.get(name='upper.com')
+        User.objects.get(username='toto')
+        User.objects.get(email='toto@upper.com')
+    def test_wrong_entries(self):
+        form = self.app.get('/signup/').forms[0]
+        form['username'] = 'toto'
+        form['email'] = 'this'
+        form['password1'] = 'toto'
+        form['password2'] = 'toto'
+        response = form.submit()
+        self.assertContains(response, 'Enter a valid email address')
+        form = self.app.get('/signup/').forms[0]
+        form['username'] = 'toto'
+        form['email'] = 'this.is'
+        form['password1'] = 'toto'
+        form['password2'] = 'toto'
+        response = form.submit()
+        self.assertContains(response, 'Enter a valid email address')
+        form = self.app.get('/signup/').forms[0]
+        form['username'] = 'toto'
+        form['email'] = 'this.is@wrong'
+        form['password1'] = 'toto'
+        form['password2'] = 'toto'
+        response = form.submit()
+        self.assertContains(response, 'Enter a valid email address')
+        form = self.app.get('/signup/').forms[0]
+        form['username'] = 'toto'
+        form['email'] = 'this.is@wrong.a'
+        form['password1'] = 'toto'
+        form['password2'] = 'toto'
+        response = form.submit()
+        self.assertContains(response, 'Enter a valid email address')
+        form = self.app.get('/signup/').forms[0]
+        form['username'] = 'wrong username'
+        form['email'] = 'this.is@a.good.address'
+        form['password1'] = 'toto'
+        form['password2'] = 'toto'
+        response = form.submit()
+        self.assertContains(response, 'Enter a valid username')
+        form = self.app.get('/signup/').forms[0]
+        response = form.submit()
+        self.assertContains(response, 'This field is required')
+        form = self.app.get('/signup/').forms[0]
+        form['username'] = 'toto'
+        response = form.submit()
+        self.assertContains(response, 'This field is required')
+        form = self.app.get('/signup/').forms[0]
+        form['username'] = 'toto'
+        form['email'] = 'this.is@a.good.address'
+        response = form.submit()
+        self.assertContains(response, 'This field is required')
+        form = self.app.get('/signup/').forms[0]
+        form['username'] = 'toto'
+        form['email'] = 'this.is@a.good.address'
+        form['password1'] = 'toto'
+        response = form.submit()
+        self.assertContains(response, 'This field is required')

@@ -20,15 +20,17 @@ class Profile(MPTTModel, TenantModel):
                                         default=False,
                                         verbose_name=_('Dashboard access'),
                                         help_text=_(
-'''Designates whether the user can access the dashboard.'''))
+'''Authorize the user to access the dashboard. The user will only see ''' 
+'''his own projects, the members of his teams and their projects.'''))
     is_hr = models.BooleanField(default=False,
-                                verbose_name=_('HR status'),
+                                verbose_name=_('Users information access'),
                                 help_text=_(
-'''Designates whether the user has the HR permissions.'''))
+'''Authorize the user to see and modify users information (name, tile, salary, activity). '''
+'''But only for the members of his teams.'''))
     is_primary   = models.BooleanField(default=False,
-                                       verbose_name=_('Primary status'),
+                                       verbose_name=_('Projects full access'),
                                        help_text=_(
-'''Designates whether the user has the permissions to administrate primary tasks/projects.'''))
+'''Authorize the user to see and modify all projects and create root (primary) projects.'''))
     power_transfer = models.ManyToManyField('self', blank=True,
                                             verbose_name=_(
 '''has power transfer from'''))

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-05-11 12:35+0000\n"
+"POT-Creation-Date: 2015-05-26 16:55+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -25,14 +25,14 @@ msgid "active"
 msgstr "actif"
 
 #: department/models.py:12 invoice/models.py:12 payment/models.py:15
-#: preference/models.py:21 profile/models.py:36 salary/models.py:9
+#: preference/models.py:21 profile/models.py:38 salary/models.py:9
 #: satisfaction/models.py:13 satisfaction/models.py:28 task/models.py:16
 #: task/models.py:31 task/models.py:46 workspace/models.py:43
 msgid "created at"
 msgstr "créé le"
 
 #: department/models.py:14 invoice/models.py:14 payment/models.py:17
-#: preference/models.py:23 profile/models.py:38 salary/models.py:11
+#: preference/models.py:23 profile/models.py:40 salary/models.py:11
 #: satisfaction/models.py:15 task/models.py:18 task/models.py:33
 #: task/models.py:48 workspace/models.py:45
 msgid "updated at"
@@ -146,7 +146,7 @@ msgstr ""
 msgid "Keep on top"
 msgstr "Toujours devant"
 
-#: profile/forms.py:103 profile/models.py:13
+#: profile/forms.py:109 profile/models.py:13
 msgid "Manager"
 msgstr "Manager"
 
@@ -163,30 +163,39 @@ msgid "Dashboard access"
 msgstr "Accès au tableau de bord"
 
 #: profile/models.py:23
-msgid "Designates whether the user can access the dashboard."
-msgstr "Indique si l'utilisateur a accès à ce tableau de bord"
-
-#: profile/models.py:25
-msgid "HR status"
-msgstr "Status RH"
-
-#: profile/models.py:27
-msgid "Designates whether the user has the HR permissions."
+msgid ""
+"Authorize the user to access the dashboard. The user will only see his own "
+"projects, the members of his teams and their projects."
 msgstr ""
-"Indique si l'utilisateur a accès aux données RH (comme les données "
-"salariales)"
+"Autorise l'utilisateur à accéder au tableau de bord. L'utilisateur pourra "
+"seulement voir ses projets, les membres de ses équipes et leurs projets."
 
-#: profile/models.py:29
-msgid "Primary status"
-msgstr "Admininistrateur des tâches principales"
+#: profile/models.py:26
+msgid "Users information access"
+msgstr "Accès aux informations utilisateur"
+
+#: profile/models.py:28
+msgid ""
+"Authorize the user to see and modify users information (name, tile, salary, "
+"activity). But only for the members of his teams."
+msgstr ""
+"Autorise l'utilisateur à voir et modifier les informations utilisateurs "
+"(nom, titre, salaire, activité). Mais uniquement pour les membres de ses "
+"équipes."
 
 #: profile/models.py:31
-msgid ""
-"Designates whether the user has the permissions to administrate primary "
-"tasks/projects."
-msgstr "Indique si l'utilisateur a le contrôle des tâches principales."
+msgid "Projects full access"
+msgstr "Accès complet aux projets"
 
-#: profile/models.py:34
+#: profile/models.py:33
+msgid ""
+"Authorize the user to see and modify all projects and create root (primary) "
+"projects."
+msgstr ""
+"Autorise l'utilisateur à voir et modifer tous les projets et à créer des "
+"projets 'racine'."
+
+#: profile/models.py:36
 msgid "has power transfer from"
 msgstr "délégation de"
 
@@ -324,11 +333,15 @@ msgstr "Changer mon mot de passe"
 msgid "Select your current activity"
 msgstr "Sélectionnez votre activité en cours"
 
+#: templates/clientapp/home.html:19
+msgid "Stop"
+msgstr ""
+
 #: templates/clientapp/login.html:7
 msgid "Please sign in"
 msgstr "Identifiez-vous"
 
-#: templates/clientapp/login.html:11 templates/registration/login.html:20
+#: templates/clientapp/login.html:11 templates/registration/login.html:19
 msgid "Sign in"
 msgstr "S'identifier"
 
@@ -336,21 +349,25 @@ msgstr "S'identifier"
 msgid "Or create a new account"
 msgstr "Ou créez un compte"
 
-#: templates/clientapp/register.html:11
+#: templates/clientapp/register.html:12
 msgid "Create your account"
 msgstr "Créez votre compte"
 
-#: templates/clientapp/register.html:15 templates/dashboard/task_new.html:13
+#: templates/clientapp/register.html:16 templates/dashboard/task_new.html:13
 msgid "Create"
 msgstr "Créer"
 
-#: templates/clientapp/register.html:17
+#: templates/clientapp/register.html:18
 msgid "Cancel"
 msgstr "Annuler"
 
 #: templates/clientapp/report.html:3
 msgid "Your last 5 activities"
 msgstr "Vos 5 dernières activités"
+
+#: templates/clientapp/set_manager.html:8
+msgid "Select your manager"
+msgstr "Sélectionnez votre manager"
 
 #: templates/clientapp/tutorial.html:5
 msgid "back"
@@ -387,7 +404,7 @@ msgstr ""
 "suivi les étapes suivantes:"
 
 #: templates/dashboard/no_data_message.html:6
-#: templates/dashboard/no_task_message.html:6 templates/signup/signup.html:58
+#: templates/dashboard/no_task_message.html:6 templates/signup/signup.html:20
 msgid "Sign up"
 msgstr "Inscription"
 
@@ -508,11 +525,11 @@ msgstr "Salaire"
 msgid "Information"
 msgstr "Information"
 
-#: templates/registration/login.html:24
+#: templates/registration/login.html:23
 msgid "No account yet?"
 msgstr "Pas encore de compte ?"
 
-#: templates/registration/login.html:24
+#: templates/registration/login.html:23
 msgid "Sign up now"
 msgstr "Inscription"
 
@@ -605,3 +622,22 @@ msgstr "Coût fixe annuel"
 #: workspace/models.py:75
 msgid "Fee per year, independent of the number of users"
 msgstr "Coût annuel, indépendant du nombre d'utilisateurs"
+
+#~ msgid "Designates whether the user can access the dashboard."
+#~ msgstr "Indique si l'utilisateur a accès à ce tableau de bord"
+
+#~ msgid "HR status"
+#~ msgstr "Status RH"
+
+#~ msgid "Designates whether the user has the HR permissions."
+#~ msgstr ""
+#~ "Indique si l'utilisateur a accès aux données RH (comme les données "
+#~ "salariales)"
+
+#~ msgid "Primary status"
+#~ msgstr "Admininistrateur des tâches principales"
+
+#~ msgid ""
+#~ "Designates whether the user has the permissions to administrate primary "
+#~ "tasks/projects."
+#~ msgstr "Indique si l'utilisateur a le contrôle des tâches principales."

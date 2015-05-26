@@ -116,6 +116,24 @@ class RegisterTest(WebTest):
         response = self.app.get('/clientapp/register/')
         response = response.click(description="Cancel")
         self.assertRedirects(response, '/clientapp/login/?next=/clientapp/')
+    def test_case(self):
+        # register manager
+        form = self.app.get('/signup/').forms[0]
+        form['username'] = 'ToTo'
+        form['email'] = 'toto@UPPER.com'
+        form['password1'] = 'toto'
+        form['password2'] = 'toto'
+        response = form.submit()
+        # register user
+        form = self.app.get('/clientapp/register/').forms[0]
+        form['username'] = 'charlot@upper.COM'
+        form['email']    = 'charlot@upper.COM'
+        form['password1'] = 'secret'
+        form['password2'] = 'secret'
+        response = form.submit().follow()
+        self.assertContains(response, "Select your manager")
+        ws = Workspace.objects.get(name='upper.com')
+        user = User.objects.get(email='charlot@upper.com')
 
 class LiveTest(LiveServerTestCase):
     @classmethod

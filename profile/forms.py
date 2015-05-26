@@ -60,7 +60,9 @@ class RegistrationForm(UserCreationForm):
     def clean(self):
         cleaned_data = super(RegistrationForm, self).clean()
         if 'email' in self.cleaned_data:
-            email = self.cleaned_data['email']
+            # email forced to lower case
+            email = self.cleaned_data['email'].lower()
+            self.cleaned_data['email'] = email
             #check email unicity
             try:
                 User.objects.get(email=email)
@@ -73,6 +75,10 @@ class RegistrationForm(UserCreationForm):
             if provider in EMAIL_PROVIDER_BLACKLIST:
                 raise forms.ValidationError(
                                     public_email_not_allowed%{'domain':provider})
+        if 'username' in self.cleaned_data:
+            # email forced to lower case
+            username = self.cleaned_data['username'].lower()
+            self.cleaned_data['username'] = username
         # Always return the full collection of cleaned data.
         return cleaned_data
     def save(self, commit=True):

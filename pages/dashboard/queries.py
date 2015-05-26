@@ -250,7 +250,7 @@ def total_time_per_project(request, topic='duration'):
                 elif topic == 'cost':
                     tmp = [unicode(i),
                         int(data_list.aggregate(Sum(topic))['%s__sum'%topic])]
-            data['data'].append(tmp)
+                data['data'].append(tmp)
         data['options'] = {'is3D':'true', 'backgroundColor':'transparent'}
     return HttpResponse(json.dumps(data), content_type="application/json")
 
