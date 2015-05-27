@@ -134,6 +134,12 @@ class RegisterTest(WebTest):
         self.assertContains(response, "Select your manager")
         ws = Workspace.objects.get(name='upper.com')
         user = User.objects.get(email='charlot@upper.com')
+        # signin
+        form = self.app.get('/clientapp/login/').forms[0]
+        form['username'] = 'charlOT@uPPer.cOm'
+        form['password'] = 'secret'
+        response = form.submit().follow()
+        self.assertContains(response, "Select your current activity")
 
 class LiveTest(LiveServerTestCase):
     @classmethod
@@ -169,8 +175,9 @@ class LiveTest(LiveServerTestCase):
     def test_registration(self):
         selenium_client_signup(self, 'toto@test.com', 'password')
         body = self.selenium.find_element_by_tag_name('body')
-        self.assertIn('yo', body.text)
-        self.assertNotIn('ceo', body.text)
+        self.wait_ajax_complete()
+        self.assertIn('Yo', body.text)
+        self.assertNotIn('Ceo', body.text)
         self.selenium.find_element_by_id('%s_anchor'%self.yo.user.id).click()
         self.selenium.find_element_by_id('validate').click()
         WebDriverWait(self.selenium, 10).until(

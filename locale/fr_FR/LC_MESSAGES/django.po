@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-05-26 16:55+0000\n"
+"POT-Creation-Date: 2015-05-27 06:59+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -146,7 +146,7 @@ msgstr ""
 msgid "Keep on top"
 msgstr "Toujours devant"
 
-#: profile/forms.py:109 profile/models.py:13
+#: profile/forms.py:115 profile/models.py:13
 msgid "Manager"
 msgstr "Manager"
 
@@ -172,14 +172,14 @@ msgstr ""
 
 #: profile/models.py:26
 msgid "Users information access"
-msgstr "Accès aux informations utilisateur"
+msgstr "Accès aux informations des utilisateurs"
 
 #: profile/models.py:28
 msgid ""
 "Authorize the user to see and modify users information (name, tile, salary, "
 "activity). But only for the members of his teams."
 msgstr ""
-"Autorise l'utilisateur à voir et modifier les informations utilisateurs "
+"Autorise l'utilisateur à voir et modifier les informations des utilisateurs "
 "(nom, titre, salaire, activité). Mais uniquement pour les membres de ses "
 "équipes."
 
@@ -622,22 +622,3 @@ msgstr "Coût fixe annuel"
 #: workspace/models.py:75
 msgid "Fee per year, independent of the number of users"
 msgstr "Coût annuel, indépendant du nombre d'utilisateurs"
-
-#~ msgid "Designates whether the user can access the dashboard."
-#~ msgstr "Indique si l'utilisateur a accès à ce tableau de bord"
-
-#~ msgid "HR status"
-#~ msgstr "Status RH"
-
-#~ msgid "Designates whether the user has the HR permissions."
-#~ msgstr ""
-#~ "Indique si l'utilisateur a accès aux données RH (comme les données "
-#~ "salariales)"
-
-#~ msgid "Primary status"
-#~ msgstr "Admininistrateur des tâches principales"
-
-#~ msgid ""
-#~ "Designates whether the user has the permissions to administrate primary "
-#~ "tasks/projects."
-#~ msgstr "Indique si l'utilisateur a le contrôle des tâches principales."

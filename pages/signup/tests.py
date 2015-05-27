@@ -48,7 +48,7 @@ class SignupTest(WebTest):
         response = form.submit()
         self.assertContains(response, 
                             public_email_not_allowed%{'domain':u'gmail.com'})
-    def test_case(self):
+    def test_case_signup(self):
         form = self.app.get('/signup/').forms[0]
         form['username'] = 'ToTo'
         form['email'] = 'toto@UPPER.com'
@@ -58,6 +58,23 @@ class SignupTest(WebTest):
         ws = Workspace.objects.get(name='upper.com')
         User.objects.get(username='toto')
         User.objects.get(email='toto@upper.com')
+    def test_case_login(self):
+        form = self.app.get('/signup/').forms[0]
+        form['username'] = 'lower@case.fr'
+        form['email'] = 'lower@case.fr'
+        form['password1'] = 'toto'
+        form['password2'] = 'toto'
+        response = form.submit()
+        ws = Workspace.objects.get(name='case.fr')
+        User.objects.get(username='lower@case.fr')
+        form = self.app.get('/login/').forms[0]
+        form['username'] = 'lower@CASE.fr'
+        form['password'] = 'toto'
+        response = form.submit().follow()
+        #assert response.status == '302 FOUND'
+        #assert 'signup' not in response.location
+        self.assertContains(response, 'Project')
+        self.assertContains(response, 'User')
     def test_wrong_entries(self):
         form = self.app.get('/signup/').forms[0]
         form['username'] = 'toto'

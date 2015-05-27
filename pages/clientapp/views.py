@@ -6,6 +6,7 @@ from django.conf import settings
 from django.core.urlresolvers import reverse, reverse_lazy
 from pages.clientapp.forms import TaskForm, ClientUserForm
 from profile.models import Profile
+from profile.forms import LoginForm
 from workspace.models import Workspace
 from record.models import AutoRecord, get_ongoing_task, new_task
 from task.models import Task
@@ -14,6 +15,7 @@ import json
 
 def client_login(request):
     return login_view(request, template_name='clientapp/login.html',
+                      authentication_form=LoginForm,
                       extra_context={'next':'/clientapp/'})
 
 def client_register(request):

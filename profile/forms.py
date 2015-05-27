@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.models import User
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.utils.translation import ugettext, ugettext_lazy as _
 from profile.models import Profile
 from libs.messages import public_email_not_allowed, existing_email
@@ -50,6 +50,12 @@ EMAIL_PROVIDER_BLACKLIST = (
 'hotmail.com', 'gmail.com', 'yahoo.com.mx', 'live.com.mx', 'yahoo.com', 'hotmail.es',
 'live.com', 'hotmail.com.mx', 'prodigy.net.mx', 'msn.com',
 )
+
+class LoginForm(AuthenticationForm):
+    def clean(self):
+        username = self.cleaned_data.get('username')
+        self.cleaned_data['username'] = username.lower()
+        return super(LoginForm, self).clean()
 
 class RegistrationForm(UserCreationForm):
     email = forms.EmailField(required=True)
