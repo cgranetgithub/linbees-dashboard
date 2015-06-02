@@ -26,7 +26,10 @@ $(function() {
                 },
                 'multiple' : false,
             },
-//             "plugins" : ["wholerow"]
+            "types" : {
+                "default" : {"icon" : "glyphicon glyphicon-user"},
+            },
+            "plugins" : [ "types", "wholerow" ],
         });
     });
     
