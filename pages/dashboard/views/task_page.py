@@ -71,14 +71,15 @@ def info(request):
 @user_passes_test(has_access,
                 login_url=reverse_lazy('noAccess'))
 def info_edit(request, task_id):
-    workspace = request.user.profile.workspace
+    profile = request.user.profile
+    workspace = profile.workspace
     task = apps.get_model('task', 'Task').objects.get(id=task_id, workspace=workspace)
     if request.method == 'POST':
-        form = TaskForm(workspace, request.user, request.POST, instance=task)
+        form = TaskForm(workspace, profile, request.POST, instance=task)
         if form.is_valid():
             form.save()
     else:
-        form = TaskForm(workspace, request.user, instance=task)
+        form = TaskForm(workspace, profile, instance=task)
     context = {'form':form,
                'form_action':reverse_lazy('task_info_edit',
                                                kwargs={'task_id': task_id})}
@@ -90,16 +91,17 @@ def info_edit(request, task_id):
                 login_url=reverse_lazy('noAccess'))
 def new(request):
     (context, some_data) = data_existence(request)
-    workspace = request.user.profile.workspace
+    profile = request.user.profile
+    workspace = profile.workspace
     if request.method == 'POST':
-        form = TaskForm(workspace, request.user, request.POST)
+        form = TaskForm(workspace, profile, request.POST)
         if form.is_valid():
             new_task = form.save(commit=False)
             new_task.workspace = workspace
             new_task.save()
             return redirect(reverse_lazy('task_new'))
     else:
-        form = TaskForm(workspace, request.user)
+        form = TaskForm(workspace, profile, initial={'owner':profile.user.id})
     context.update({'form':form,
                     'form_action':reverse_lazy('task_new')})
     return render(request, 'dashboard/task_new.html', context)

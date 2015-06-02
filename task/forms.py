@@ -21,16 +21,16 @@ class ParentModelChoiceField(TreeNodeChoiceField):
                                                     smart_text(obj.name)))
 
 class TaskForm(forms.ModelForm):
-    def __init__(self, ws, user, *args, **kwargs):
+    def __init__(self, ws, profile, *args, **kwargs):
         super(TaskForm, self).__init__(*args, **kwargs)
-        profile = user.profile
         # me and my descendant tasks
         my_descendants = profile.get_descendants(include_self=True)
         my_tasks = Task.objects.filter(workspace=ws, owner__in=my_descendants)
         # my manager tasks
         manager_tasks = Task.objects.filter(workspace=ws)
         if profile.parent:
-            manager_tasks = Task.objects.filter(workspace=ws, owner=profile.parent)
+            manager_tasks = Task.objects.filter(workspace=ws,
+                                                owner=profile.parent)
         # exclusions (the task & its descendants)
         if self.instance is not None and self.instance.id:
             manager_tasks = manager_tasks.exclude(id=self.instance.id)

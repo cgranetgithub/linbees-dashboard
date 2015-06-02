@@ -45,7 +45,10 @@ $(function() {
                 },
                 'multiple' : false,
             },
-            "plugins" : ["wholerow"]
+            "types" : {
+                "default" : {"icon" : "glyphicon glyphicon-folder-open"},
+            },
+            "plugins" : [ "types", "wholerow" ],
         });
     });
     
