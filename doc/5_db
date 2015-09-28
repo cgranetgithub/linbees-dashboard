@@ -1,0 +1,5 @@
+# dump heroku DB to file
+pg_dump --host=ec2-54-217-217-95.eu-west-1.compute.amazonaws.com --port=5542 --username=ud5t83omp71l0f --password --dbname=d3egholceefmsm > output.sql
+# load file to local DB
+PGPASSWORD=test psql -hlocalhost linbees devlinbees -f ../output.sql
+

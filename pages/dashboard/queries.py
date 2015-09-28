@@ -28,7 +28,7 @@ def users(request):
             parent = i.parent.user.id
         data.append({'id':str(i.user.id),
                      'parent':str(parent),
-                     'text':str(i.name)})
+                     'text':i.name})
     return HttpResponse(json.dumps(data), content_type="application/json")
 
 @login_required
@@ -60,7 +60,7 @@ def tasks(request, single=False):
     selected = False
     for i in my_tasks:
         node = {'id'  : str(i.id),
-                'text': str(i.name)}
+                'text': i.name}
         if i.parent is None:
             node['parent'] = '#',
             if single:
@@ -83,7 +83,7 @@ def tasks(request, single=False):
                     node['state'] = {'selected': 'true',
                                     'opened'  : 'true'}
                 root_node = {'id'  : str(i.parent.id),
-                             'text': str(i.parent.name),
+                             'text': i.parent.name,
                              'parent': '#',
                              'state': {'disabled': 'true',
                                        'opened': 'true'}}

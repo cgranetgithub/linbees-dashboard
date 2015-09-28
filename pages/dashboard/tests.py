@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import libs.chart.generate_data as gen
 from django.contrib.auth.models import User
 from workspace.models import Workspace
@@ -13,9 +15,9 @@ class SimpleJourneyTest(WebTest):
         (response, workspace, user) = dashboard_signup(self.app,
                                                 'password1@password1.com',
                                                 'password1')
-        dashboard_create_task(self.app, 'p0', user)
-        dashboard_create_task(self.app, 'p1', user)
-        dashboard_create_task(self.app, 'p2', user)
+        dashboard_create_task(self.app, 'PROJET1', user)
+        dashboard_create_task(self.app, 'Accès2', user)
+        dashboard_create_task(self.app, 'à la pêche', user)
     def test_overview(self):
         dashboard_login(self.app, 'password1@password1.com', 'password1')
         response = self.app.get('/')
@@ -89,23 +91,23 @@ class QueriesTest(WebTest):
                                             'charly@lagat.com', 'secret')
     def test_users(self):
         (response, workspace, john) = client_signup(self.app,
-                                            'john@lagat.com', 'secret', 'john')
+                                            'john@lagat.com', 'secret', 'john ÉÀ')
         john.parent = self.charly
         john.save()
         (response, workspace, jack) = client_signup(self.app,
-                                            'jack@lagat.com', 'secret', 'jack')
+                                            'jack@lagat.com', 'secret', 'jack ÉÀ')
         jack.parent = john
         jack.save()
         (response, workspace, jimy) = client_signup(self.app,
-                                            'jimy@lagat.com', 'secret', 'jimy')
+                                            'jimy@lagat.com', 'secret', 'jimy ÉÀ')
         jimy.parent = john
         jimy.save()
         (response, workspace, jo) = client_signup(self.app,
-                                            'jo@lagat.com', 'secret', 'jo')
+                                            'jo@lagat.com', 'secret', 'jo ÉÀ')
         jo.parent = jack
         jo.save()
         (response, workspace, jamy) = client_signup(self.app,
-                                            'jamy@lagat.com', 'secret', 'jamy')
+                                            'jamy@lagat.com', 'secret', 'jamy ÉÀ')
         jamy.parent = jack
         jamy.save()
         dashboard_login(self.app, 'charly@lagat.com', 'secret')
@@ -113,16 +115,16 @@ class QueriesTest(WebTest):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(sorted(json.loads(response.body)), sorted([
             {u'text': u''    , u'id': str(self.charly.user.id), u'parent': u'#'},
-            {u'text': u'john', u'id': str(john.user.id), u'parent': str(self.charly.user.id)},
-            {u'text': u'jack', u'id': str(jack.user.id), u'parent': str(john.user.id)},
-            {u'text': u'jo'  , u'id': str(jo.user.id), u'parent': str(jack.user.id)},
-            {u'text': u'jamy', u'id': str(jamy.user.id), u'parent': str(jack.user.id)},
-            {u'text': u'jimy', u'id': str(jimy.user.id), u'parent': str(john.user.id)}]))
+            {u'text': u'john ÉÀ', u'id': str(john.user.id), u'parent': str(self.charly.user.id)},
+            {u'text': u'jack ÉÀ', u'id': str(jack.user.id), u'parent': str(john.user.id)},
+            {u'text': u'jo ÉÀ'  , u'id': str(jo.user.id), u'parent': str(jack.user.id)},
+            {u'text': u'jamy ÉÀ', u'id': str(jamy.user.id), u'parent': str(jack.user.id)},
+            {u'text': u'jimy ÉÀ', u'id': str(jimy.user.id), u'parent': str(john.user.id)}]))
 
     def test_tasks(self):
-        (resp, task1) = dashboard_create_task(self.app, 'p1', self.charly)
-        (resp, task2) = dashboard_create_task(self.app, 'p2', self.charly)
-        (resp, task3) = dashboard_create_task(self.app, 'p3', self.charly, task1)
+        (resp, task1) = dashboard_create_task(self.app, 'virée de', self.charly)
+        (resp, task2) = dashboard_create_task(self.app, 'BIG MAMMA', self.charly)
+        (resp, task3) = dashboard_create_task(self.app, "l'éccueil", self.charly, task1)
         (resp, task4) = dashboard_create_task(self.app, 'p4', self.charly, task2)
         (resp, task5) = dashboard_create_task(self.app, 'p5', self.charly, task3)
         (resp, task6) = dashboard_create_task(self.app, 'p6', self.charly, task4)
@@ -130,9 +132,9 @@ class QueriesTest(WebTest):
         response = self.app.get('/data/tasks/False/')
         self.assertEqual(response.status_code, 200)
         self.assertEqual(sorted(json.loads(response.body)), sorted([
-            {u'text': u'p1', u'id': str(task1.id), u'parent': [u'#'], u'state': {u'selected': u'true', u'opened': u'true'}},
-            {u'text': u'p3', u'id': str(task3.id), u'parent': str(task1.id)},
-            {u'text': u'p2', u'id': str(task2.id), u'parent': [u'#'], u'state': {u'selected': u'true', u'opened': u'true'}},
+            {u'text': u'virée de', u'id': str(task1.id), u'parent': [u'#'], u'state': {u'selected': u'true', u'opened': u'true'}},
+            {u'text': u"l'éccueil", u'id': str(task3.id), u'parent': str(task1.id)},
+            {u'text': u'BIG MAMMA', u'id': str(task2.id), u'parent': [u'#'], u'state': {u'selected': u'true', u'opened': u'true'}},
             {u'text': u'p4', u'id': str(task4.id), u'parent': str(task2.id)},
             {u'text': u'p5', u'id': str(task5.id), u'parent': str(task3.id)},
             {u'text': u'p6', u'id': str(task6.id), u'parent': str(task4.id)}]))

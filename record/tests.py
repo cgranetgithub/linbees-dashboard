@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import datetime as dt
 from decimal import Decimal
 from django.utils import timezone
@@ -26,7 +28,7 @@ class DailyDataTest(WebTest):
                                         end_date=timezone.now().date(),
                                         daily_wage=100)
         # create 1 task & 1 record and check
-        (response, task1) = dashboard_create_task(self.app, 'T1', user1)
+        (response, task1) = dashboard_create_task(self.app, u"à la pêche", user1)
         record1 = AutoRecord.objects.create(workspace=workspace, task=task1,
                                          profile=user1, start=timezone.now())
         record1.end = record1.start + dt.timedelta(minutes=6)
@@ -44,7 +46,7 @@ class DailyDataTest(WebTest):
         self.assertEqual(ddt.cost, Decimal('100.00'))
         self.assertEqual(ddt.children_cost, Decimal('0.00'))
         # create a sub-task with 1 record and check
-        (response, task2) = dashboard_create_task(self.app, 'T2', user1,
+        (response, task2) = dashboard_create_task(self.app, u"MAJ LÉR", user1,
                                                   parent=task1)
         record2 = AutoRecord.objects.create(workspace=workspace, task=task2,
                                          profile=user1, start=timezone.now())
@@ -158,13 +160,13 @@ class DailyDataTest(WebTest):
                                         start_date=date, end_date=date,
                                         daily_wage=100)
         # create 1 task & 1 record and check
-        (response, task1) = dashboard_create_task(self.app, 'T1', user1)
+        (response, task1) = dashboard_create_task(self.app, u"à la pêche", user1)
         record1 = AutoRecord.objects.create(workspace=workspace, task=task1,
                                          profile=user1, start=timezone.now())
         record1.end = record1.start + dt.timedelta(minutes=6)
         record1.save()
         # create a sub-task with 1 record and check
-        (response, task2) = dashboard_create_task(self.app, 'T2', user1,
+        (response, task2) = dashboard_create_task(self.app, u"MAJ LÉR", user1,
                                                   parent=task1)
         record2 = AutoRecord.objects.create(workspace=workspace, task=task2,
                                          profile=user1, start=timezone.now())
@@ -258,8 +260,8 @@ class DailyDataTest(WebTest):
         ds1 = DailySalary.objects.create(workspace=workspace, profile=user1,
                                         start_date=date, end_date=date,
                                         daily_wage=100)
-        (response, task1) = dashboard_create_task(self.app, 'T1', user1)
-        (response, task2) = dashboard_create_task(self.app, 'T2', user1,
+        (response, task1) = dashboard_create_task(self.app, u"à la pêche", user1)
+        (response, task2) = dashboard_create_task(self.app, u"MAJ LÉR", user1,
                                                   parent=task1)
         (response, task3) = dashboard_create_task(self.app, 'T3', user1)
         (response, workspace, user2) = client_signup(self.app,

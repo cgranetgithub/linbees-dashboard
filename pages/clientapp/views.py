@@ -89,7 +89,7 @@ def tasks(request):
     root_nodes = []
     for i in my_tasks:
         node = {'id'  : str(i.id),
-                'text': str(i.name)}
+                'text': i.name}
         if i.parent is None:
             node['parent'] = '#',
             node['state'] = {'opened'  : 'true'}
@@ -120,7 +120,7 @@ def managers(request):
     data = []
     for i in hierarchy:
         node = {'id'   : str(i.user.id),
-                'text' : str(i.name),
+                'text' : i.name,
                 'state': {'opened'  : 'true'},
                 }
         if i.parent is None:

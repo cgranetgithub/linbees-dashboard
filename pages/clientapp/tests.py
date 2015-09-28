@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import os
 
 from django.test import TestCase
@@ -25,9 +27,11 @@ from selenium.webdriver.support import expected_conditions as EC
 
 class PagesAccessTest(TestCase):
     def setUp(self):
-        workspace = Workspace.objects.create(name='lagat.com')
-        u = User.objects.create_user(username='charly@lagat.com',
-                                     password='secret')
+        workspace = Workspace.objects.create(name=u'lagat.com')
+        u = User.objects.create_user(username=u'charly@lagat.com',
+                                     password=u'secret',
+                                     first_name=u"Eugène",
+                                     last_name=u"Mc Donéld")
         createUserProfile(u, workspace)
         c = Client()
         c.post('/i18n/setlang/', {'language':'en'})
@@ -66,8 +70,8 @@ class RegisterTest(WebTest):
         c.post('/i18n/setlang/', {'language':'en'})
     def test_register(self):
         form = self.app.get('/clientapp/register/').forms[0]
-        #form['first_name'] = 'ch'
-        #form['last_name'] = 'gr'
+        form['first_name'] = 'éàéàéàé'
+        form['last_name'] = 'SDFSDFSFD SDFSFDS'
         form['username'] = 'charlot@lagat.com'
         form['email']    = 'charlot@lagat.com'
         form['password1'] = 'secret'
@@ -84,8 +88,8 @@ class RegisterTest(WebTest):
         assert p.is_primary is False
     def test_register_but_no_ws(self):
         form = self.app.get('/clientapp/register/').forms[0]
-        #form['first_name'] = 'ch'
-        #form['last_name'] = 'gr'
+        form['first_name'] = 'éàéàéàé'
+        form['last_name'] = 'SDFSDFSFD SDFSFDS'
         form['username'] = 'charlot@lagat.fr'
         form['email']    = 'charlot@lagat.fr'
         form['password1'] = 'secret'
@@ -96,16 +100,16 @@ class RegisterTest(WebTest):
                     'workspace':getDashboardNameFromEmail('charlot@lagat.fr')})
     def test_existing_email(self):
         form = self.app.get('/clientapp/register/').forms[0]
-        #form['first_name'] = 'ch'
-        #form['last_name'] = 'gr'
+        form['first_name'] = 'éàéàéàé'
+        form['last_name'] = 'SDFSDFSFD SDFSFDS'
         form['username'] = 'charlot'
         form['email']    = 'charlot@lagat.com'
         form['password1'] = 'secret'
         form['password2'] = 'secret'
         response = form.submit()
         form = self.app.get('/clientapp/register/').forms[0]
-        #form['first_name'] = 'ch'
-        #form['last_name'] = 'gr'
+        form['first_name'] = 'éàéàéàé'
+        form['last_name'] = 'SDFSDFSFD SDFSFDS'
         form['username'] = 'charly'
         form['email']    = 'charlot@lagat.com'
         form['password1'] = 'secret'
@@ -119,6 +123,8 @@ class RegisterTest(WebTest):
     def test_case(self):
         # register manager
         form = self.app.get('/signup/').forms[0]
+        form['first_name'] = 'éàéàéàé'
+        form['last_name'] = 'SDFSDFSFD SDFSFDS'
         form['username'] = 'ToTo'
         form['email'] = 'toto@UPPER.com'
         form['password1'] = 'toto'
@@ -126,6 +132,8 @@ class RegisterTest(WebTest):
         response = form.submit()
         # register user
         form = self.app.get('/clientapp/register/').forms[0]
+        form['first_name'] = 'éàéàéàé'
+        form['last_name'] = 'SDFSDFSFD SDFSFDS'
         form['username'] = 'charlot@upper.COM'
         form['email']    = 'charlot@upper.COM'
         form['password1'] = 'secret'
@@ -161,16 +169,16 @@ class LiveTest(LiveServerTestCase):
         )
     def setUp(self):
         (response, workspace, self.yo) = selenium_dashboard_signup(self,
-                                                    'yo@test.com', 'secret')
-        (response, self.task1) = selenium_dashboard_create_task(self, 'task1',
+                                        u'yo@test.com', u'secret', u'Yé chè-WU')
+        (response, self.task1) = selenium_dashboard_create_task(self, u"à la pêche",
                                                                 self.yo)
-        (response, self.task2) = selenium_dashboard_create_task(self, 'task2',
+        (response, self.task2) = selenium_dashboard_create_task(self, u"l'écueil",
                                                                 self.yo)
         (response, workspace, self.ceo) = selenium_dashboard_signup(self,
                                                     'ceo@demo.com', 'secret')
-        (response, self.task3) = selenium_dashboard_create_task(self, 'task3',
+        (response, self.task3) = selenium_dashboard_create_task(self, u'MAJUSCULE ',
                                                                 self.ceo)
-        (response, self.task4) = selenium_dashboard_create_task(self, 'task4',
+        (response, self.task4) = selenium_dashboard_create_task(self, u'task4',
                                                                 self.ceo)
     def test_registration(self):
         selenium_client_signup(self, 'toto@test.com', 'password')
@@ -183,40 +191,40 @@ class LiveTest(LiveServerTestCase):
         WebDriverWait(self.selenium, 10).until(
             EC.presence_of_element_located((By.ID, "clockout")))
         body = self.selenium.find_element_by_tag_name('body')
-        self.assertIn('task1', body.text)
-        self.assertIn('task2', body.text)
-        self.assertNotIn('task3', body.text)
-        self.assertNotIn('task4', body.text)
+        self.assertIn(u"à la pêche", body.text)
+        self.assertIn(u"l'écueil", body.text)
+        self.assertNotIn(u'MAJUSCULE', body.text)
+        self.assertNotIn(u'task4', body.text)
     def test_change_project(self):
         selenium_client_login(self, 'yo@test.com', 'secret')
         self.selenium.get('%s%s' % (self.live_server_url, '/clientapp/'))
         self.wait_ajax_complete()
         body = self.selenium.find_element_by_tag_name('body')
-        self.assertIn('task1', body.text)
-        self.assertIn('task2', body.text)
-        self.assertNotIn('task3', body.text)
-        self.assertNotIn('task4', body.text)
+        self.assertIn(u"à la pêche", body.text)
+        self.assertIn(u"l'écueil", body.text)
+        self.assertNotIn(u'MAJUSCULE', body.text)
+        self.assertNotIn(u'task4', body.text)
         self.selenium.find_element_by_id('%s_anchor'%self.task1.id).click()
         self.wait_ajax_complete()
-        self.assertEqual(get_ongoing_task(self.yo).task.name, 'task1')
+        self.assertEqual(get_ongoing_task(self.yo).task.name, u"à la pêche")
         self.selenium.find_element_by_id('%s_anchor'%self.task2.id).click()
         self.wait_ajax_complete()
-        self.assertEqual(get_ongoing_task(self.yo).task.name, 'task2')
+        self.assertEqual(get_ongoing_task(self.yo).task.name, u"l'écueil")
         self.selenium.find_element_by_id('%s_anchor'%self.task1.id).click()
         self.wait_ajax_complete()
-        self.assertEqual(get_ongoing_task(self.yo).task.name, 'task1')
+        self.assertEqual(get_ongoing_task(self.yo).task.name, u"à la pêche")
     def test_set_off(self):
         selenium_client_login(self, 'ceo@demo.com', 'secret')
         self.selenium.get('%s%s' % (self.live_server_url, '/clientapp/'))
         self.wait_ajax_complete()
         body = self.selenium.find_element_by_tag_name('body')
-        self.assertNotIn('task1', body.text)
-        self.assertNotIn('task2', body.text)
-        self.assertIn('task3', body.text)
-        self.assertIn('task4', body.text)
+        self.assertNotIn(u"à la pêche", body.text)
+        self.assertNotIn(u"l'écueil", body.text)
+        self.assertIn(u'MAJUSCULE', body.text)
+        self.assertIn(u'task4', body.text)
         self.selenium.find_element_by_id('%s_anchor'%self.task3.id).click()
         self.wait_ajax_complete()
-        self.assertEqual(get_ongoing_task(self.ceo).task.name, 'task3')
+        self.assertEqual(get_ongoing_task(self.ceo).task.name, u'MAJUSCULE ')
         self.selenium.find_element_by_id('clockout').click()
         self.wait_ajax_complete()
         self.assertEqual(get_ongoing_task(self.ceo), None)
@@ -225,6 +233,6 @@ class LiveTest(LiveServerTestCase):
         #self.wait_ajax_complete()
         #self.selenium.find_element_by_id('%s_anchor'%self.task1.id).click()
         #self.wait_ajax_complete()
-        #self.assertEqual(get_ongoing_task(self.user).task.name, 'task1')
+        #self.assertEqual(get_ongoing_task(self.user).task.name, "à la pêche")
         #self.selenium.get('%s%s' % (self.live_server_url, '/clientapp/logout'))
         #self.assertEqual(get_ongoing_task(self.user), None)
