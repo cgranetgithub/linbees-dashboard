@@ -1,4 +1,4 @@
-Django==1.8.1
+Django==2.2.28
 WebOb==1.4.1
 argparse==1.2.1
 beautifulsoup4==4.3.2
